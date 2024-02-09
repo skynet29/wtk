@@ -45,7 +45,7 @@ public:
     void setText(LPSTR text);
     void setLocation(int left, int top);    
     void setSize(int width, int height);
-    void setBounds(int left, int top, int width, int height);
+    void setBounds(TBounds bounds);
     void setBounds(TRect rc);
     void setFocus();
     void centerToParent();

@@ -10,12 +10,11 @@ TLayout::TLayout(TContainer* pContainer, int left, int top, TLayoutType type)
 
 void TLayout::add(TWindow* pCtrl, TSize size, int pad)
 {
-    pCtrl->setBounds(left, top, size.width, size.height);
+    pContainer->addChild(pCtrl, TBounds(left, top, size.width, size.height));
     if (type == K_HORIZONTAL) {
         left += size.width + pad;
     }
     else {
         top += size.height + pad;
     }
-    pContainer->addChild(pCtrl);        
 }

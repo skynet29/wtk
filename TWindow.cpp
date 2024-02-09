@@ -131,10 +131,10 @@ TBounds TWindow::getBounds()
     return attr.bounds;
 }
 
-void TWindow::setBounds(int left, int top, int width, int height)
+void TWindow::setBounds(TBounds bounds)
 {
-    attr.bounds = TBounds(left, top, width, height);
-    MoveWindow(hWnd, left, top, width, height, TRUE);
+    attr.bounds = bounds;
+    MoveWindow(hWnd, bounds.left, bounds.top, bounds.width, bounds.height, TRUE);
 }
 
 void TWindow::setFocus()
@@ -151,7 +151,7 @@ TSize TWindow::getRealSize()
 
 void TWindow::setBounds(TRect rc)
 {
-    setBounds(rc.left, rc.top, rc.getWidth(), rc.getHeight());
+    setBounds(TBounds(rc.left, rc.top, rc.getWidth(), rc.getHeight()));
 }
 //////////////////////////////////////
 

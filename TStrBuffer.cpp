@@ -56,3 +56,8 @@ void TStrBuffer::allocate(UINT size)
     free();
     buffer = new char[size];
 }
+
+BOOL TStrBuffer::equals(char* text)
+{
+    return (strcmp(buffer, text) == 0);
+}

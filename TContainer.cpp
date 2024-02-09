@@ -13,6 +13,11 @@ void TContainer::addChild(TWindow* child)
     childs.add(child);
 }
 
+void TContainer::addChild(TWindow* child, TBounds bounds)
+{
+    child->setBounds(bounds);
+    addChild(child);
+}
 
 void TContainer::handleEvent(TEvent& evt)
 {

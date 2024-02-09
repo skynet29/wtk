@@ -14,6 +14,7 @@ public:
     void format(const char* format, ...);
     void free();
     void append(char* text);
+    BOOL equals(char* text);
  };
 
 #endif

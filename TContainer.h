@@ -12,6 +12,8 @@ public:
     ~TContainer();
     
     void addChild(TWindow* child);
+    void addChild(TWindow* child, TBounds bounds);
+
     TSize getPackSize();
 protected:
     virtual void handleEvent(TEvent& evt);
