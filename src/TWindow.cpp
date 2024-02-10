@@ -153,6 +153,7 @@ void TWindow::setBounds(TRect rc)
 {
     setBounds(TBounds(rc.left, rc.top, rc.getWidth(), rc.getHeight()));
 }
+
 //////////////////////////////////////
 
 void TControl::setEnabled(BOOL isEnabled)

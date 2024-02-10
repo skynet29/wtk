@@ -34,6 +34,10 @@ void TContainer::handleEvent(TEvent& evt)
             }
             break;
 
+        case WM_SETFOCUS:
+            onFocus();
+            break;
+
         case WM_DRAWITEM:
             {
                 LPDRAWITEMSTRUCT lpDrawItem = (LPDRAWITEMSTRUCT) evt.lParam;

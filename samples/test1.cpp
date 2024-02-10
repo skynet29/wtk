@@ -6,6 +6,7 @@
 #include "TStrBuffer.h"
 #include "TToolBar.h"
 #include "TMdiCtrl.h"
+#include "TTextArea.h"
 
 enum {
     ID_FILEOPEN = 200,
@@ -15,6 +16,24 @@ enum {
     ID_TILEVERTICAL,
     ID_TILEHORIZONTAL,
     ID_EXIT
+};
+
+class MyChild : public TMdiChild {
+private:
+    TTextArea* pTextArea;
+public: 
+    MyChild(LPSTR title) : TMdiChild(title) {
+        addChild(pTextArea = new TTextArea());
+    }
+
+protected:
+    void onSize(UINT width, UINT height) {
+        pTextArea->setSize(width, height);
+    }
+
+    void onFocus() {
+        pTextArea->setFocus();
+    }
 };
 
 
@@ -76,7 +95,7 @@ protected:
             case ID_FILENEW:
                 {
                     str.format("Child #%d", ++childCount);
-                    mdiCtrl->createChild(new TMdiChild(str.getBuffer()));
+                    mdiCtrl->createChild(new MyChild(str.getBuffer()));
                 }
                 break;
 

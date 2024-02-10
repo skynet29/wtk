@@ -21,6 +21,7 @@ protected:
     virtual void onCommand(UINT id, UINT code);
     virtual void onCreate();
     virtual void onSize(UINT width, UINT height) {}
+    virtual void onFocus() {}
 
 };
 

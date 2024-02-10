@@ -3,7 +3,7 @@
 
 #include "TWindow.h"
 
-class TTextArea : public TControl {
+class DllExport TTextArea : public TControl {
 public:
     TTextArea();
 
