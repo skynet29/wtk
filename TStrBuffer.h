@@ -10,11 +10,13 @@ public:
     TStrBuffer();
     ~TStrBuffer();
     char* getBuffer() {return buffer;}
-    void allocate(UINT size);
+    char* allocate(UINT size);
     void format(const char* format, ...);
     void free();
     void append(char* text);
     BOOL equals(char* text);
+    UINT getLength();
+
  };
 
 #endif

@@ -51,13 +51,19 @@ void TStrBuffer::free()
     }
 }
 
-void TStrBuffer::allocate(UINT size) 
+char* TStrBuffer::allocate(UINT size) 
 {
     free();
     buffer = new char[size];
+    return buffer;
 }
 
 BOOL TStrBuffer::equals(char* text)
 {
     return (strcmp(buffer, text) == 0);
+}
+
+UINT TStrBuffer::getLength()
+{
+    return (buffer != NULL) ? strlen(buffer) : 0;
 }
