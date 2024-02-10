@@ -59,6 +59,7 @@ public:
         fileMenu.addItem(ID_FILEOPEN, "Open...", new TShortcut('O', FCONTROL));
         fileMenu.addSeparator();
         fileMenu.addItem(ID_EXIT, "Exit");
+        
         menuBar.addPopupMenu(wndMenu, "Window");
         wndMenu.addItem(ID_CASCADE, "Cascade");
         wndMenu.addItem(ID_TILEHORIZONTAL, "Tile Horizontally");

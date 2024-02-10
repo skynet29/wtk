@@ -5,6 +5,14 @@
 TApplication::TApplication() 
 {
     TFont::initClass();
+
+    INITCOMMONCONTROLSEX iccex; 
+
+    /* INITIALIZE COMMON CONTROLS */
+    iccex.dwICC = ICC_BAR_CLASSES | ICC_COOL_CLASSES | ICC_LISTVIEW_CLASSES | ICC_TREEVIEW_CLASSES ;
+    iccex.dwSize = sizeof(INITCOMMONCONTROLSEX);
+    InitCommonControlsEx(&iccex);
+        
 }
 
 

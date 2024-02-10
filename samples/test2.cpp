@@ -12,6 +12,7 @@
 #include "TToolBar.h"
 #include "TLayout.h"
 #include "TComboBox.h"
+#include "TTableCtrl.h"
 
 enum {
     ID_BUTTON1 = 100,
@@ -37,6 +38,28 @@ protected:
     }
 };
 
+class MyTableItem : public TTableItem {
+public:
+    TStrBuffer name;
+    TStrBuffer age;
+
+    MyTableItem(LPSTR name, LPSTR age) {
+        this->name.append(name);
+        this->age.append(age);
+    }
+protected:
+    char* getColumnData(int numCol) {
+        switch(numCol) {
+            case 0:
+                return name.getBuffer();
+            case 1:
+                return age.getBuffer();
+            default:
+                return NULL;
+        }
+    }
+};
+
 class MyFrame : public TFrame {
 private:
     TListBox* listbox1;
@@ -47,6 +70,7 @@ private:
     TContainer* cont1;
     TLabel* label1;
     TComboBox* combo1;
+    TTableCtrl* table1;
 public:
     void initCtrl() {
         TLayout layout2(cont1, 0, 0, TLayout::K_VERTICAL);
@@ -59,6 +83,7 @@ public:
         layout.add(btn1, TSize(80, 25));
         layout.add(cont1, cont1->getPackSize());
         layout.add(panel1, TSize(200, 200));
+        layout.add(table1, TSize(200, 200));
     }
     MyFrame() : TFrame("My first application") {
 
@@ -71,6 +96,7 @@ public:
         panel1 = new MyPanel();
         label1 = new TLabel("Hello", TColor::RED/*TLabel::K_RIGHT*/);
         combo1 = new TComboBox(ID_COMBO1);
+        table1 = new TTableCtrl();
 
         initCtrl();
 
@@ -135,6 +161,12 @@ protected:
         combo1->addItem("Brigitte");
         combo1->addItem("Quentin");
         combo1->setSelIndex(0);
+
+        table1->addColumn("Name", 50);
+        table1->addColumn("Age", 50);
+
+        table1->addItem(new MyTableItem("Marc", "52"));
+        table1->addItem(new MyTableItem("Quentin", "22"));
 
     }
 };

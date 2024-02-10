@@ -2,6 +2,8 @@
 #define TBOUNDS_H
 
 #include <windows.h>
+#include <commctrl.h>
+
 
 #ifdef DLLMDZ
 #define DllExport __declspec( dllexport )

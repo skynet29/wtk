@@ -1,7 +1,6 @@
 #include "TToolBar.h"
 #include "TBitmap.h"
 
-#include <commctrl.h>
 
 const UINT TToolBar::K_BUTTON       = TBSTYLE_BUTTON;
 const UINT TToolBar::K_CHECK		= TBSTYLE_CHECK;
