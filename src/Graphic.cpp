@@ -50,9 +50,9 @@ void Graphic::setBrush(Color color)
     DeleteObject(SelectObject(hDC, hBrush));
 }
 
-void Graphic::setPen(Color color, UINT width)
+void Graphic::setPen(Color color, UINT width, UINT style)
 {
-    hPen = CreatePen(PS_SOLID, width, color);
+    hPen = CreatePen(style, width, color);
     DeleteObject(SelectObject(hDC, hPen));
 }
 

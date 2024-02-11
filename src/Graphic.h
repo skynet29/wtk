@@ -30,7 +30,7 @@ public:
     void setDrawMode(DrawMode mode);
     void setFont(Font* pFont);
     void setTextColor(Color textColor);
-    void setPen(Color color, UINT width = 1);
+    void setPen(Color color, UINT width = 1, UINT style = PS_SOLID);
     void setBrush(Color color);
     void useHollowBrush();
     void useHollowPen();

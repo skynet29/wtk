@@ -28,7 +28,7 @@ public:
     }   
 protected:
     void onPaint(Graphic& gr) {
-        gr.setPen(Color::RED, 5);
+        gr.setPen(Color::RED, 1, PS_DASHDOT);
         gr.useHollowBrush();
         gr.drawRect(5, 5, 100, 100);
         gr.useHollowPen();
