@@ -6,7 +6,7 @@ Panel::Panel(DWORD style)
     setBackColor(Color::WHITE);
 }
 
-Graphic* Panel::geGraphic()
+Graphic* Panel::getGraphic()
 {
     return new WndGraphic(hWnd);
 }

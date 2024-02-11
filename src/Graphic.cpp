@@ -6,9 +6,11 @@ Graphic::Graphic(HDC hDC)
     this->hDC = hDC;
     this->hPen = NULL;
     this->hBrush = NULL;
+
+    SetBkMode(hDC, TRANSPARENT);
 }
 
-void Graphic::setDrawMode(TDrawMode mode)
+void Graphic::setDrawMode(DrawMode mode)
 {
     switch(mode) {
         case K_NORMAL:
@@ -90,11 +92,15 @@ void Graphic::drawText(int x, int y, LPSTR str)
 	TextOut(hDC, x, y, str, strlen(str));
 }
 
-void Graphic::seFont(Font* pFont)
+void Graphic::setFont(Font* pFont)
 {
     SelectObject(hDC, pFont->getHandle());
 }
 
+void Graphic::setTextColor(Color textColor)
+{
+    SetTextColor(hDC, textColor);
+}
 
 //////////////////////////////////
 

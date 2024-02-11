@@ -5,7 +5,7 @@ class DllExport Panel : public CustCtrl {
 public:
     Panel(DWORD style = 0);
 
-    Graphic* geGraphic();
+    Graphic* getGraphic();
 protected:
     virtual void handleEvent(TEvent& evt);
 

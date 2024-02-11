@@ -13,7 +13,7 @@ protected:
 
     Graphic(HDC hdc);
 public:
-    enum TDrawMode {
+    enum DrawMode {
         K_NORMAL,
         K_NOT,
         K_XOR
@@ -27,8 +27,9 @@ public:
     void drawBitmap(int x, int y, Bitmap* pBitmap);
     void drawText(int x, int y, LPSTR str);
 
-    void setDrawMode(TDrawMode mode);
-    void seFont(Font* pFont);
+    void setDrawMode(DrawMode mode);
+    void setFont(Font* pFont);
+    void setTextColor(Color textColor);
     void setPen(Color color, UINT width = 1);
     void setBrush(Color color);
     void useHollowBrush();
