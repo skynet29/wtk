@@ -6,8 +6,9 @@
 class DllExport Bitmap {
 private:
     HBITMAP hBitmap;
-    Bitmap(HBITMAP hBitmap);
 public:
+    Bitmap(HBITMAP hBitmap);
+
     ~Bitmap();
     HBITMAP getHandle() {return hBitmap;}
     Size geSize();

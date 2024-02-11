@@ -102,6 +102,23 @@ void Graphic::setTextColor(Color textColor)
     SetTextColor(hDC, textColor);
 }
 
+
+Bitmap* Graphic::copyArea(Bounds bounds)
+{
+	HDC hMemDC = CreateCompatibleDC(hDC);
+	HBITMAP hBitmap = CreateCompatibleBitmap(hDC, bounds.width, bounds.height);
+	SelectObject(hMemDC, hBitmap);	
+	BitBlt(hMemDC, 0, 0, bounds.width, bounds.height, hDC, bounds.left, bounds.top, SRCCOPY);
+	DeleteDC(hMemDC);
+	return new Bitmap(hBitmap);
+}
+
+void Graphic::drawText(Bounds bounds, LPSTR str, UINT textAlignment)
+{
+    Rect rc = bounds.toRect();
+	DrawText(hDC,  str, strlen(str), &rc, DT_SINGLELINE | DT_VCENTER | DT_NOPREFIX | textAlignment);
+}
+
 //////////////////////////////////
 
 WndGraphic::WndGraphic(HWND hWnd) : Graphic(NULL)

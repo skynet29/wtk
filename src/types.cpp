@@ -25,6 +25,11 @@ Bounds::Bounds(int left, int top, int width, int height) : Size(width, height)
     this->top = top;
 }
 
+Rect Bounds::toRect()
+{
+	return Rect(left, top, left + width, top + height);
+}
+
 
 Point::Point()
 {

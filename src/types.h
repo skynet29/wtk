@@ -14,23 +14,6 @@
 
 #endif
 
-class DllExport Size {
-public:
-    int width;
-    int height;
-    Size();
-    Size(int width, int height);
-};
-
-class DllExport Bounds  : public Size {
-public:
-    int left;
-    int top;
-
-    Bounds();
-    Bounds(int left, int top, int width, int height);
-};
-
 class DllExport Point : public tagPOINT  
 {
 public:
@@ -51,5 +34,25 @@ public:
 	int getHeight();
 	int getWidth();
 };
+
+class DllExport Size {
+public:
+    int width;
+    int height;
+    Size();
+    Size(int width, int height);
+};
+
+class DllExport Bounds  : public Size {
+public:
+    int left;
+    int top;
+
+    Bounds();
+    Bounds(int left, int top, int width, int height);
+	Rect toRect();
+};
+
+
 
 #endif

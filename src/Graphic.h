@@ -26,6 +26,9 @@ public:
     void drawCircle(UINT x, UINT y, UINT radius);
     void drawBitmap(int x, int y, Bitmap* pBitmap);
     void drawText(int x, int y, LPSTR str);
+    void drawText(Bounds bounds, LPSTR str, UINT textAlignment = DT_LEFT);
+
+    Bitmap* copyArea(Bounds bounds);
 
     void setDrawMode(DrawMode mode);
     void setFont(Font* pFont);
