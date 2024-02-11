@@ -21,7 +21,7 @@ public:
     void paste();
     void cut();
     void append(LPSTR strText);
-    BOOL loadFromFile(LPSTR fileName, StrBuffer& text);
+    BOOL loadFromFile(LPSTR fileName);
 
 };
 
