@@ -1,0 +1,110 @@
+#include "Graphic.h"
+
+
+Graphic::Graphic(HDC hDC)
+{
+    this->hDC = hDC;
+    this->hPen = NULL;
+    this->hBrush = NULL;
+}
+
+void Graphic::setDrawMode(TDrawMode mode)
+{
+    switch(mode) {
+        case K_NORMAL:
+        	SetROP2(hDC, R2_COPYPEN);
+            break;
+
+        case K_NOT:
+            SetROP2(hDC, R2_NOT);
+            break;
+
+        case K_XOR:
+            SetROP2(hDC, R2_XORPEN);
+            break;
+
+    }
+}
+
+
+void Graphic::drawRect(UINT left, UINT top, UINT width, UINT height)
+{
+    Rectangle(hDC, left, top, left + width, top + height);
+}
+
+void Graphic::drawEllipse(UINT left, UINT top, UINT width, UINT height)
+{
+    Ellipse(hDC, left, top, left + width, top + height);
+}
+
+void Graphic::drawCircle(UINT x, UINT y, UINT radius)
+{
+    drawEllipse(x - radius, y - radius, radius * 2, radius * 2);
+}
+
+void Graphic::setBrush(Color color)
+{
+    hBrush = CreateSolidBrush(color);
+    DeleteObject(SelectObject(hDC, hBrush));
+}
+
+void Graphic::setPen(Color color, UINT width)
+{
+    hPen = CreatePen(PS_SOLID, width, color);
+    DeleteObject(SelectObject(hDC, hPen));
+}
+
+void Graphic::useHollowBrush() {
+    DeleteObject(SelectObject(hDC, GetStockObject(HOLLOW_BRUSH)));
+}
+
+void Graphic::useHollowPen() {
+    DeleteObject(SelectObject(hDC, GetStockObject(NULL_PEN)));
+}
+
+Graphic::~Graphic() {
+    if (hPen != NULL) {
+        DeleteObject(hPen);
+    }
+    if (hBrush != NULL) {
+        DeleteObject(hBrush);
+    }    
+}
+
+void Graphic::drawBitmap(int x, int y, Bitmap* pBitmap)
+{
+	HBITMAP hBitmap = pBitmap->getHandle();
+	if (hBitmap)
+	{
+		Size bmSize = pBitmap->geSize();
+
+		HDC hMemDC = CreateCompatibleDC(hDC);
+		SelectObject(hMemDC, hBitmap);	
+		BitBlt(hDC, x, y, bmSize.width, bmSize.height, hMemDC, 0, 0, SRCCOPY);
+		DeleteDC(hMemDC);
+	}
+}
+
+void Graphic::drawText(int x, int y, LPSTR str)
+{
+	TextOut(hDC, x, y, str, strlen(str));
+}
+
+void Graphic::seFont(Font* pFont)
+{
+    SelectObject(hDC, pFont->getHandle());
+}
+
+
+//////////////////////////////////
+
+WndGraphic::WndGraphic(HWND hWnd) : Graphic(NULL)
+{
+    this->hWnd = hWnd;
+    hDC = GetDC(hWnd);
+}
+
+WndGraphic::~WndGraphic()
+{
+    ReleaseDC(hWnd, hDC);
+}

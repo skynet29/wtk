@@ -10,6 +10,8 @@ mkdir -p include
 cp src/*.h include
 
 cd build
+rm *.obj
+
 wine $BIN/cl -c -DDLLMDZ ../src/*.cpp
 
 wine $BIN/link /DLL /OUT:../lib/wtk.dll *.obj User32.lib Gdi32.lib Comdlg32.lib Comctl32.lib

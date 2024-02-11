@@ -44,7 +44,7 @@ public:
     void getText(StrBuffer& buff);
     void setText(LPSTR text);
     void setLocation(int left, int top);    
-    void seSize(int width, int height);
+    void setSize(int width, int height);
     void setBounds(Bounds bounds);
     void setBounds(Rect rc);
     void setFocus();
@@ -60,7 +60,7 @@ public:
 class DllExport Control : public Window {
 public: 
     void setEnabled(BOOL isEnabled);
-    void seFont(Font* font);
+    void setFont(Font* font);
 protected:
     virtual void onNotify(LPNMHDR lpHeader) {}  
     virtual void onDrawItem(LPDRAWITEMSTRUCT lpDrawItem) {}

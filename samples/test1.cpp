@@ -1,12 +1,12 @@
 
 #include <windows.h>
 
-#include "TApplication.h"
-#include "TFrame.h"
-#include "TStrBuffer.h"
-#include "TToolBar.h"
-#include "TMdiCtrl.h"
-#include "TTextArea.h"
+#include "Application.h"
+#include "Frame.h"
+#include "StrBuffer.h"
+#include "ToolBar.h"
+#include "MdiCtrl.h"
+#include "TextArea.h"
 
 enum {
     ID_FILEOPEN = 200,
@@ -18,12 +18,12 @@ enum {
     ID_EXIT
 };
 
-class MyChild : public TMdiChild {
+class MyChild : public MdiChild {
 private:
-    TTextArea* pTextArea;
+    TextArea* pTextArea;
 public: 
-    MyChild(LPSTR title) : TMdiChild(title) {
-        addChild(pTextArea = new TTextArea());
+    MyChild(LPSTR title) : MdiChild(title) {
+        addChild(pTextArea = new TextArea());
     }
 
 protected:
@@ -37,26 +37,26 @@ protected:
 };
 
 
-class MyFrame : public TFrame {
+class MyFrame : public Frame {
 private:
-    TMenu menuBar;
-    TPopupMenu fileMenu;    
-    TPopupMenu wndMenu;
-    TToolBar* toolbar;
-    TMdiCtrl* mdiCtrl;
+    Menu menuBar;
+    PopupMenu fileMenu;    
+    PopupMenu wndMenu;
+    ToolBar* toolbar;
+    MdiCtrl* mdiCtrl;
     UINT childCount;
 public:
 
-    MyFrame() : TFrame("Test 1") {
+    MyFrame() : Frame("Test 1") {
 
         childCount = 0;
 
-        addChild(toolbar = new TToolBar());
-        addChild(mdiCtrl = new TMdiCtrl());
+        addChild(toolbar = new ToolBar());
+        addChild(mdiCtrl = new MdiCtrl());
 
         menuBar.addPopupMenu(fileMenu, "File");
-        fileMenu.addItem(ID_FILENEW, "New child", new TShortcut('N', FCONTROL));
-        fileMenu.addItem(ID_FILEOPEN, "Open...", new TShortcut('O', FCONTROL));
+        fileMenu.addItem(ID_FILENEW, "New child", new Shortcut('N', FCONTROL));
+        fileMenu.addItem(ID_FILEOPEN, "Open...", new Shortcut('O', FCONTROL));
         fileMenu.addSeparator();
         fileMenu.addItem(ID_EXIT, "Exit");
         
@@ -71,14 +71,14 @@ public:
     }
 protected:
     void onSize(UINT width, UINT height) {
-        TSize size = toolbar->resize();
-        TRect rc(0, 0, width, height);
+        Size size = toolbar->resize();
+        Rect rc(0, 0, width, height);
         rc.top += size.height;
         mdiCtrl->setBounds(rc);
     }
 
     void onCommand(UINT id, UINT code) {
-        TStrBuffer str;
+        StrBuffer str;
         
         switch(id) {
             case ID_CASCADE:
@@ -108,16 +108,16 @@ protected:
     }
 
     void onCreate() {
-        TFrame::onCreate();
+        Frame::onCreate();
 
         toolbar->addSeparator();
-        toolbar->addStdButton(TToolBar::K_FILENEW, ID_FILENEW, "New");
-        toolbar->addStdButton(TToolBar::K_FILEOPEN, ID_FILEOPEN, "Open");
-        toolbar->addStdButton(TToolBar::K_FILESAVE, ID_FILESAVE, NULL, TToolBar::K_CHECK);
+        toolbar->addStdButton(ToolBar::K_FILENEW, ID_FILENEW, "New");
+        toolbar->addStdButton(ToolBar::K_FILEOPEN, ID_FILEOPEN, "Open");
+        toolbar->addStdButton(ToolBar::K_FILESAVE, ID_FILESAVE, NULL, ToolBar::K_CHECK);
     }
 
     void handleEvent(TEvent& evt) {
-        TFrame::handleEvent(evt);
+        Frame::handleEvent(evt);
         mdiCtrl->processDefault(evt);
     }
 
@@ -132,7 +132,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
                      LPSTR     lpCmdLine,
                      int       nCmdShow)
 { 
-    TApplication app;
+    Application app;
     MyFrame frame;
 
     return app.run(frame);

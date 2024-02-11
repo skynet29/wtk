@@ -1,18 +1,18 @@
 
 #include <windows.h>
 
-#include "TApplication.h"
-#include "TFrame.h"
-#include "TButton.h"
-#include "TStrBuffer.h"
-#include "TListBox.h"
-#include "TTextField.h"
-#include "TPanel.h"
-#include "TDialog.h"
-#include "TToolBar.h"
-#include "TLayout.h"
-#include "TComboBox.h"
-#include "TTableCtrl.h"
+#include "Application.h"
+#include "Frame.h"
+#include "Button.h"
+#include "StrBuffer.h"
+#include "ListBox.h"
+#include "TextField.h"
+#include "Panel.h"
+#include "Dialog.h"
+#include "ToolBar.h"
+#include "Layout.h"
+#include "ComboBox.h"
+#include "TableCtrl.h"
 
 enum {
     ID_BUTTON1 = 100,
@@ -21,31 +21,31 @@ enum {
     ID_COMBO1,
 };
 
-class MyPanel : public TPanel {
+class MyPanel : public Panel {
 public:
-    MyPanel() : TPanel(WS_BORDER) {
+    MyPanel() : Panel(WS_BORDER) {
 
     }   
 protected:
-    void onPaint(TGraphic& gr) {
-        gr.setPen(TColor::RED, 5);
+    void onPaint(Graphic& gr) {
+        gr.setPen(Color::RED, 5);
         gr.useHollowBrush();
         gr.drawRect(5, 5, 100, 100);
         gr.useHollowPen();
-        gr.setBrush(TColor::GREEN);
+        gr.setBrush(Color::GREEN);
         gr.drawCircle(80, 80, 50);
 
     }
 };
 
-class MyTableItem : public TTableItem {
+class MyTableItem : public TableItem {
 public:
-    TStrBuffer name;
-    TStrBuffer age;
+    StrBuffer name;
+    StrBuffer age;
 
     MyTableItem(LPSTR name, LPSTR age) {
-        this->name.append(name);
-        this->age.append(age);
+        this->name.set(name);
+        this->age.set(age);
     }
 protected:
     char* getColumnData(int numCol) {
@@ -60,64 +60,64 @@ protected:
     }
 };
 
-class MyFrame : public TFrame {
+class MyFrame : public Frame {
 private:
-    TListBox* listbox1;
-    TTextField* text1;
-    TButton* btn1;
-    TFont* font;
+    ListBox* listbox1;
+    TextField* text1;
+    Button* btn1;
+    Font* font;
     MyPanel* panel1;
-    TContainer* cont1;
-    TLabel* label1;
-    TComboBox* combo1;
-    TTableCtrl* table1;
+    Container* cont1;
+    Label* label1;
+    ComboBox* combo1;
+    TableCtrl* table1;
 public:
     void initCtrl() {
-        TLayout layout2(cont1, 0, 0, TLayout::K_VERTICAL);
-        layout2.add(listbox1, TSize(100, 200));
-        layout2.add(combo1, TSize(100, 25));
-        layout2.add(text1, TSize(100, 25));
+        Layout layout2(cont1, 0, 0, Layout::K_VERTICAL);
+        layout2.add(listbox1, Size(100, 200));
+        layout2.add(combo1, Size(100, 25));
+        layout2.add(text1, Size(100, 25));
 
-        TLayout layout(this, 10, 40);
-        layout.add(label1, TSize(100, 25));
-        layout.add(btn1, TSize(80, 25));
+        Layout layout(this, 10, 40);
+        layout.add(label1, Size(100, 25));
+        layout.add(btn1, Size(80, 25));
         layout.add(cont1, cont1->getPackSize());
-        layout.add(panel1, TSize(200, 200));
-        layout.add(table1, TSize(200, 200));
+        layout.add(panel1, Size(200, 200));
+        layout.add(table1, Size(200, 200));
     }
-    MyFrame() : TFrame("My first application") {
+    MyFrame() : Frame("My first application") {
 
-        font = new TFont("Courier New", 12, TFont::ITALIC);
+        font = new Font("Courier New", 12, Font::ITALIC);
 
-        cont1 = new TContainer();
-        listbox1 = new TListBox(ID_LISTBOX1, LBS_SORT);
-        text1 = new TTextField(ID_TEXT1, ES_NUMBER);
-        btn1 = new TButton("Button", ID_BUTTON1);
+        cont1 = new Container();
+        listbox1 = new ListBox(ID_LISTBOX1, LBS_SORT);
+        text1 = new TextField(ID_TEXT1, ES_NUMBER);
+        btn1 = new Button("Button", ID_BUTTON1);
         panel1 = new MyPanel();
-        label1 = new TLabel("Hello", TColor::RED/*TLabel::K_RIGHT*/);
-        combo1 = new TComboBox(ID_COMBO1);
-        table1 = new TTableCtrl();
+        label1 = new Label("Hello", Color::RED/*Label::K_RIGHT*/);
+        combo1 = new ComboBox(ID_COMBO1);
+        table1 = new TableCtrl();
 
         initCtrl();
 
         //fileMenu.setItemEnabled(ID_FILEOPEN, FALSE);
-        //setBackColor(TColor::CYAN);
+        //setBackColor(Color::CYAN);
         //btn1->setEnabled(FALSE);
     }
 protected:
 
     void onCommand(UINT id, UINT code) {
-        TStrBuffer str;
+        StrBuffer str;
         
         switch(id) {
             case ID_BUTTON1:
                 {
-                    // TDialog dialog1;
+                    // Dialog dialog1;
                     // int ret = dialog1.run();
                     // str.format("ret=%d", ret);
                     // showMsg(str.getBuffer());
 
-                    TColor color = panel1->getBackColor();
+                    Color color = panel1->getBackColor();
                     if (color.chooseColor()) {
                         panel1->setBackColor(color);
                     }
@@ -126,13 +126,13 @@ protected:
 
             case ID_LISTBOX1:
                 if (code == LBN_SELCHANGE) {
-                    listbox1->getItemAt(listbox1->getSelIndex(), str);
+                    listbox1->getSelItem(str);
                     showMsg(str.getBuffer());
                 }            
                 break;
             case ID_COMBO1:
                 if (code == CBN_SELCHANGE) {
-                    combo1->getItemAt(combo1->getSelIndex(), str);
+                    combo1->getSelItem(str);
                     showMsg(str.getBuffer());
                 }            
                 break;
@@ -146,7 +146,7 @@ protected:
     }
 
     void onCreate() {
-        TFrame::onCreate();
+        Frame::onCreate();
 
         //text1->setMaxChar(5);
         listbox1->setFont(font);
@@ -176,7 +176,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
                      LPSTR     lpCmdLine,
                      int       nCmdShow)
 { 
-    TApplication app;
+    Application app;
     MyFrame frame;
 
     return app.run(frame);
