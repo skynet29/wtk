@@ -20,6 +20,7 @@ public:
 
 protected:
     void create(HWND hParent);
+    void onCommand(Event& evt);
 
 };
 #endif

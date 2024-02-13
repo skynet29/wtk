@@ -1,6 +1,6 @@
 #include "ToolBar.h"
 #include "Bitmap.h"
-
+#include "Container.h"
 
 const UINT ToolBar::K_BUTTON       = TBSTYLE_BUTTON;
 const UINT ToolBar::K_CHECK		= TBSTYLE_CHECK;
@@ -93,8 +93,14 @@ BOOL ToolBar::isButtonEnabled(int idCommand)
     return ((tbb.fsState & TBSTATE_ENABLED) != 0);
 }
 
-void ToolBar::onNotify(LPNMHDR lpHeader)
+void ToolBar::onCommand(Event& evt)
 {
+    parent->onCommand(LOWORD(evt.wParam));
+}
+
+void ToolBar::onNotify(Event& evt)
+{
+    LPNMHDR lpHeader = (LPNMHDR)evt.lParam;
 //    StrBuffer str;
 //    str.format("ToolBar::onNotify id=%d, code=%d", lpHeader->idFrom, lpHeader->code);
 //    MessageBox(NULL, str.getBuffer(), NULL, MB_OK);

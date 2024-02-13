@@ -23,6 +23,20 @@ public:
     void modifyStyle(DWORD addedStyle, BOOL state);
 };
 
+class DllExport Event {
+public:
+    HWND hWnd;
+    UINT uMsg;
+    WPARAM wParam;
+    LPARAM lParam;
+    LRESULT lResult;
+
+    Event(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+    void processDefault(HWND hMdiClient = NULL);
+    void processMdiDefault();
+};
+
 
 class DllExport Container;
 
@@ -49,7 +63,6 @@ public:
     void setBounds(Rect rc);
     void setFocus();
     void centerToParent();
-    int showMsg(LPSTR text, LPSTR title = NULL, UINT type = MB_OK); 
     Bounds getBounds();
     Size getRealSize();
 
@@ -61,25 +74,17 @@ class DllExport Control : public Window {
 public: 
     void setEnabled(BOOL isEnabled);
     void setFont(Font* font);
+    UINT getId();
 protected:
-    virtual void onNotify(LPNMHDR lpHeader) {}  
-    virtual void onDrawItem(LPDRAWITEMSTRUCT lpDrawItem) {}
+    virtual void onNotify(Event& evt) {}  
+    virtual void onDrawItem(Event& evt) {}
+    virtual void onCommand(Event& evt) {
+
+    }
     friend class DllExport Container;  
 };
 
-class DllExport TEvent {
-public:
-    HWND hWnd;
-    UINT uMsg;
-    WPARAM wParam;
-    LPARAM lParam;
-    LRESULT lResult;
 
-    TEvent(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
-    void processDefault(HWND hMdiClient = NULL);
-    void processMdiDefault();
-};
 
 class DllExport CustCtrl : public Window {
 private:
@@ -91,7 +96,7 @@ public:
     void startTimer(UINT timerId, UINT delayMs);
     void stopTimer(UINT timerId);
 protected:
-    virtual void handleEvent(TEvent& evt);
+    virtual void handleEvent(Event& evt);
 
     virtual void onCreate() {}
     virtual void onTimer(UINT timerId) {}

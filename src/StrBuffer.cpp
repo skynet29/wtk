@@ -48,6 +48,7 @@ void StrBuffer::free()
 {
     if (buffer != NULL) {
         delete [] buffer;
+        buffer = NULL;
     }
 }
 

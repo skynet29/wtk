@@ -1,4 +1,5 @@
 #include "Button.h"
+#include "Container.h"
 
 const UINT Label::K_LEFT	= DT_LEFT;
 const UINT Label::K_RIGHT	= DT_RIGHT;
@@ -13,8 +14,9 @@ Label::Label(LPSTR title, Color texColor, UINT align)
     this->texColor = texColor;
 }
 
-void Label::onDrawItem(LPDRAWITEMSTRUCT lpDrawItem)
+void Label::onDrawItem(Event& evt)
 {
+    LPDRAWITEMSTRUCT lpDrawItem = (LPDRAWITEMSTRUCT)evt.lParam;
     //showMsg("OK");
     HFONT hFont = (HFONT)sendMsg(WM_GETFONT);
     HDC hDC = lpDrawItem->hDC;
@@ -32,7 +34,13 @@ Button::Button(LPSTR title, UINT id)
     attr.title = title;
     attr.style |= BS_PUSHBUTTON;
     attr.className = "BUTTON";
-    attr.hMenu = (HMENU)id;
+    attr.hMenu = (HMENU)id;    
+}
+
+void Button::onCommand(Event& evt)
+{
+    if (HIWORD(evt.wParam) == BN_CLICKED)
+        parent->onCommand(LOWORD(evt.wParam));
 }
 
 CheckBox::CheckBox(LPSTR title, UINT id)

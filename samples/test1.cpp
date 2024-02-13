@@ -77,7 +77,7 @@ protected:
         mdiCtrl->setBounds(rc);
     }
 
-    void onCommand(UINT id, UINT code) {
+    void onCommand(UINT id) {
         StrBuffer str;
         
         switch(id) {
@@ -116,7 +116,7 @@ protected:
         toolbar->addStdButton(ToolBar::K_FILESAVE, ID_FILESAVE, NULL, ToolBar::K_CHECK);
     }
 
-    void handleEvent(TEvent& evt) {
+    void handleEvent(Event& evt) {
         Frame::handleEvent(evt);
         mdiCtrl->processDefault(evt);
     }

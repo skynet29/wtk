@@ -19,7 +19,7 @@ void Dialog::close(int retCode)
 	sendMsg(WM_CLOSE, retCode);
 }
 
-void Dialog::handleEvent(TEvent& evt)
+void Dialog::handleEvent(Event& evt)
 {
     switch(evt.uMsg) {
         case WM_CLOSE:

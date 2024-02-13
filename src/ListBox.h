@@ -17,6 +17,8 @@ public:
     UINT getItemCount();
     BOOL isItemSelected(UINT idx);
     void getSelItem(StrBuffer& text); 
-
+protected:
+    void onCommand(Event& evt);    
 };
+
 #endif

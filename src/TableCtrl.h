@@ -28,7 +28,7 @@ public:
 
 protected:
     void create(HWND hParent);
-    void onNotify(LPNMHDR lpHeader); 
+    void onNotify(Event& evt); 
 private:
     UINT colIdx;
 };

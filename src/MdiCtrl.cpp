@@ -41,7 +41,7 @@ void MdiCtrl::createChild(MdiChild *pChild)
 	pChild->create(hWnd);
 }
 
-void MdiCtrl::processDefault(TEvent& evt) 
+void MdiCtrl::processDefault(Event& evt) 
 {
     if (evt.uMsg == WM_COMMAND) {
         evt.processDefault(hWnd);

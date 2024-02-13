@@ -19,12 +19,18 @@ void Container::addChild(Window* child, Bounds bounds)
     addChild(child);
 }
 
-void Container::handleEvent(TEvent& evt)
+void Container::handleEvent(Event& evt)
 {
     switch(evt.uMsg)
     {
         case WM_COMMAND:
-            onCommand(LOWORD(evt.wParam), HIWORD(evt.wParam));
+            {
+                Control* pCtrl = (Control*)GetWindowLong((HWND)evt.lParam, GWL_USERDATA);
+                if (pCtrl != NULL)
+                    pCtrl->onCommand(evt);
+                else
+                    onCommand(LOWORD(evt.wParam));            
+            }
             break;
 
         case WM_SIZE:
@@ -43,7 +49,7 @@ void Container::handleEvent(TEvent& evt)
                 LPDRAWITEMSTRUCT lpDrawItem = (LPDRAWITEMSTRUCT) evt.lParam;
                 Control* pCtrl = (Control*)GetWindowLong(lpDrawItem->hwndItem, GWL_USERDATA);
                 if (pCtrl != NULL) {
-                    pCtrl->onDrawItem(lpDrawItem);
+                    pCtrl->onDrawItem(evt);
                 }
             }
             break;
@@ -53,7 +59,7 @@ void Container::handleEvent(TEvent& evt)
 		        LPNMHDR lpHeader = (LPNMHDR) evt.lParam;
                 Control* pCtrl = (Control*) GetWindowLong(lpHeader->hwndFrom, GWL_USERDATA);
                 if (pCtrl != NULL) {
-                    pCtrl->onNotify(lpHeader);
+                    pCtrl->onNotify(evt);
                 }
                 
             }
@@ -71,11 +77,28 @@ void Container::onCreate()
     }
 }
 
-void Container::onCommand(UINT id, UINT code)
+void Container::onCommand(UINT id)
 {
-    if (parent != NULL) {
-        parent->onCommand(id, code);
-    }
+    if (parent != NULL)
+        parent->onCommand(id);    
+}
+
+void Container::onSelChange(UINT id)
+{
+    if (parent != NULL)
+        parent->onSelChange(id);     
+}
+
+void Container::onRightClick(UINT id, Point pt)
+{
+    if (parent != NULL)
+        parent->onRightClick(id, pt); 
+}
+
+void Container::onDblClick(UINT id)
+{
+    if (parent != NULL)
+        parent->onDblClick(id);     
 }
 
 Size Container::getPackSize()

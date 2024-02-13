@@ -17,7 +17,7 @@ void Frame::close()
     sendMsg(WM_CLOSE);
 }
 
-void Frame::handleEvent(TEvent& evt)
+void Frame::handleEvent(Event& evt)
 {
     switch(evt.uMsg) {
         case WM_CLOSE:
@@ -67,4 +67,9 @@ LPSTR Frame::getOpenFileName(LPSTR strFilter, LPSTR strInitDir)
     if (lpTemp) free(lpTemp);
 
     return (ret) ? strFileName : NULL;
+}
+
+int Frame::showMsg(LPSTR text, LPSTR title, UINT type) 
+{
+    return MessageBox(hWnd, text, title, type);
 }

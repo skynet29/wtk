@@ -11,7 +11,7 @@ Graphic* Panel::getGraphic()
     return new WndGraphic(hWnd);
 }
 
-void Panel::handleEvent(TEvent& evt)
+void Panel::handleEvent(Event& evt)
 {
     switch(evt.uMsg)
     {

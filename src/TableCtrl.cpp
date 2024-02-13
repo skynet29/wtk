@@ -59,8 +59,10 @@ TableItem *TableCtrl::getItemAt(UINT idx)
     return (TableItem *)item.lParam;
 }
 
-void TableCtrl::onNotify(LPNMHDR lpHeader)
+void TableCtrl::onNotify(Event& evt)
 {
+    LPNMHDR lpHeader = (LPNMHDR)evt.lParam;
+    
     if (lpHeader->code == LVN_GETDISPINFO)
     {
         NMLVDISPINFO *plvdi = plvdi = (NMLVDISPINFO *)lpHeader;

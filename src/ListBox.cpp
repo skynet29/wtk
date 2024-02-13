@@ -1,4 +1,5 @@
 #include "ListBox.h"
+#include "Container.h"
 
 ListBox::ListBox(UINT id, DWORD style)
 {
@@ -58,4 +59,18 @@ void ListBox::getSelItem(StrBuffer& text)
     if (idx >= 0) {
         getItemAt(idx, text);
     }
+}
+
+void ListBox::onCommand(Event& evt)
+{
+    UINT code = HIWORD(evt.wParam);
+    switch(code) {
+        case LBN_SELCHANGE:
+            parent->onSelChange(LOWORD(evt.wParam));
+            break;
+        case LBN_DBLCLK:
+            parent->onDblClick(LOWORD(evt.wParam));
+            break;
+    }
+       
 }

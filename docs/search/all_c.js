@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['vector',['Vector',['../class_vector.html',1,'']]],
-  ['vector_3c_20window_20_2a_3e',['Vector&lt; Window *&gt;',['../class_vector.html',1,'']]]
+  ['shortcut',['Shortcut',['../class_shortcut.html',1,'']]],
+  ['size',['Size',['../class_size.html',1,'']]],
+  ['strbuffer',['StrBuffer',['../class_str_buffer.html',1,'']]]
 ];

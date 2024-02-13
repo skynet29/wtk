@@ -1,7 +1,7 @@
 #ifndef Vector_H
 #define Vector_H
 
-#include <windows.h>
+#include "types.h"
 
 template <class T>
 class DllExport Vector {
@@ -37,6 +37,35 @@ public:
             grow();
         }
         buffer[count++] = item;
+    }
+
+    int find(T item) {
+        for(int i = 0; i < count; i++) {
+            if (buffer[i] == item) return i;
+        }
+        return -1;
+    }
+
+    BOOL removeAt(UINT idx)
+    {
+        if (idx >= count) return FALSE;
+
+        void* temp = buffer[idx];
+
+        if ( (idx + 1) != count ) 
+        {
+            MoveMemory(&buffer[idx], &buffer[idx + 1], (count - idx - 1) * sizeof(T));
+        }
+
+        count--;
+
+        return TRUE;
+    }    
+
+    void remove(T item) {
+        int idx = find(item);
+        if (idx > 0)
+            removeAt(idx);
     }
 
     T operator[](UINT idx) {

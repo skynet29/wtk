@@ -7,7 +7,7 @@ public:
 
     Graphic* getGraphic();
 protected:
-    virtual void handleEvent(TEvent& evt);
+    virtual void handleEvent(Event& evt);
 
     virtual void onPaint(Graphic& gr) {}
     virtual void onMouseMove(int x, int y) {}

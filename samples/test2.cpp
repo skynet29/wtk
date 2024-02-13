@@ -13,12 +13,15 @@
 #include "Layout.h"
 #include "ComboBox.h"
 #include "TableCtrl.h"
+#include "TreeCtrl.h"
 
 enum {
     ID_BUTTON1 = 100,
     ID_LISTBOX1,
     ID_TEXT1,
     ID_COMBO1,
+    ID_TREE1,
+    ID_BUTTON2
 };
 
 class MyPanel : public Panel {
@@ -65,18 +68,21 @@ private:
     ListBox* listbox1;
     TextField* text1;
     Button* btn1;
+    Button* btn2;
     Font* font;
     MyPanel* panel1;
     Container* cont1;
     Label* label1;
     ComboBox* combo1;
     TableCtrl* table1;
+    TreeCtrl* tree1;
 public:
     void initCtrl() {
         Layout layout2(cont1, 0, 0, Layout::K_VERTICAL);
         layout2.add(listbox1, Size(100, 200));
         layout2.add(combo1, Size(100, 25));
         layout2.add(text1, Size(100, 25));
+        layout2.add(btn2, Size(100, 25));
 
         Layout layout(this, 10, 40);
         layout.add(label1, Size(100, 25));
@@ -84,6 +90,7 @@ public:
         layout.add(cont1, cont1->getPackSize());
         layout.add(panel1, Size(200, 200));
         layout.add(table1, Size(200, 200));
+        layout.add(tree1, Size(200, 200));
     }
     MyFrame() : Frame("My first application") {
 
@@ -92,11 +99,13 @@ public:
         cont1 = new Container();
         listbox1 = new ListBox(ID_LISTBOX1, LBS_SORT);
         text1 = new TextField(ID_TEXT1, ES_NUMBER);
-        btn1 = new Button("Button", ID_BUTTON1);
+        btn1 = new Button("Button1", ID_BUTTON1);
         panel1 = new MyPanel();
         label1 = new Label("Hello", Color::RED/*Label::K_RIGHT*/);
         combo1 = new ComboBox(ID_COMBO1);
         table1 = new TableCtrl();
+        tree1 = new TreeCtrl(ID_TREE1, TRUE);
+        btn2 = new Button("Button 2", ID_BUTTON2);
 
         initCtrl();
 
@@ -105,18 +114,46 @@ public:
         //btn1->setEnabled(FALSE);
     }
 protected:
+    void onRightClick(UINT id, Point pt) {
+        StrBuffer str;
+        TreeNode * pNode = tree1->getNodeAt(pt);        
+        str.format("onRightClick id=%d node=%p", id, pNode);
+        showMsg(str.getBuffer());
+    }
 
-    void onCommand(UINT id, UINT code) {
+    void onDblClick(UINT id) {
+         StrBuffer str;
+         if (id == ID_LISTBOX1) {
+            listbox1->getSelItem(str);
+            showMsg(str.getBuffer());             
+         }
+    }
+
+    void onSelChange(UINT id) {
         StrBuffer str;
         
         switch(id) {
+            case ID_TREE1:
+                {
+                    tree1->getSelNode()->getText(str);
+                    showMsg(str.getBuffer());
+                }
+                break;
+
+            case ID_COMBO1:
+                combo1->getSelItem(str);
+                showMsg(str.getBuffer());
+                break;
+        }        
+    }
+
+    void onCommand(UINT id) {
+        StrBuffer str;
+        
+        switch(id) {
+
             case ID_BUTTON1:
                 {
-                    // Dialog dialog1;
-                    // int ret = dialog1.run();
-                    // str.format("ret=%d", ret);
-                    // showMsg(str.getBuffer());
-
                     Color color = panel1->getBackColor();
                     if (color.chooseColor()) {
                         panel1->setBackColor(color);
@@ -124,18 +161,16 @@ protected:
                 }
                 break;
 
-            case ID_LISTBOX1:
-                if (code == LBN_SELCHANGE) {
-                    listbox1->getSelItem(str);
+            case ID_BUTTON2:
+                {
+                    Dialog dialog1;
+                    int ret = dialog1.run();
+                    str.format("ret=%d", ret);
                     showMsg(str.getBuffer());
-                }            
-                break;
-            case ID_COMBO1:
-                if (code == CBN_SELCHANGE) {
-                    combo1->getSelItem(str);
-                    showMsg(str.getBuffer());
-                }            
-                break;
+
+                }
+                break;                
+
         }
     }
 
@@ -168,6 +203,22 @@ protected:
         table1->addItem(new MyTableItem("Marc", "52"));
         table1->addItem(new MyTableItem("Quentin", "22"));
 
+        Bitmap* pBitmap;
+        
+        pBitmap = Bitmap::loadFromFile("bitmaps\\variable.bmp");
+        int bmp1 = tree1->addBitmap(pBitmap);
+        delete pBitmap;
+        pBitmap = Bitmap::loadFromFile("bitmaps\\constant.bmp");
+        int bmp2 = tree1->addBitmap(pBitmap);
+        delete pBitmap;
+
+        TreeNode* node1 = tree1->addNode("Georges");
+        TreeNode* node2 = node1->addNode("Marc", bmp2);
+        node1->addNode("Christelle");
+
+        node2->addNode("Quentin");
+
+        tree1->getRootNode()->setExpanded(TRUE);
     }
 };
 

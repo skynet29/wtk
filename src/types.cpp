@@ -65,9 +65,8 @@ int Rect::getHeight()
 	return abs(top - bottom);
 }
 
-BOOL Rect::contains(int x, int y)
+BOOL Rect::contains(Point pt)
 {
-	POINT pt = {x, y};
 	return PtInRect(this, pt);
 }
 

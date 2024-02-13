@@ -15,10 +15,15 @@ public:
     void addChild(Window* child, Bounds bounds);
 
     Size getPackSize();
-protected:
-    virtual void handleEvent(TEvent& evt);
 
-    virtual void onCommand(UINT id, UINT code);
+    virtual void onCommand(UINT id);
+    virtual void onRightClick(UINT id, Point pt);
+    virtual void onSelChange(UINT id);
+    virtual void onDblClick(UINT id);
+
+protected:
+    virtual void handleEvent(Event& evt);
+
     virtual void onCreate();
     virtual void onSize(UINT width, UINT height) {}
     virtual void onFocus() {}

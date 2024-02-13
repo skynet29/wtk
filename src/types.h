@@ -29,7 +29,7 @@ public:
 	Rect(int left, int top, int right, int bottom);
 
 	void inflate(int dx, int dy);
-	BOOL contains(int x, int y);
+	BOOL contains(Point pt);
 
 	int getHeight();
 	int getWidth();

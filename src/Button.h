@@ -12,7 +12,7 @@ public:
 
     Label(LPSTR title, Color texColor = Color::BLACK, UINT align = K_LEFT);
 protected:
-    void onDrawItem(LPDRAWITEMSTRUCT lpDrawItem);
+    void onDrawItem(Event& evt);
 private:
     UINT align;
     Color texColor;    
@@ -21,6 +21,8 @@ private:
 class DllExport Button : public Control {
 public: 
     Button(LPSTR title, UINT id);
+protected:
+    void Button::onCommand(Event& evt);    
 };
 
 class DllExport CheckBox : public Control {

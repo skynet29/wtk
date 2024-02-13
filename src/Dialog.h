@@ -11,7 +11,7 @@ public:
     int run();
 
 protected:
-    void handleEvent(TEvent& evt);
+    void handleEvent(Event& evt);
     void onCommand(UINT id, UINT code);
 };
 

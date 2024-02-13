@@ -120,12 +120,6 @@ void Window::centerToParent()
 	setLocation(left, top);
 }
 
-
-int Window::showMsg(LPSTR text, LPSTR title, UINT type) 
-{
-    return MessageBox(NULL, text, title, type);
-}
-
 Bounds Window::getBounds()
 {
     return attr.bounds;
@@ -156,6 +150,11 @@ void Window::setBounds(Rect rc)
 
 //////////////////////////////////////
 
+UINT Control::getId()
+{
+    return (UINT)attr.hMenu;
+}
+
 void Control::setEnabled(BOOL isEnabled)
 {
     attr.modifyStyle(WS_DISABLED, !isEnabled);
@@ -170,7 +169,7 @@ void Control::setFont(Font* font)
 
 ////////////////////////////////////
 
-TEvent::TEvent(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+Event::Event(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     this->hWnd = hWnd;
     this->uMsg = uMsg;
@@ -179,12 +178,12 @@ TEvent::TEvent(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     this->lResult = 0;
 }
 
-void TEvent::processDefault(HWND hMdiClient)
+void Event::processDefault(HWND hMdiClient)
 {
     lResult = DefFrameProc(hWnd, hMdiClient, uMsg, wParam, lParam);
 }
 
-void TEvent::processMdiDefault()
+void Event::processMdiDefault()
 {
     lResult = DefMDIChildProc(hWnd, uMsg, wParam, lParam);
 }
@@ -215,7 +214,7 @@ BOOL CustCtrl::registerMainWindow()
 LRESULT CustCtrl::wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     CustCtrl* pCtrl = (CustCtrl*)GetWindowLong(hWnd, GWL_USERDATA);
-    TEvent evt(hWnd, uMsg, wParam, lParam);
+    Event evt(hWnd, uMsg, wParam, lParam);
 
    if (uMsg == WM_CREATE)
    {
@@ -248,7 +247,7 @@ LRESULT CustCtrl::wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 }
 
 
-void CustCtrl::handleEvent(TEvent& evt)
+void CustCtrl::handleEvent(Event& evt)
 {
     switch(evt.uMsg)
     {

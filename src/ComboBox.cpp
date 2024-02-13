@@ -1,4 +1,5 @@
 #include "ComboBox.h"
+#include "Container.h"
 
 ComboBox::ComboBox(UINT id)
 {
@@ -65,4 +66,10 @@ void ComboBox::getSelItem(StrBuffer& text)
     if (idx >= 0) {
         getItemAt(idx, text);
     }
+}
+
+void ComboBox::onCommand(Event& evt)
+{
+    if (HIWORD(evt.wParam) == CBN_SELCHANGE)
+        parent->onSelChange(LOWORD(evt.wParam));
 }

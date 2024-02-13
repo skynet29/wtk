@@ -20,7 +20,7 @@ public:
     void setWndMenu(PopupMenu &menu);
     MdiChild* getActiveChild();
     void createChild(MdiChild *pChild);
-    void processDefault(TEvent& evt); 
+    void processDefault(Event& evt); 
 
 private:
     CLIENTCREATESTRUCT ccs;    

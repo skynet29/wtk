@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['graphic',['Graphic',['../class_graphic.html',1,'']]]
+  ['font',['Font',['../class_font.html',1,'']]],
+  ['frame',['Frame',['../class_frame.html',1,'']]]
 ];

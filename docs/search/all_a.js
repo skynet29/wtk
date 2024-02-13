@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['shortcut',['Shortcut',['../class_shortcut.html',1,'']]],
-  ['size',['Size',['../class_size.html',1,'']]],
-  ['strbuffer',['StrBuffer',['../class_str_buffer.html',1,'']]]
+  ['panel',['Panel',['../class_panel.html',1,'']]],
+  ['point',['Point',['../class_point.html',1,'']]],
+  ['popupmenu',['PopupMenu',['../class_popup_menu.html',1,'']]]
 ];
