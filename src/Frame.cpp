@@ -73,6 +73,28 @@ LPSTR Frame::getOpenFileName(LPSTR strFilter, LPSTR strInitDir)
     return (ret) ? strFileName : NULL;
 }
 
+LPSTR Frame::getSaveFileName(LPSTR strDefaultExt, LPSTR strInitDir)
+{
+	OPENFILENAME ofn;
+	ZeroMemory(&ofn, sizeof(ofn));
+    static char strFileName[512];
+	LPSTR lpTemp = NULL;
+	
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = hWnd;
+
+	ofn.lpstrFile = strFileName;
+	ofn.nMaxFile = sizeof(strFileName);
+	ofn.lpstrDefExt = strDefaultExt;
+	ofn.Flags = OFN_HIDEREADONLY;
+
+	ofn.lpstrInitialDir = strInitDir;
+    BOOL ret = GetSaveFileName(&ofn);
+
+    return (ret) ? strFileName : NULL;
+}
+
+
 int Frame::showMsg(LPSTR text, LPSTR title, UINT type) 
 {
     return MessageBox(hWnd, text, title, type);

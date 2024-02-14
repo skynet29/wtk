@@ -11,6 +11,8 @@ public:
     void setMenu(Menu& menu);
     void close();
     LPSTR getOpenFileName(LPSTR strFilter = NULL, LPSTR strInitDir = NULL);
+    LPSTR getSaveFileName(LPSTR strDefaultExt = NULL, LPSTR strInitDir = NULL);
+
     int showMsg(LPSTR text, LPSTR title = NULL, UINT type = MB_OK);
 
 protected:
