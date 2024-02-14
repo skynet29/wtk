@@ -82,9 +82,21 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae7910a093a5caad2afd0a85997cdb30d"><td class="memItemLeft" align="right" valign="top"><a id="ae7910a093a5caad2afd0a85997cdb30d"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Panel</b> (DWORD style=0)</td></tr>
 <tr class="separator:ae7910a093a5caad2afd0a85997cdb30d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac413d175e14d27ed4b4842cc2ae4fbb6"><td class="memItemLeft" align="right" valign="top"><a id="ac413d175e14d27ed4b4842cc2ae4fbb6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>redraw</b> (BOOL eraseBkGnd=TRUE)</td></tr>
+<tr class="separator:ac413d175e14d27ed4b4842cc2ae4fbb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c047ca786c0f6da16cda2d5b952f975"><td class="memItemLeft" align="right" valign="top"><a id="a3c047ca786c0f6da16cda2d5b952f975"></a>
 <a class="el" href="class_graphic.html">Graphic</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getGraphic</b> ()</td></tr>
 <tr class="separator:a3c047ca786c0f6da16cda2d5b952f975"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add9256b82225aedb7899e61113f8264c"><td class="memItemLeft" align="right" valign="top"><a id="add9256b82225aedb7899e61113f8264c"></a>
+<a class="el" href="class_point.html">Point</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getPageOrigin</b> ()</td></tr>
+<tr class="separator:add9256b82225aedb7899e61113f8264c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6366f5d3f1c2183c273d2ca64060651a"><td class="memItemLeft" align="right" valign="top"><a id="a6366f5d3f1c2183c273d2ca64060651a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setVertScrollbar</b> (UINT pageHeight, UINT inc)</td></tr>
+<tr class="separator:a6366f5d3f1c2183c273d2ca64060651a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0852c40da339f1cf3451174166bb16a6"><td class="memItemLeft" align="right" valign="top"><a id="a0852c40da339f1cf3451174166bb16a6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setHorzScrollbar</b> (UINT pageWidth, UINT inc)</td></tr>
+<tr class="separator:a0852c40da339f1cf3451174166bb16a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_cust_ctrl"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_cust_ctrl')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_cust_ctrl.html">CustCtrl</a></td></tr>
 <tr class="memitem:abdc2404981825750009882d308b48439 inherit pub_methods_class_cust_ctrl"><td class="memItemLeft" align="right" valign="top"><a id="abdc2404981825750009882d308b48439"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setBackColor</b> (<a class="el" href="class_color.html">Color</a> backColor)</td></tr>
@@ -108,9 +120,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setVisible</b> (BOOL 
 <tr class="memitem:a520bbdf0573aeeb67834fa360b644352 inherit pub_methods_class_window"><td class="memItemLeft" align="right" valign="top"><a id="a520bbdf0573aeeb67834fa360b644352"></a>
 LRESULT&#160;</td><td class="memItemRight" valign="bottom"><b>sendMsg</b> (UINT uMsg, WPARAM wParam=0, LPARAM lParam=0)</td></tr>
 <tr class="separator:a520bbdf0573aeeb67834fa360b644352 inherit pub_methods_class_window"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c69a3b259c83514f6e25920fb556c4b inherit pub_methods_class_window"><td class="memItemLeft" align="right" valign="top"><a id="a9c69a3b259c83514f6e25920fb556c4b"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>create</b> (HWND hParent)</td></tr>
-<tr class="separator:a9c69a3b259c83514f6e25920fb556c4b inherit pub_methods_class_window"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c9e07966c7e38ba49e6168fbc3c9cfe inherit pub_methods_class_window"><td class="memItemLeft" align="right" valign="top"><a id="a7c9e07966c7e38ba49e6168fbc3c9cfe"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>getText</b> (<a class="el" href="class_str_buffer.html">StrBuffer</a> &amp;buff)</td></tr>
 <tr class="separator:a7c9e07966c7e38ba49e6168fbc3c9cfe inherit pub_methods_class_window"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -144,8 +153,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>centerToParent</b> ()
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
+<tr class="memitem:a6a673e2da5bd9547021503c09afe9154"><td class="memItemLeft" align="right" valign="top"><a id="a6a673e2da5bd9547021503c09afe9154"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>create</b> (HWND hParent)</td></tr>
+<tr class="separator:a6a673e2da5bd9547021503c09afe9154"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41097485e74c54ee141eb87fde691e59"><td class="memItemLeft" align="right" valign="top"><a id="a41097485e74c54ee141eb87fde691e59"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>handleEvent</b> (<a class="el" href="class_event.html">Event</a> &amp;evt)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>handleEvent</b> (<a class="el" href="class_event.html">Event</a> &amp;evt)</td></tr>
 <tr class="separator:a41097485e74c54ee141eb87fde691e59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc5463abbd58e1cc9514a98ed23c2768"><td class="memItemLeft" align="right" valign="top"><a id="afc5463abbd58e1cc9514a98ed23c2768"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>onPaint</b> (<a class="el" href="class_graphic.html">Graphic</a> &amp;gr)</td></tr>
