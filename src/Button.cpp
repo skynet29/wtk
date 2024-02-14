@@ -1,5 +1,6 @@
 #include "Button.h"
 #include "Container.h"
+#include "Bitmap.h"
 
 const UINT Label::K_LEFT	= DT_LEFT;
 const UINT Label::K_RIGHT	= DT_RIGHT;
@@ -58,6 +59,12 @@ Button::Button(LPSTR title, UINT id)
     attr.className = "BUTTON";
     attr.hMenu = (HMENU)id;    
 }
+
+void Button::setBitmap(Bitmap* pBitmap)
+{
+	sendMsg(BM_SETIMAGE, IMAGE_BITMAP, (LPARAM) pBitmap->getHandle());
+}
+
 
 void Button::onCommand(Event& evt)
 {

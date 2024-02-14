@@ -30,6 +30,10 @@ void Frame::handleEvent(Event& evt)
             PostQuitMessage(0);
             break;
 
+        case WM_INITMENUPOPUP:
+            onInitMenu((HMENU)evt.wParam);
+            break;
+
         default:
             Container::handleEvent(evt);
     }

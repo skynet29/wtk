@@ -3,6 +3,7 @@
 
 #include "Window.h"
 
+class Bitmap;
 
 class DllExport Label : public Control {
 public:
@@ -28,6 +29,9 @@ private:
 class DllExport Button : public Control {
 public: 
     Button(LPSTR title, UINT id);
+
+    void setBitmap(Bitmap* pBitmap);
+
 protected:
     void Button::onCommand(Event& evt);    
 };
