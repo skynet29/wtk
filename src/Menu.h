@@ -28,7 +28,7 @@ public:
     void setItemChecked(UINT id, BOOL isChecked);
     void setItemEnabled(UINT id, BOOL isEnabled);
     HMENU getHandle() {return hMenu;}
-    friend class DllExport Menu;
+    friend class Menu;
 };
 
 class DllExport Menu {
@@ -38,7 +38,7 @@ public:
     Menu();
     void addPopupMenu(PopupMenu& menu, LPSTR caption);  
 
-    friend class DllExport Frame;  
+    friend class Frame;  
 };
 
 

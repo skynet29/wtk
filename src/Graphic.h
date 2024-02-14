@@ -38,7 +38,7 @@ public:
     void useHollowBrush();
     void useHollowPen();
 
-    friend class DllExport Panel;
+    friend class Panel;
 };
 
 class DllExport WndGraphic : public Graphic {
@@ -48,7 +48,7 @@ private:
 public:
     ~WndGraphic();
 
-    friend class DllExport Panel;
+    friend class Panel;
 };
 
 #endif

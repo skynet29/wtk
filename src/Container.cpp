@@ -65,6 +65,15 @@ void Container::handleEvent(Event& evt)
             }
             break;
 
+        case WM_HSCROLL:
+            {
+                Control* pCtrl = (Control*)GetWindowLong((HWND)evt.lParam, GWL_USERDATA);
+                if (pCtrl != NULL)
+                    pCtrl->onHScroll(evt); 
+            }
+            break;
+       
+
         default:
             CustCtrl::handleEvent(evt);
     }

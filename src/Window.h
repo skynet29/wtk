@@ -66,7 +66,7 @@ public:
     Bounds getBounds();
     Size getRealSize();
 
-    friend class DllExport Container;
+    friend class Container;
 
 };
 
@@ -78,10 +78,9 @@ public:
 protected:
     virtual void onNotify(Event& evt) {}  
     virtual void onDrawItem(Event& evt) {}
-    virtual void onCommand(Event& evt) {
-
-    }
-    friend class DllExport Container;  
+    virtual void onCommand(Event& evt) {}
+    virtual void onHScroll(Event& evt) {}
+    friend class Container;  
 };
 
 
@@ -105,7 +104,7 @@ private:
     static LRESULT wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
     static BOOL registerMainWindow();
 
-    friend class DllExport Application;
+    friend class Application;
 };
 
 #endif

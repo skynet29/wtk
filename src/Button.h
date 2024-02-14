@@ -10,12 +10,19 @@ public:
 	static const UINT K_RIGHT;
 	static const UINT K_CENTER;
 
-    Label(LPSTR title, Color texColor = Color::BLACK, UINT align = K_LEFT);
+    Label(LPSTR title, UINT align = K_LEFT);
+
+    void setBackColor(Color backColor);
+    void setTextColor(Color textColor);
+
 protected:
     void onDrawItem(Event& evt);
 private:
     UINT align;
-    Color texColor;    
+    Color textColor;
+    BOOL isOpaque;
+    Color backColor;
+
 };
 
 class DllExport Button : public Control {

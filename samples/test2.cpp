@@ -14,6 +14,9 @@
 #include "ComboBox.h"
 #include "TableCtrl.h"
 #include "TreeCtrl.h"
+#include "SliderCtrl.h"
+
+#include <stdio.h>
 
 enum {
     ID_BUTTON1 = 100,
@@ -21,7 +24,8 @@ enum {
     ID_TEXT1,
     ID_COMBO1,
     ID_TREE1,
-    ID_BUTTON2
+    ID_BUTTON2,
+    ID_SLIDER1
 };
 
 class MyPanel : public Panel {
@@ -76,6 +80,7 @@ private:
     ComboBox* combo1;
     TableCtrl* table1;
     TreeCtrl* tree1;
+    SliderCtrl* slider1;
 public:
     void initCtrl() {
         Layout layout2(cont1, 0, 0, Layout::K_VERTICAL);
@@ -91,6 +96,7 @@ public:
         layout.add(panel1, Size(200, 200));
         layout.add(table1, Size(200, 200));
         layout.add(tree1, Size(200, 200));
+        layout.add(slider1, Size(100, 25));
     }
     MyFrame() : Frame("My first application") {
 
@@ -101,11 +107,13 @@ public:
         text1 = new TextField(ID_TEXT1, ES_NUMBER);
         btn1 = new Button("Button1", ID_BUTTON1);
         panel1 = new MyPanel();
-        label1 = new Label("Hello", Color::RED/*Label::K_RIGHT*/);
+        label1 = new Label("Hello", Label::K_CENTER);
         combo1 = new ComboBox(ID_COMBO1);
         table1 = new TableCtrl();
         tree1 = new TreeCtrl(ID_TREE1, TRUE);
         btn2 = new Button("Button 2", ID_BUTTON2);
+        slider1 = new SliderCtrl(ID_SLIDER1);
+        label1->setBackColor(Color::WHITE);
 
         initCtrl();
 
@@ -130,6 +138,7 @@ protected:
     }
 
     void onSelChange(UINT id) {
+
         StrBuffer str;
         
         switch(id) {
@@ -143,6 +152,11 @@ protected:
             case ID_COMBO1:
                 combo1->getSelItem(str);
                 showMsg(str.getBuffer());
+                break;
+
+            case ID_SLIDER1:
+                str.format("%d", slider1->getValue());
+                label1->setText(str.getBuffer());
                 break;
         }        
     }
@@ -219,6 +233,8 @@ protected:
         node2->addNode("Quentin");
 
         tree1->getRootNode()->setExpanded(TRUE);
+
+        slider1->setRange(0, 100);
     }
 };
 
