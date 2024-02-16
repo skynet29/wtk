@@ -1,4 +1,16 @@
 #include "types.h"
+#include <stdio.h>
+
+void debugPrint(char *fmt, ...)
+{
+	va_list args;
+	va_start(args, fmt);
+	char buffer[1024];
+	vsprintf(buffer, fmt, args);
+	va_end(args);
+	DWORD dwBytesWritten;
+	WriteFile(GetStdHandle(STD_OUTPUT_HANDLE), buffer, strlen(buffer), &dwBytesWritten, NULL);
+}
 
 Size::Size()
 {
@@ -23,6 +35,14 @@ Bounds::Bounds(int left, int top, int width, int height) : Size(width, height)
 {
     this->left = left;
     this->top = top;
+}
+
+Bounds::Bounds(Point p1, Point p2)
+{
+	left = min(p1.x, p2.x);
+	top = min(p1.y, p2.y);
+	width = abs(p1.x - p2.x);
+	height = abs(p1.y - p2.y);
 }
 
 Rect Bounds::toRect()

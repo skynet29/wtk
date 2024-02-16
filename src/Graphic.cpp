@@ -29,19 +29,24 @@ void Graphic::setDrawMode(DrawMode mode)
 }
 
 
-void Graphic::drawRect(UINT left, UINT top, UINT width, UINT height)
+void Graphic::drawRect(Bounds bounds)
 {
-    Rectangle(hDC, left, top, left + width, top + height);
+    Rectangle(hDC, bounds.left, bounds.top, bounds.left + bounds.width, bounds.top + bounds.height);
 }
 
-void Graphic::drawEllipse(UINT left, UINT top, UINT width, UINT height)
+void Graphic::drawRect(Point p1, Point p2)
 {
-    Ellipse(hDC, left, top, left + width, top + height);
+    Rectangle(hDC, p1.x, p1.y, p2.x, p2.y);
 }
 
-void Graphic::drawCircle(UINT x, UINT y, UINT radius)
+void Graphic::drawEllipse(Bounds bounds)
 {
-    drawEllipse(x - radius, y - radius, radius * 2, radius * 2);
+    Ellipse(hDC, bounds.left, bounds.top, bounds.left + bounds.width, bounds.top + bounds.height);
+}
+
+void Graphic::drawCircle(Point center, UINT radius)
+{
+    drawEllipse(Bounds(center.x - radius, center.y - radius, radius * 2, radius * 2));
 }
 
 void Graphic::setBrush(Color color)
@@ -73,7 +78,7 @@ Graphic::~Graphic() {
     }    
 }
 
-void Graphic::drawBitmap(int x, int y, Bitmap* pBitmap)
+void Graphic::drawBitmap(Point pt, Bitmap* pBitmap)
 {
 	HBITMAP hBitmap = pBitmap->getHandle();
 	if (hBitmap)
@@ -82,14 +87,14 @@ void Graphic::drawBitmap(int x, int y, Bitmap* pBitmap)
 
 		HDC hMemDC = CreateCompatibleDC(hDC);
 		SelectObject(hMemDC, hBitmap);	
-		BitBlt(hDC, x, y, bmSize.width, bmSize.height, hMemDC, 0, 0, SRCCOPY);
+		BitBlt(hDC, pt.x, pt.y, bmSize.width, bmSize.height, hMemDC, 0, 0, SRCCOPY);
 		DeleteDC(hMemDC);
 	}
 }
 
-void Graphic::drawText(int x, int y, LPSTR str)
+void Graphic::drawText(Point pt, LPSTR str)
 {
-	TextOut(hDC, x, y, str, strlen(str));
+	TextOut(hDC, pt.x, pt.y, str, strlen(str));
 }
 
 void Graphic::setFont(Font* pFont)

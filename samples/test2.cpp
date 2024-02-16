@@ -15,6 +15,7 @@
 #include "TableCtrl.h"
 #include "TreeCtrl.h"
 #include "SliderCtrl.h"
+#include "TabCtrl.h"
 
 #include <stdio.h>
 
@@ -37,10 +38,10 @@ protected:
     void onPaint(Graphic& gr) {
         gr.setPen(Color::RED, 1, PS_DASHDOT);
         gr.useHollowBrush();
-        gr.drawRect(5, 5, 100, 100);
+        gr.drawRect(Bounds(5, 5, 100, 100));
         gr.useHollowPen();
         gr.setBrush(Color::GREEN);
-        gr.drawCircle(80, 80, 50);
+        gr.drawCircle(Point(80, 80), 50);
 
     }
 };
@@ -81,6 +82,7 @@ private:
     TableCtrl* table1;
     TreeCtrl* tree1;
     SliderCtrl* slider1;
+    TabCtrl* tab1;
 public:
     void initCtrl() {
         Layout layout2(cont1, 0, 0, Layout::K_VERTICAL);
@@ -94,8 +96,9 @@ public:
         layout.add(btn1, Size(80, 25));
         layout.add(cont1, cont1->getPackSize());
         layout.add(panel1, Size(200, 200));
-        layout.add(table1, Size(200, 200));
-        layout.add(tree1, Size(200, 200));
+        //layout.add(table1, Size(200, 200));
+        //layout.add(tree1, Size(200, 200));
+        layout.add(tab1, Size(200, 200));
         layout.add(slider1, Size(100, 25));
     }
     MyFrame() : Frame("My first application") {
@@ -113,6 +116,7 @@ public:
         tree1 = new TreeCtrl(ID_TREE1, TRUE);
         btn2 = new Button("Button 2", ID_BUTTON2);
         slider1 = new SliderCtrl(ID_SLIDER1);
+        tab1 = new TabCtrl();
         label1->setBackColor(Color::WHITE);
 
         initCtrl();
@@ -211,6 +215,10 @@ protected:
         combo1->addItem("Quentin");
         combo1->setSelIndex(0);
 
+        tab1->addTab("Tab1", table1);
+        tab1->addTab("Tab2", tree1);
+
+
         table1->addColumn("Name", 50);
         table1->addColumn("Age", 50);
 
@@ -229,12 +237,11 @@ protected:
         TreeNode* node1 = tree1->addNode("Georges");
         TreeNode* node2 = node1->addNode("Marc", bmp2);
         node1->addNode("Christelle");
-
         node2->addNode("Quentin");
-
         tree1->getRootNode()->setExpanded(TRUE);
 
         slider1->setRange(0, 100);
+
     }
 };
 

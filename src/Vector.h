@@ -72,10 +72,17 @@ public:
         return buffer[idx];
     }
 
-    ~Vector() {
+    void clear() {
         if (buffer != NULL) {
             delete [] buffer;
+            buffer = NULL;
         }
+        count = 0;
+        size = 0;        
+    }
+
+    ~Vector() {
+        clear();
     }
 };
 

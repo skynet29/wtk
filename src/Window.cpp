@@ -148,6 +148,11 @@ void Window::setBounds(Rect rc)
     setBounds(Bounds(rc.left, rc.top, rc.getWidth(), rc.getHeight()));
 }
 
+void Window::setParent(Container* parent)
+{
+    this->parent = parent;
+}
+
 //////////////////////////////////////
 
 UINT Control::getId()

@@ -21,11 +21,12 @@ public:
 
     virtual ~Graphic();
 
-    void drawRect(UINT left, UINT top, UINT width, UINT height);
-    void drawEllipse(UINT left, UINT top, UINT width, UINT height);
-    void drawCircle(UINT x, UINT y, UINT radius);
-    void drawBitmap(int x, int y, Bitmap* pBitmap);
-    void drawText(int x, int y, LPSTR str);
+    void drawRect(Bounds bounds);
+    void drawRect(Point p1, Point p2);
+    void drawEllipse(Bounds);
+    void drawCircle(Point center, UINT radius);
+    void drawBitmap(Point pt, Bitmap* pBitmap);
+    void drawText(Point pt, LPSTR str);
     void drawText(Bounds bounds, LPSTR str, UINT textAlignment = DT_LEFT);
 
     Bitmap* copyArea(Bounds bounds);

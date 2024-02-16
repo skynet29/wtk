@@ -52,13 +52,15 @@ public:
     HWND getHandle() {return hWnd;}
 
     void setVisible(BOOL isVisible);
+    void setParent(Container* parent);
     LRESULT sendMsg(UINT uMsg, WPARAM wParam = 0, LPARAM lParam = 0);
 
     virtual void create(HWND hParent);
+    virtual void setSize(int width, int height);
+
     void getText(StrBuffer& buff);
     void setText(LPSTR text);
     void setLocation(int left, int top);    
-    void setSize(int width, int height);
     void setBounds(Bounds bounds);
     void setBounds(Rect rc);
     void setFocus();

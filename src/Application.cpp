@@ -2,6 +2,8 @@
 #include "Menu.h"
 #include "Font.h"
 
+#include <stdio.h>
+
 Application::Application() 
 {
     Font::initClass();
@@ -51,3 +53,4 @@ int Application::run(Frame& frame)
     return msg.wParam;    
 
 }
+

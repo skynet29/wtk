@@ -3,11 +3,13 @@
 
 #include "types.h"
 
+class StrVector;
+
 class DllExport StrBuffer {
 private:
     char* buffer;    
 public:
-    StrBuffer();
+    StrBuffer(char* text = NULL);
     ~StrBuffer();
     char* getBuffer() {return buffer;}
     char* allocate(UINT size);
@@ -17,7 +19,14 @@ public:
     BOOL equals(char* text);
     UINT getLength();
     void set(char* text);
-
+    void split(LPSTR strToken, StrVector &vector);
+    void toUpperCase();
+    void toLowerCase();
+    int toInt();
+    int toIntHex();
+    void getSubStr(StrBuffer& text, int startIdx, int length = -1);
+    int getIndexOf(char* str, int startIdx = 0);
+    char getCharAt(UINT index);
  };
 
 #endif

@@ -169,10 +169,8 @@ TreeNode* TreeCtrl::getSelNode()
 
 void TreeCtrl::onNotify(Event& evt)
 {
+	
 	LPNMHDR lpHeader = (LPNMHDR)evt.lParam;
-
-	StrBuffer str;
-	str.format("code=%d", lpHeader->code);
 
 	switch (lpHeader->code)
 	{

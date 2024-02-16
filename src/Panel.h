@@ -19,11 +19,11 @@ protected:
     void handleEvent(Event& evt);
 
     virtual void onPaint(Graphic& gr) {}
-    virtual void onMouseMove(int x, int y) {}
-    virtual void onLButtonDown(int x, int y) {}
-    virtual void onLButtonUp(int x, int y) {}
-    virtual void onRButtonDown(int x, int y) {}
-    virtual void onRButtonUp(int x, int y) {}
+    virtual void onMouseMove(Point pt) {}
+    virtual void onLButtonDown(Point pt) {}
+    virtual void onLButtonUp(Point pt) {}
+    virtual void onRButtonDown(Point pt) {}
+    virtual void onRButtonUp(Point pt) {}
 private:
     ScrollBar* pVertScrollbar;
     ScrollBar* pHorzScrollbar;

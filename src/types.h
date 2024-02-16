@@ -3,6 +3,7 @@
 
 #include <windows.h>
 #include <commctrl.h>
+#include <stdio.h>
 
 
 #ifdef DLLMDZ
@@ -13,6 +14,8 @@
 #define DllExport __declspec( dllimport )
 
 #endif
+
+void DllExport debugPrint(char *fmt, ...);
 
 class DllExport Point : public tagPOINT  
 {
@@ -50,6 +53,7 @@ public:
 
     Bounds();
     Bounds(int left, int top, int width, int height);
+	Bounds(Point p1, Point p2);
 	Rect toRect();
 };
 

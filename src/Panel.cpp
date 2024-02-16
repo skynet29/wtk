@@ -53,26 +53,30 @@ Graphic* Panel::getGraphic()
 
 void Panel::handleEvent(Event& evt)
 {
+    Point pt(LOWORD(evt.lParam), HIWORD(evt.lParam));
+
     switch(evt.uMsg)
     {
         case WM_MOUSEMOVE:
-            onMouseMove(LOWORD(evt.lParam), HIWORD(evt.lParam));
+            onMouseMove(pt);
             break;
 
         case WM_LBUTTONDOWN:
-            onLButtonDown(LOWORD(evt.lParam), HIWORD(evt.lParam));
+            SetCapture(hWnd);
+            onLButtonDown(pt);
             break;
 
         case WM_LBUTTONUP:
-            onLButtonUp(LOWORD(evt.lParam), HIWORD(evt.lParam));
+            ReleaseCapture();
+            onLButtonUp(pt);
             break;
 
         case WM_RBUTTONDOWN:
-            onRButtonDown(LOWORD(evt.lParam), HIWORD(evt.lParam));
+            onRButtonDown(pt);
             break;
 
         case WM_RBUTTONUP:
-            onRButtonUp(LOWORD(evt.lParam), HIWORD(evt.lParam));
+            onRButtonUp(pt);
             break;
 
         case WM_PAINT:
@@ -90,10 +94,10 @@ void Panel::handleEvent(Event& evt)
         case WM_SIZE:
             {
                 if (pVertScrollbar != NULL)
-                    pVertScrollbar->resize(LOWORD(evt.lParam));
+                    pVertScrollbar->resize(HIWORD(evt.lParam));
 
                 if (pHorzScrollbar != NULL)
-                    pHorzScrollbar->resize(HIWORD(evt.lParam));
+                    pHorzScrollbar->resize(LOWORD(evt.lParam));
             }
             break;
 
