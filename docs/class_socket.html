@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>WTK: Bitmap Class Reference</title>
+<title>WTK: Socket Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,39 +61,53 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="class_bitmap-members.html">List of all members</a>  </div>
+<a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="class_socket-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">Bitmap Class Reference</div>  </div>
+<div class="title">Socket Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+<div class="dynheader">
+Inheritance diagram for Socket:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_socket.png" usemap="#Socket_map" alt=""/>
+  <map id="Socket_map" name="Socket_map">
+<area href="class_tcp_socket_client.html" alt="TcpSocketClient" shape="rect" coords="0,56,110,80"/>
+<area href="class_tcp_socket_server.html" alt="TcpSocketServer" shape="rect" coords="120,56,230,80"/>
+</map>
+ </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8af4fb69ceeab04e52155bd2789de124"><td class="memItemLeft" align="right" valign="top"><a id="a8af4fb69ceeab04e52155bd2789de124"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Bitmap</b> (HBITMAP hBitmap)</td></tr>
-<tr class="separator:a8af4fb69ceeab04e52155bd2789de124"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0536727006f46d00e79633536b84d854"><td class="memItemLeft" align="right" valign="top"><a id="a0536727006f46d00e79633536b84d854"></a>
-HBITMAP&#160;</td><td class="memItemRight" valign="bottom"><b>getHandle</b> ()</td></tr>
-<tr class="separator:a0536727006f46d00e79633536b84d854"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8080e21ae39b59ea798aaf2cfbca0b38"><td class="memItemLeft" align="right" valign="top"><a id="a8080e21ae39b59ea798aaf2cfbca0b38"></a>
-<a class="el" href="class_size.html">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getSize</b> ()</td></tr>
-<tr class="separator:a8080e21ae39b59ea798aaf2cfbca0b38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76e75cc2cfa6d3e5901433282a6df4ee"><td class="memItemLeft" align="right" valign="top"><a id="a76e75cc2cfa6d3e5901433282a6df4ee"></a>
-<a class="el" href="class_bitmap.html">Bitmap</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>createMask</b> (<a class="el" href="class_color.html">Color</a> clTransparent)</td></tr>
-<tr class="separator:a76e75cc2cfa6d3e5901433282a6df4ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7eaece20cf772b6fd30190546960105"><td class="memItemLeft" align="right" valign="top"><a id="ac7eaece20cf772b6fd30190546960105"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Socket</b> (SOCKET sock=INVALID_SOCKET)</td></tr>
+<tr class="separator:ac7eaece20cf772b6fd30190546960105"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c50323e4d5fefab34c6dd98e867346e"><td class="memItemLeft" align="right" valign="top"><a id="a1c50323e4d5fefab34c6dd98e867346e"></a>
+BOOL&#160;</td><td class="memItemRight" valign="bottom"><b>send</b> (LPBYTE buffer, UINT buffSize)</td></tr>
+<tr class="separator:a1c50323e4d5fefab34c6dd98e867346e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a183dd70d9c30919cd5ed9f520d53e8b3"><td class="memItemLeft" align="right" valign="top"><a id="a183dd70d9c30919cd5ed9f520d53e8b3"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>recv</b> (LPBYTE buffer, UINT buffSize)</td></tr>
+<tr class="separator:a183dd70d9c30919cd5ed9f520d53e8b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75ee749264ccbcfc4dfbf5442e55dcb8"><td class="memItemLeft" align="right" valign="top"><a id="a75ee749264ccbcfc4dfbf5442e55dcb8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>close</b> ()</td></tr>
+<tr class="separator:a75ee749264ccbcfc4dfbf5442e55dcb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:af17f777df2d01d6b9446d4b576f445f0"><td class="memItemLeft" align="right" valign="top"><a id="af17f777df2d01d6b9446d4b576f445f0"></a>
-static <a class="el" href="class_bitmap.html">Bitmap</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>loadFromFile</b> (LPSTR fileName)</td></tr>
-<tr class="separator:af17f777df2d01d6b9446d4b576f445f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a497f1e5ccfb32956674ab5e0d66e8f1c"><td class="memItemLeft" align="right" valign="top"><a id="a497f1e5ccfb32956674ab5e0d66e8f1c"></a>
-static <a class="el" href="class_bitmap.html">Bitmap</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>loadFromResource</b> (UINT resId, HMODULE hModule=NULL)</td></tr>
-<tr class="separator:a497f1e5ccfb32956674ab5e0d66e8f1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b8a2b14a3a37338ca228169709f79e3"><td class="memItemLeft" align="right" valign="top"><a id="a3b8a2b14a3a37338ca228169709f79e3"></a>
+static BOOL&#160;</td><td class="memItemRight" valign="bottom"><b>initClass</b> ()</td></tr>
+<tr class="separator:a3b8a2b14a3a37338ca228169709f79e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:a1f34b792d40b2cfb47954f62c5b7bef7"><td class="memItemLeft" align="right" valign="top"><a id="a1f34b792d40b2cfb47954f62c5b7bef7"></a>
+SOCKET&#160;</td><td class="memItemRight" valign="bottom"><b>sock</b></td></tr>
+<tr class="separator:a1f34b792d40b2cfb47954f62c5b7bef7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>src/<a class="el" href="_bitmap_8h_source.html">Bitmap.h</a></li>
-<li>src/Bitmap.cpp</li>
+<li>src/<a class="el" href="_tcp_socket_8h_source.html">TcpSocket.h</a></li>
+<li>src/TcpSocket.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

@@ -6,6 +6,7 @@
 #include "StrBuffer.h"
 #include "Font.h"
 #include "Color.h"
+#include "Vector.h"
 
 class DllExport WndAttr {
 public:    
@@ -67,9 +68,6 @@ public:
     void centerToParent();
     Bounds getBounds();
     Size getRealSize();
-
-    friend class Container;
-
 };
 
 class DllExport Control : public Window {
@@ -85,8 +83,6 @@ protected:
     friend class Container;  
 };
 
-
-
 class DllExport CustCtrl : public Window {
 private:
     Color backColor;
@@ -96,6 +92,7 @@ public:
     Color getBackColor() {return backColor;}
     void startTimer(UINT timerId, UINT delayMs);
     void stopTimer(UINT timerId);
+
 protected:
     virtual void handleEvent(Event& evt);
 

@@ -83,7 +83,7 @@ void Graphic::drawBitmap(Point pt, Bitmap* pBitmap)
 	HBITMAP hBitmap = pBitmap->getHandle();
 	if (hBitmap)
 	{
-		Size bmSize = pBitmap->geSize();
+		Size bmSize = pBitmap->getSize();
 
 		HDC hMemDC = CreateCompatibleDC(hDC);
 		SelectObject(hMemDC, hBitmap);	
@@ -122,6 +122,17 @@ void Graphic::drawText(Bounds bounds, LPSTR str, UINT textAlignment)
 {
     Rect rc = bounds.toRect();
 	DrawText(hDC,  str, strlen(str), &rc, DT_SINGLELINE | DT_VCENTER | DT_NOPREFIX | textAlignment);
+}
+
+
+Color Graphic::getPixelColor(Point pt)
+{
+    return GetPixel(hDC, pt.x, pt.y);
+}
+
+void Graphic::setPixelColor(Point pt, Color color)
+{
+    SetPixel(hDC, pt.x, pt.y, color);
 }
 
 //////////////////////////////////

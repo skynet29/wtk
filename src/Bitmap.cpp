@@ -19,7 +19,7 @@ Bitmap* Bitmap::loadFromFile(LPSTR fileName)
     return (hBitmap != NULL) ? new Bitmap(hBitmap) : NULL;
 }
 
-Size Bitmap::geSize()
+Size Bitmap::getSize()
 {
     Size ret;
     BITMAP bm;
@@ -28,4 +28,35 @@ Size Bitmap::geSize()
     ret.height = bm.bmHeight;
 	return ret;
 
+}
+
+Bitmap* Bitmap::loadFromResource(UINT resId, HMODULE hModule)
+{
+	HBITMAP hBitmap = LoadBitmap((hModule) ? hModule : GetModuleHandle(NULL),
+		MAKEINTRESOURCE(resId));
+
+	return new Bitmap(hBitmap);
+}
+
+Bitmap* Bitmap::createMask(Color clTransparent)
+{
+	Size sz = getSize();
+    
+	HBITMAP hMaskBitmap = CreateBitmap(sz.width, sz.height, 1, 1, NULL);
+	HDC hDC = GetDC(NULL);
+
+	HDC hSrcDC = CreateCompatibleDC(hDC);
+	SelectObject(hSrcDC, hBitmap);
+	SetBkColor(hSrcDC, clTransparent);
+
+	HDC hDestDC = CreateCompatibleDC(hDC);
+	SelectObject(hDestDC, hMaskBitmap);
+
+	BitBlt(hDestDC, 0, 0, sz.width, sz.height, hSrcDC, 0, 0, SRCCOPY);
+
+	DeleteDC(hSrcDC);
+	DeleteDC(hDestDC);
+	ReleaseDC(NULL, hDC);
+
+	return new Bitmap(hMaskBitmap);
 }

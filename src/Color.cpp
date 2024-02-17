@@ -36,13 +36,18 @@ BOOL Color::chooseColor()
 
 }
 
-    Color Color::BLACK(0, 0, 0);
-    Color Color::WHITE(255, 255, 255);
-    Color Color::RED(255, 0, 0);
-    Color Color::GREEN(0, 255, 0);
-    Color Color::BLUE(0, 0, 255);
-    Color Color::CYAN(0, 255, 255);
-    Color Color::MAGENTA(255, 0, 255);
-    Color Color::YELLOW(255, 255, 0);
-    Color Color::LIGHTGREY(192, 192, 192);
-    Color Color::DARKGREY(128, 128, 128);
+Color Color::getSysColor(int idx)
+{
+	return GetSysColor(idx);
+}
+
+Color Color::BLACK(0, 0, 0);
+Color Color::WHITE(255, 255, 255);
+Color Color::RED(255, 0, 0);
+Color Color::GREEN(0, 255, 0);
+Color Color::BLUE(0, 0, 255);
+Color Color::CYAN(0, 255, 255);
+Color Color::MAGENTA(255, 0, 255);
+Color Color::YELLOW(255, 255, 0);
+Color Color::LIGHTGREY(192, 192, 192);
+Color Color::DARKGREY(128, 128, 128);

@@ -1,12 +1,15 @@
 #include "Application.h"
 #include "Menu.h"
 #include "Font.h"
+#include "TcpSocket.h"
 
 #include <stdio.h>
 
 Application::Application() 
 {
     Font::initClass();
+
+    Socket::initClass();
 
     INITCOMMONCONTROLSEX iccex; 
 
@@ -17,13 +20,26 @@ Application::Application()
         
 }
 
+void Application::getExeName(StrBuffer& str)
+{
+	char buffer[1024];
+	GetModuleFileName(GetModuleHandle(NULL), buffer, sizeof(buffer));
+    str.set(buffer);
+}
+
+
 
 Application::~Application() 
 {
 
 }
 
-
+Size Application::getScreenSize()
+{
+	int cx = GetSystemMetrics(SM_CXSCREEN);
+	int cy =  GetSystemMetrics(SM_CYSCREEN);
+	return Size(cx, cy);
+}
 
 int Application::run(Frame& frame)
 {

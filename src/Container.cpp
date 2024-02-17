@@ -9,7 +9,7 @@ Container::~Container()
 
 void Container::addChild(Window* child)
 {
-    child->parent = this;
+    child->setParent(this);
     childs.add(child);
 }
 
@@ -72,7 +72,30 @@ void Container::handleEvent(Event& evt)
                     pCtrl->onHScroll(evt); 
             }
             break;
-       
+
+        case WSA_EVENT:
+            {
+                switch (WSAGETSELECTEVENT(evt.lParam))
+                {
+                case FD_ACCEPT:
+                    {
+                        SOCKET sock = accept(evt.wParam , NULL, NULL);
+                        WSAAsyncSelect(sock, hWnd, WSA_EVENT, FD_READ | FD_CLOSE);
+                        onIncomingConnection(sock);
+                    }
+                    break;
+
+                case FD_READ:
+                    onDataReceived(evt.wParam);
+                    break;
+
+                case FD_CLOSE:
+                    onConnectionClosed(evt.wParam);
+                    break;
+                }  
+            }
+            break;
+
 
         default:
             CustCtrl::handleEvent(evt);
@@ -123,4 +146,13 @@ Size Container::getPackSize()
         maxHeight = max(maxHeight, height);
     }
     return Size(maxWidth, maxHeight);
+}
+
+void Container::packSize(int xPad, int yPad)
+{
+    Size sz = getPackSize();
+
+	Rect rc(0, 0, sz.width + xPad, sz.height + yPad);
+	AdjustWindowRectEx(&rc, attr.style, attr.hMenu != NULL, attr.styleEx);
+	setSize(rc.getWidth(), rc.getHeight());	
 }

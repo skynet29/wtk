@@ -14,6 +14,7 @@ public:
     LPSTR getSaveFileName(LPSTR strDefaultExt = NULL, LPSTR strInitDir = NULL);
 
     int showMsg(LPSTR text, LPSTR title = NULL, UINT type = MB_OK);
+    BOOL copyToClipboard(LPSTR strText);
 
 protected:
     void handleEvent(Event& evt);

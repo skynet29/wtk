@@ -79,6 +79,14 @@ void Panel::handleEvent(Event& evt)
             onRButtonUp(pt);
             break;
 
+        case WM_KEYUP:
+            onKeyUp(evt.wParam);
+            break;
+
+        case WM_KEYDOWN:
+            onKeyDown(evt.wParam);
+            break;            
+
         case WM_PAINT:
             {
                 PAINTSTRUCT ps;

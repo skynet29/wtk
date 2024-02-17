@@ -24,6 +24,9 @@ protected:
     virtual void onLButtonUp(Point pt) {}
     virtual void onRButtonDown(Point pt) {}
     virtual void onRButtonUp(Point pt) {}
+    virtual void onKeyDown(UINT key) {}
+    virtual void onKeyUp(UINT key) {}
+
 private:
     ScrollBar* pVertScrollbar;
     ScrollBar* pHorzScrollbar;

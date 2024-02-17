@@ -12,6 +12,9 @@ public:
     operator COLORREF() {return value;}
     BOOL chooseColor();
 
+    static Color getSysColor(int idx = COLOR_BTNFACE);
+
+
     static Color BLACK;
     static Color WHITE;
     static Color RED;

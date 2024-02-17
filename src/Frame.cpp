@@ -99,3 +99,19 @@ int Frame::showMsg(LPSTR text, LPSTR title, UINT type)
 {
     return MessageBox(hWnd, text, title, type);
 }
+
+BOOL Frame::copyToClipboard(LPSTR strText)
+{
+	if (!OpenClipboard(hWnd))
+		return FALSE;
+
+	EmptyClipboard();
+	HANDLE hMem = GlobalAlloc(GMEM_MOVEABLE, strlen(strText) + 1);
+	char* pBuff = (char*)GlobalLock(hMem);
+	strcpy(pBuff, strText);
+	GlobalUnlock(hMem);
+	SetClipboardData(CF_TEXT, hMem);
+
+	CloseClipboard();
+	return TRUE;
+}

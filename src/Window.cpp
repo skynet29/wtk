@@ -299,4 +299,3 @@ void CustCtrl::stopTimer(UINT timerId)
 {
     KillTimer(hWnd, timerId);
 }
-

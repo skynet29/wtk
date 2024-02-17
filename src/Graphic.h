@@ -30,12 +30,16 @@ public:
     void drawText(Bounds bounds, LPSTR str, UINT textAlignment = DT_LEFT);
 
     Bitmap* copyArea(Bounds bounds);
+    Color getPixelColor(Point pt);
+    void setPixelColor(Point pt, Color color);
+
 
     void setDrawMode(DrawMode mode);
     void setFont(Font* pFont);
     void setTextColor(Color textColor);
     void setPen(Color color, UINT width = 1, UINT style = PS_SOLID);
     void setBrush(Color color);
+    
     void useHollowBrush();
     void useHollowPen();
 

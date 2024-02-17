@@ -14,7 +14,7 @@ rm *.obj
 
 wine $BIN/cl -c -DDLLMDZ ../src/*.cpp
 
-wine $BIN/link /DLL /OUT:../lib/wtk.dll *.obj User32.lib Gdi32.lib Comdlg32.lib Comctl32.lib
+wine $BIN/link /DLL /OUT:../lib/wtk.dll *.obj User32.lib Gdi32.lib Comdlg32.lib Comctl32.lib Wsock32.lib
 
 cd ..
 cp lib/wtk.dll samples

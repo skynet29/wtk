@@ -4,6 +4,7 @@
 #include "Window.h"
 #include "Vector.h"
 
+#define WSA_EVENT     (WM_USER + 1)
 
 class DllExport Container : public CustCtrl {
 private:
@@ -15,6 +16,8 @@ public:
     void addChild(Window* child, Bounds bounds);
 
     Size getPackSize();
+    void packSize(int xPad = 0, int yPad = 0);
+
 
     virtual void onCommand(UINT id);
     virtual void onRightClick(UINT id, Point pt);
@@ -27,7 +30,9 @@ protected:
     virtual void onCreate();
     virtual void onSize(UINT width, UINT height) {}
     virtual void onFocus() {}
-
+    virtual void onIncomingConnection(SOCKET sock) {}
+    virtual void onDataReceived(SOCKET sock) {}
+    virtual void onConnectionClosed(SOCKET sock) {}
 };
 
 #endif
