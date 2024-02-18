@@ -8,3 +8,4 @@ wine $BIN/cl -c *.cpp -I../include
 
 wine $BIN/link /SUBSYSTEM:WINDOWS /OUT:test1.exe test1.obj ../lib/wtk.lib
 wine $BIN/link /SUBSYSTEM:WINDOWS /OUT:test2.exe test2.obj ../lib/wtk.lib
+wine $BIN/link /SUBSYSTEM:WINDOWS /OUT:test3.exe test3.obj ../lib/wtk.lib

@@ -96,14 +96,22 @@ private:
 public:
     MyPanel* panel1;
     Menu menu;
+    PopupMenu fileMenu;
     PopupMenu colorMenu;
     Color selColor;
+
+    enum {IDM_FILEOPEN = 100, IDM_FILEEXIT};
 
     MyFrame() : Frame("Test 3") {
         panel1 = new MyPanel();
         addChild(panel1);
         panel1->setBackColor(Color::CYAN);
         panel1->setVertScrollbar(2000, 100);
+
+        menu.addPopupMenu(fileMenu, "File");
+        fileMenu.addItem(IDM_FILEOPEN, "Open...");
+        fileMenu.addSeparator();
+        fileMenu.addItem(IDM_FILEEXIT, "Exit");
 
         menu.addPopupMenu(colorMenu, "Color");
         for(UINT i = 0; i < NB_COLOR; i++) {
@@ -128,6 +136,28 @@ protected:
                 panel1->setSelColor(selColor);
             }
         }
+
+        switch(id) {
+            case IDM_FILEEXIT:
+                close();
+                break;
+            case IDM_FILEOPEN:
+                {
+                    LPSTR fileName = getOpenFileName("Bitmap|*.bmp");
+                    if (fileName != NULL) {
+                        printf("fileName=%s\n", fileName);
+                        Bitmap* pBitmap = Bitmap::loadFromFile(fileName);
+                        if (pBitmap != NULL) {
+                            Graphic* pGraphic = panel1->getGraphic();
+                            pGraphic->drawBitmap(Point(0, 0), pBitmap);
+                            delete pGraphic;
+                        }
+                    }
+                }
+                break;
+        }
+
+
     }
 
     void onInitMenu(HMENU hMenu) {
