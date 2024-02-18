@@ -7,6 +7,7 @@
 #include "Font.h"
 #include "Color.h"
 #include "Vector.h"
+#include "Cursor.h"
 
 class DllExport WndAttr {
 public:    
@@ -86,12 +87,14 @@ protected:
 class DllExport CustCtrl : public Window {
 private:
     Color backColor;
+    Cursor* pCursor;
 public:   
     CustCtrl();
     void setBackColor(Color backColor);
     Color getBackColor() {return backColor;}
     void startTimer(UINT timerId, UINT delayMs);
     void stopTimer(UINT timerId);
+    void setCursor(Cursor* pCursor);
 
 protected:
     virtual void handleEvent(Event& evt);

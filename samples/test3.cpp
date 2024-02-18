@@ -20,6 +20,8 @@ class MyPanel : public Panel {
 public:
     MyPanel()     {
         pGraphic = NULL;
+
+        setCursor(Cursor::loadFromResource(Cursor::K_CROSS));
     }
 
     void setSelColor(Color selColor) {
@@ -68,7 +70,13 @@ protected:
     }
 };
 
-enum {IDM_RED = 100, IDM_GREEN, IDM_BLUE};
+enum {
+    IDM_RED = 100, 
+    IDM_GREEN, 
+    IDM_BLUE, 
+    IDM_FILEOPEN, 
+    IDM_FILEEXIT
+};
 
 struct ColorEntry  {
     char* label;
@@ -100,7 +108,7 @@ public:
     PopupMenu colorMenu;
     Color selColor;
 
-    enum {IDM_FILEOPEN = 100, IDM_FILEEXIT};
+    enum {};
 
     MyFrame() : Frame("Test 3") {
         panel1 = new MyPanel();
@@ -145,12 +153,13 @@ protected:
                 {
                     LPSTR fileName = getOpenFileName("Bitmap|*.bmp");
                     if (fileName != NULL) {
-                        printf("fileName=%s\n", fileName);
+                        //printf("fileName=%s\n", fileName);
                         Bitmap* pBitmap = Bitmap::loadFromFile(fileName);
                         if (pBitmap != NULL) {
                             Graphic* pGraphic = panel1->getGraphic();
                             pGraphic->drawBitmap(Point(0, 0), pBitmap);
                             delete pGraphic;
+                            delete pBitmap;
                         }
                     }
                 }

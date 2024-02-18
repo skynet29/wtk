@@ -200,7 +200,13 @@ CustCtrl::CustCtrl()
 {
     backColor = GetSysColor(COLOR_BACKGROUND);
     attr.className = MAINCLASSNAME;
+    pCursor = NULL;
 }
+
+ void CustCtrl::setCursor(Cursor* pCursor)
+ {
+    this->pCursor = pCursor;
+ }
 
 BOOL CustCtrl::registerMainWindow()
 {
@@ -209,7 +215,7 @@ BOOL CustCtrl::registerMainWindow()
     wc.hInstance = GetModuleHandle(NULL);
     wc.lpszClassName = MAINCLASSNAME;
     wc.lpfnWndProc = (WNDPROC) wndProc;
-    wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+    //wc.hCursor = LoadCursor(NULL, IDC_ARROW);
     wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
     //wc.hbrBackground = (HBRUSH)(COLOR_BACKGROUND+1);
 
@@ -263,6 +269,18 @@ void CustCtrl::handleEvent(Event& evt)
                 HBRUSH hBrush = CreateSolidBrush(backColor);
                 FillRect((HDC) evt.wParam, &rc, hBrush);
                 DeleteObject(hBrush);                
+            }
+            break;
+
+        case WM_SETCURSOR:
+            {
+                if (pCursor != NULL && LOWORD(evt.lParam) == HTCLIENT) {
+                    SetCursor(pCursor->getHandle());
+                    evt.lResult = TRUE;
+                }
+                else {
+                    evt.processDefault();
+                }
             }
             break;
 
