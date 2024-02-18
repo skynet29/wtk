@@ -69,6 +69,7 @@ public:
     void centerToParent();
     Bounds getBounds();
     Size getRealSize();
+    Size getClientSize();
 };
 
 class DllExport Control : public Window {

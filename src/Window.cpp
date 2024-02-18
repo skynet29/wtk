@@ -153,6 +153,13 @@ void Window::setParent(Container* parent)
     this->parent = parent;
 }
 
+Size Window::getClientSize()
+{
+    Rect rc;
+    GetClientRect(hWnd, &rc);
+    return Size(rc.getWidth(), rc.getHeight());
+}
+
 //////////////////////////////////////
 
 UINT Control::getId()

@@ -6,20 +6,18 @@
 #include "StrBuffer.h"
 #include "Panel.h"
 
-class Shape {
-public:
-    Shape(Bounds bounds, Color color) {
-        this->bounds = bounds;
-        this->color = color;
-    }
-    Bounds bounds;
-    Color color;
-};
+#define WIDTH 1920
+#define HEIGHT 1080
+
 
 class MyPanel : public Panel {
 public:
     MyPanel()     {
         pGraphic = NULL;
+        pBitmap = new Bitmap(WIDTH, HEIGHT);
+        setBackColor(Color::CYAN);
+        setVertScrollbar(HEIGHT, 100);
+        setHorzScrollbar(WIDTH, 100);
 
         setCursor(Cursor::loadFromResource(Cursor::K_CROSS));
     }
@@ -29,14 +27,13 @@ public:
     }
 protected:
     Graphic* pGraphic;
+    Bitmap* pBitmap;
     Point p1, p2;
-    Vector<Shape*> shapes;
     Color selColor;
 
     void onPaint(Graphic& gr) {       
-        for(UINT i = 0; i < shapes.getCount(); i++) {
-            gr.setBrush(shapes[i]->color);
-            gr.drawRect(shapes[i]->bounds);
+        if (pBitmap != NULL) {
+            gr.drawBitmap(Point(0, 0), pBitmap);
         }
     }
 
@@ -60,20 +57,34 @@ protected:
         pGraphic->setDrawMode(Graphic::K_NORMAL);
         pGraphic->setBrush(selColor);
         pGraphic->drawRect(p1, p2);
-        pt = getPageOrigin();
-        Bounds bds = Bounds(p1, p2);
-        bds.left += pt.x;
-        bds.top += pt.y;
-        shapes.add(new Shape(bds, selColor));
         delete pGraphic;
         pGraphic = NULL;
+
+        pt = getPageOrigin();
+        printf("org = (%d, %d)\n", pt.x, pt.y);
+
+        HDC hDC = GetDC(NULL);
+        HDC hMemDC = CreateCompatibleDC(hDC);
+        ReleaseDC(NULL, hDC);
+
+        Graphic* pBmpGraphic = pBitmap->getGraphic();
+        
+        Bounds bds(p1, p2);
+        bds.top += pt.y;
+        bds.left += pt.x;
+        pBmpGraphic->setBrush(selColor);
+        pBmpGraphic->drawRect(bds);
+        delete pBmpGraphic;
+
     }
 };
 
 enum {
     IDM_RED = 100, 
     IDM_GREEN, 
-    IDM_BLUE
+    IDM_BLUE, 
+    IDM_FILEOPEN, 
+    IDM_FILEEXIT
 };
 
 struct ColorEntry  {
@@ -111,8 +122,12 @@ public:
     MyFrame() : Frame("Test 3") {
         panel1 = new MyPanel();
         addChild(panel1);
-        panel1->setBackColor(Color::CYAN);
-        panel1->setVertScrollbar(2000, 100);
+
+
+        menu.addPopupMenu(fileMenu, "File");
+        fileMenu.addItem(IDM_FILEOPEN, "Open...");
+        fileMenu.addSeparator();
+        fileMenu.addItem(IDM_FILEEXIT, "Exit");
 
         menu.addPopupMenu(colorMenu, "Color");
         for(UINT i = 0; i < NB_COLOR; i++) {
@@ -137,6 +152,29 @@ protected:
                 panel1->setSelColor(selColor);
             }
         }
+
+        switch(id) {
+            case IDM_FILEEXIT:
+                close();
+                break;
+            case IDM_FILEOPEN:
+                {
+                    LPSTR fileName = getOpenFileName("Bitmap|*.bmp");
+                    if (fileName != NULL) {
+                        //printf("fileName=%s\n", fileName);
+                        Bitmap* pBitmap = Bitmap::loadFromFile(fileName);
+                        if (pBitmap != NULL) {
+                            Graphic* pGraphic = panel1->getGraphic();
+                            pGraphic->drawBitmap(Point(0, 0), pBitmap);
+                            delete pGraphic;
+                            delete pBitmap;
+                        }
+                    }
+                }
+                break;
+        }
+
+
     }
 
     void onInitMenu(HMENU hMenu) {

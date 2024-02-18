@@ -1,8 +1,23 @@
 #include "Bitmap.h"
+#include "Graphic.h"
 
 Bitmap::Bitmap(HBITMAP hBitmap)
 {
     this->hBitmap = hBitmap;
+}
+
+Bitmap::Bitmap(UINT width, UINT height, Color backColor)
+{
+	HDC hDC = GetDC(NULL);
+	hBitmap = CreateCompatibleBitmap(hDC, width, height);
+	HDC hMemDC = CreateCompatibleDC(hDC);
+	ReleaseDC(NULL, hDC);
+	SelectObject(hMemDC, hBitmap);
+	HBRUSH hBrush = CreateSolidBrush(backColor);
+	Rect rc(0, 0, width, height);
+	FillRect(hMemDC, &rc, hBrush);
+	DeleteObject(hBrush);
+	DeleteDC(hMemDC);
 }
     
 Bitmap::~Bitmap()
@@ -59,4 +74,14 @@ Bitmap* Bitmap::createMask(Color clTransparent)
 	ReleaseDC(NULL, hDC);
 
 	return new Bitmap(hMaskBitmap);
+}
+
+Graphic* Bitmap::getGraphic() 
+{
+	HDC hDC = GetDC(NULL);
+	HDC hMemDC = CreateCompatibleDC(hDC);
+	ReleaseDC(NULL, hDC);
+	SelectObject(hMemDC, hBitmap);
+
+	return new MemGraphic(hMemDC);
 }

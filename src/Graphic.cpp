@@ -10,6 +10,7 @@ Graphic::Graphic(HDC hDC)
     SetBkMode(hDC, TRANSPARENT);
 }
 
+
 void Graphic::setDrawMode(DrawMode mode)
 {
     switch(mode) {
@@ -145,5 +146,16 @@ WndGraphic::WndGraphic(HWND hWnd) : Graphic(NULL)
 
 WndGraphic::~WndGraphic()
 {
+    printf("WndGraphic::~WndGraphic\n");
     ReleaseDC(hWnd, hDC);
+}
+
+////////////////////////:
+MemGraphic::MemGraphic(HDC hDC) : Graphic(hDC) {
+
+}
+
+MemGraphic::~MemGraphic() 
+{
+    DeleteDC(hDC);
 }

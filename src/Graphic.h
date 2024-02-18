@@ -11,13 +11,14 @@ protected:
     HPEN hPen;
     HBRUSH hBrush;
 
-    Graphic(HDC hdc);
 public:
     enum DrawMode {
         K_NORMAL,
         K_NOT,
         K_XOR
     };
+
+    Graphic(HDC hdc);
 
     virtual ~Graphic();
 
@@ -54,6 +55,15 @@ public:
     ~WndGraphic();
 
     friend class Panel;
+};
+
+class DllExport MemGraphic : public Graphic {
+private:
+    MemGraphic(HDC hDC);
+public:
+    ~MemGraphic();
+
+    friend class Bitmap;
 };
 
 #endif
