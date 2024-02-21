@@ -44,14 +44,16 @@ LPSTR Frame::getOpenFileName(LPSTR strFilter, LPSTR strInitDir)
 	OPENFILENAME ofn;
 	ZeroMemory(&ofn, sizeof(ofn));
     static char strFileName[512];
-	LPSTR lpTemp = NULL;
 	
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = hWnd;
 
+	StrBuffer buff;
+
 	if (strFilter != NULL)
 	{
-		lpTemp = strdup(strFilter);
+		
+		LPSTR lpTemp = buff.format("%s|", strFilter);
 
 		LPSTR lpTemp2 = lpTemp;
 		while (lpTemp2 = strchr(lpTemp2, '|'))
@@ -67,8 +69,6 @@ LPSTR Frame::getOpenFileName(LPSTR strFilter, LPSTR strInitDir)
 
 	ofn.lpstrInitialDir = strInitDir;
     BOOL ret = GetOpenFileName(&ofn);
-
-    if (lpTemp) free(lpTemp);
 
     return (ret) ? strFileName : NULL;
 }

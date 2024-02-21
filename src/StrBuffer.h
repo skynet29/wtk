@@ -13,7 +13,7 @@ public:
     ~StrBuffer();
     char* getBuffer() {return buffer;}
     char* allocate(UINT size);
-    void format(const char* format, ...);
+    char* format(const char* format, ...);
     void free();
     void append(char* text);
     BOOL equals(char* text);

@@ -13,7 +13,7 @@ StrBuffer::StrBuffer(char* text)
 }
 
 
-void StrBuffer::format(const char* format, ...)
+char* StrBuffer::format(const char* format, ...)
 {
     free();
     static char buff[1024];
@@ -25,7 +25,9 @@ void StrBuffer::format(const char* format, ...)
         buffer = new char[len];
         strcpy(buffer, buff);
     }
-    va_end(args);    
+    va_end(args); 
+     
+    return buffer;  
 }
 
 void StrBuffer::append(char* text) 

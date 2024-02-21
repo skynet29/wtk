@@ -16,6 +16,7 @@ public:
     ULONG getSize();
 
     static BOOL readTextFile(LPSTR fileName, StrBuffer& text);
+    static void findFile(LPSTR strFilter, StrVector &vector);
 
 
 private:
