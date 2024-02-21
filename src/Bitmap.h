@@ -18,8 +18,7 @@ public:
     Size getSize();
     Bitmap* createMask(Color clTransparent);
     Graphic* getGraphic();
-
-
+    BOOL saveToFile(LPSTR fileName);
 
     static Bitmap* loadFromFile(LPSTR fileName);
     static Bitmap* loadFromResource(UINT resId, HMODULE hModule = NULL);
