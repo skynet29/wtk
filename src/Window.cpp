@@ -205,7 +205,7 @@ void Event::processMdiDefault()
 
 CustCtrl::CustCtrl()
 {
-    backColor = GetSysColor(COLOR_BACKGROUND);
+    backColor = Color::WHITE;
     attr.className = MAINCLASSNAME;
     pCursor = NULL;
 }

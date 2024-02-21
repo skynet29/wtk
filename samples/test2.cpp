@@ -104,8 +104,10 @@ public:
     MyFrame() : Frame("My first application") {
 
         font = new Font("Courier New", 12, Font::ITALIC);
+        setBackColor(Color::getSysColor());
 
         cont1 = new Container();
+        cont1->setBackColor(Color::getSysColor());
         listbox1 = new ListBox(ID_LISTBOX1, LBS_SORT);
         text1 = new TextField(ID_TEXT1, ES_NUMBER);
         btn1 = new Button("Button1", ID_BUTTON1);
