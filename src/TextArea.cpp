@@ -110,25 +110,3 @@ void TextArea::append(LPSTR strText)
     text.append(strText);
 	setText(text.getBuffer());
 }
-
-BOOL TextArea::loadFromFile(LPSTR fileName)
-{
-    FILE* fd;
-    fd = fopen(fileName, "rb");
-    if (fd == NULL) return FALSE;
-    
-	fseek(fd, 0, SEEK_END);
-	long length = ftell(fd);
-	fseek(fd, 0, SEEK_SET);
-
-	StrBuffer text;
-    LPSTR buffer = text.allocate(length + 1);
-	int byteRead = fread(buffer, length, 1, fd);
-	if (byteRead == 1) {
-        buffer[length] = 0;
-		setText(buffer);
-    }
-    fclose(fd);
-
-    return (byteRead == 1);		
-}

@@ -7,8 +7,10 @@
 #include "ToolBar.h"
 #include "MdiCtrl.h"
 #include "TextArea.h"
+#include "File.h"
 
-enum {
+enum
+{
     ID_FILEOPEN = 200,
     ID_FILENEW,
     ID_FILESAVE,
@@ -18,36 +20,52 @@ enum {
     ID_EXIT
 };
 
-class MyChild : public MdiChild {
+class MyChild : public MdiChild
+{
 private:
-    TextArea* pTextArea;
-public: 
-    MyChild(LPSTR title) : MdiChild(title) {
+    TextArea *pTextArea;
+    Font* pFont;
+public:
+    MyChild(LPSTR title) : MdiChild(title)
+    {
         addChild(pTextArea = new TextArea());
+        pFont = new Font("Courier New", 12);
+
     }
 
 protected:
-    void onSize(UINT width, UINT height) {
+    void onSize(UINT width, UINT height)
+    {
         pTextArea->setSize(width, height);
     }
 
-    void onFocus() {
+    void onCreate() {
+        MdiChild::onCreate();
+
+        pTextArea->setFont(pFont);
+    }
+
+    void onFocus()
+    {
         pTextArea->setFocus();
     }
+
+    friend class MyFrame;
 };
 
-
-class MyFrame : public Frame {
+class MyFrame : public Frame
+{
 private:
     Menu menuBar;
-    PopupMenu fileMenu;    
+    PopupMenu fileMenu;
     PopupMenu wndMenu;
-    ToolBar* toolbar;
-    MdiCtrl* mdiCtrl;
+    ToolBar *toolbar;
+    MdiCtrl *mdiCtrl;
     UINT childCount;
-public:
 
-    MyFrame() : Frame("Test 1") {
+public:
+    MyFrame() : Frame("Test 1")
+    {
 
         childCount = 0;
 
@@ -59,55 +77,79 @@ public:
         fileMenu.addItem(ID_FILEOPEN, "Open...", new Shortcut('O', FCONTROL));
         fileMenu.addSeparator();
         fileMenu.addItem(ID_EXIT, "Exit");
-        
+
         menuBar.addPopupMenu(wndMenu, "Window");
         wndMenu.addItem(ID_CASCADE, "Cascade");
         wndMenu.addItem(ID_TILEHORIZONTAL, "Tile Horizontally");
         wndMenu.addItem(ID_TILEVERTICAL, "Tile Vertically");
 
-        //fileMenu.setItemEnabled(ID_FILEOPEN, FALSE);
+        // fileMenu.setItemEnabled(ID_FILEOPEN, FALSE);
         setMenu(menuBar);
         mdiCtrl->setWndMenu(wndMenu);
     }
+
 protected:
-    void onSize(UINT width, UINT height) {
+    void onSize(UINT width, UINT height)
+    {
         Size size = toolbar->resize();
         Rect rc(0, 0, width, height);
         rc.top += size.height;
         mdiCtrl->setBounds(rc);
     }
 
-    void onCommand(UINT id) {
+    void onCommand(UINT id)
+    {
         StrBuffer str;
-        
-        switch(id) {
-            case ID_CASCADE:
-                mdiCtrl->cascade();
-                break;
 
-            case ID_TILEHORIZONTAL:
-                mdiCtrl->tileHorizontally();
-                break;
+        switch (id)
+        {
+        case ID_CASCADE:
+            mdiCtrl->cascade();
+            break;
 
-            case ID_TILEVERTICAL:
-                mdiCtrl->tileVertically();
-                break;
+        case ID_TILEHORIZONTAL:
+            mdiCtrl->tileHorizontally();
+            break;
 
-            case ID_FILENEW:
+        case ID_TILEVERTICAL:
+            mdiCtrl->tileVertically();
+            break;
+
+        case ID_FILEOPEN:
+        {
+            LPSTR fileName = getOpenFileName("Text|*.txt|Javascript|*.js");
+            if (fileName != NULL)
+            {
+                printf("fileName=%s\n", fileName);
+                StrBuffer text;
+                if (File::readTextFile(fileName, text))
                 {
-                    str.format("Child #%d", ++childCount);
-                    mdiCtrl->createChild(new MyChild(str.getBuffer()));
+                    MyChild *pChild = new MyChild(fileName);
+                    mdiCtrl->createChild(pChild);
+                    pChild->pTextArea->setText(text.getBuffer());
                 }
-                break;
+                else {
+                    printf("fail to read file\n");
+                }
+            }
+        }
+        break;
 
-            case ID_EXIT:
-                close();
-                break;
+        case ID_FILENEW:
+        {
+            str.format("Child #%d", ++childCount);
+            mdiCtrl->createChild(new MyChild(str.getBuffer()));
+        }
+        break;
 
+        case ID_EXIT:
+            close();
+            break;
         }
     }
 
-    void onCreate() {
+    void onCreate()
+    {
         Frame::onCreate();
 
         toolbar->addSeparator();
@@ -116,12 +158,14 @@ protected:
         toolbar->addStdButton(ToolBar::K_FILESAVE, ID_FILESAVE, NULL, ToolBar::K_CHECK);
     }
 
-    void handleEvent(Event& evt) {
+    void handleEvent(Event &evt)
+    {
         Frame::handleEvent(evt);
         mdiCtrl->processDefault(evt);
     }
 
-    BOOL canClose() {
+    BOOL canClose()
+    {
         showMsg("Bye");
         return TRUE;
     }
@@ -129,9 +173,9 @@ protected:
 
 int APIENTRY WinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
-                     LPSTR     lpCmdLine,
-                     int       nCmdShow)
-{ 
+                     LPSTR lpCmdLine,
+                     int nCmdShow)
+{
     Application app;
     MyFrame frame;
 
