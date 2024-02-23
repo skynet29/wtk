@@ -1,23 +1,29 @@
 #include "Layout.h"
 #include "Button.h"
 
-Layout::Layout(Container* pContainer, int left, int top, LayoutType type)
+Layout::Layout(Container* pContainer, int left, int top)
 {
     this->left = left;
     this->top = top;
+    this->curX = left;
+    this->curY = top;
     this->pContainer = pContainer;
-    this->type = type;
+    this->maxLineHeight = 0;
 }
 
 void Layout::add(Window* pCtrl, Size size, int pad)
 {
-    pContainer->addChild(pCtrl, Bounds(left, top, size.width, size.height));
-    if (type == K_HORIZONTAL) {
-        left += size.width + pad;
-    }
-    else {
-        top += size.height + pad;
-    }
+    curX += pad;
+    pContainer->addChild(pCtrl, Bounds(curX, curY, size.width, size.height));
+    curX += size.width;
+    maxLineHeight = max(maxLineHeight, size.height);
+}
+
+void Layout::endl(int pad) 
+{
+    curX = left;
+    curY += maxLineHeight + pad;
+    maxLineHeight = 0;
 }
 
 void Layout::addLabel(LPSTR strText, UINT width, UINT height, int pad) 

@@ -48,18 +48,17 @@ public:
 
         Layout layout(this, 10, 10);
         layout.addLabel("Port", 0, 25);
-        layout.add(txtPort, Size(50, 25));
-        layout.addLabel("HostName", 0, 25);
-        layout.add(txtHost, Size(100, 25), 30);
-        layout.add(btnConnect, Size(80, 25));
-        layout.add(btnClose, Size(80, 25));
-
-        Layout layout2(this, 10, 50);
-        layout2.addLabel("Msg", 0, 25);
-        layout2.add(txtMsg, Size(100, 25));
-        layout2.add(btnSend, Size(80, 25));
-
-        addChild(txtRecvMsg, Bounds(10, 90, 200, 100));
+        layout.add(txtPort, Size(50, 25), 5);
+        layout.addLabel("HostName", 0, 25, 10);
+        layout.add(txtHost, Size(100, 25), 5);
+        layout.add(btnConnect, Size(80, 25), 10);
+        layout.add(btnClose, Size(80, 25), 10);
+        layout.endl();
+        layout.addLabel("Msg", 0, 25);
+        layout.add(txtMsg, Size(100, 25), 5);
+        layout.add(btnSend, Size(80, 25), 10);
+        layout.endl();
+        layout.add(txtRecvMsg, Size(200, 100));
         
         updateState(FALSE);
     }

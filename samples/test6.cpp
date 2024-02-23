@@ -22,13 +22,14 @@ public:
 
     MyFrame() : Frame("Test 6") {
         Layout layout(this, 10, 10);
-        layout.add(new Label("Port"), Size(30, 25));
-        layout.add(txtPort = new TextField(0, ES_NUMBER), Size(50, 25));
-        layout.add(btnListen = new Button("Listen", ID_BTNLISTEN), Size(50, 25));
+        layout.addLabel("Port", 30, 25);
+        layout.add(txtPort = new TextField(0, ES_NUMBER), Size(50, 25), 5);
+        layout.add(btnListen = new Button("Listen", ID_BTNLISTEN), Size(50, 25), 10);
+        layout.endl();
+        layout.add(txtInfo = new TextArea(), Size(300, 300));
 
         txtPort->setText("60280");
 
-        addChild(txtInfo = new TextArea(), Bounds(10, 40, 300, 300));
     }
 
     void broadcast(LPSTR msg) {

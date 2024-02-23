@@ -6,19 +6,21 @@
 class DllExport Layout {
 
 public:
-    enum LayoutType {
-        K_HORIZONTAL, K_VERTICAL
-    };
-    Layout(Container* pContainer, int left, int top, LayoutType type = K_HORIZONTAL);
 
-    void add(Window* pCtrl, Size size, int pad = 10);
-    void addLabel(LPSTR strText, UINT width, UINT height, int pad = 10);
+    Layout(Container* pContainer, int left, int top);
+
+    void add(Window* pCtrl, Size size, int pad = 0);
+    void addLabel(LPSTR strText, UINT width, UINT height, int pad = 0);
+    void endl(int pad = 10); 
+
 
 private:
     int left;
     int top;
+    int maxLineHeight;
+    int curX;
+    int curY;
     Container* pContainer;
-    LayoutType type;    
 };
 
 #endif

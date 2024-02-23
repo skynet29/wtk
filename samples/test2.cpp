@@ -19,7 +19,8 @@
 
 #include <stdio.h>
 
-enum {
+enum
+{
     ID_BUTTON1 = 100,
     ID_LISTBOX1,
     ID_TEXT1,
@@ -29,79 +30,95 @@ enum {
     ID_SLIDER1
 };
 
-class MyPanel : public Panel {
+class MyPanel : public Panel
+{
 public:
-    MyPanel() : Panel(WS_BORDER) {
+    MyPanel() : Panel(WS_BORDER)
+    {
+    }
 
-    }   
 protected:
-    void onPaint(Graphic& gr) {
+    void onPaint(Graphic &gr)
+    {
         gr.setPen(Color::RED, 1, PS_DASHDOT);
         gr.useHollowBrush();
         gr.drawRect(Bounds(5, 5, 100, 100));
         gr.useHollowPen();
         gr.setBrush(Color::GREEN);
         gr.drawCircle(Point(80, 80), 50);
-
     }
 };
 
-class MyTableItem : public TableItem {
+class MyTableItem : public TableItem
+{
 public:
     StrBuffer name;
     StrBuffer age;
 
-    MyTableItem(LPSTR name, LPSTR age) {
+    MyTableItem(LPSTR name, LPSTR age)
+    {
         this->name.set(name);
         this->age.set(age);
     }
+
 protected:
-    char* getColumnData(int numCol) {
-        switch(numCol) {
-            case 0:
-                return name.getBuffer();
-            case 1:
-                return age.getBuffer();
-            default:
-                return NULL;
+    char *getColumnData(int numCol)
+    {
+        switch (numCol)
+        {
+        case 0:
+            return name.getBuffer();
+        case 1:
+            return age.getBuffer();
+        default:
+            return NULL;
         }
     }
 };
 
-class MyFrame : public Frame {
+class MyFrame : public Frame
+{
 private:
-    ListBox* listbox1;
-    TextField* text1;
-    Button* btn1;
-    Button* btn2;
-    Font* font;
-    MyPanel* panel1;
-    Container* cont1;
-    Label* label1;
-    ComboBox* combo1;
-    TableCtrl* table1;
-    TreeCtrl* tree1;
-    SliderCtrl* slider1;
-    TabCtrl* tab1;
+    ListBox *listbox1;
+    TextField *text1;
+    Button *btn1;
+    Button *btn2;
+    Font *font;
+    MyPanel *panel1;
+    Container *cont1;
+    Label *label1;
+    ComboBox *combo1;
+    TableCtrl *table1;
+    TreeCtrl *tree1;
+    SliderCtrl *slider1;
+    TabCtrl *tab1;
+
 public:
-    void initCtrl() {
-        Layout layout2(cont1, 0, 0, Layout::K_VERTICAL);
+    void initCtrl()
+    {
+        Layout layout2(cont1, 0, 0);
         layout2.add(listbox1, Size(100, 200));
+        layout2.endl();
         layout2.add(combo1, Size(100, 25));
+        layout2.endl();
+
         layout2.add(text1, Size(100, 25));
+        layout2.endl();
+
         layout2.add(btn2, Size(100, 25));
 
         Layout layout(this, 10, 40);
         layout.add(label1, Size(100, 25));
-        layout.add(btn1, Size(80, 25));
-        layout.add(cont1, cont1->getPackSize());
-        layout.add(panel1, Size(200, 200));
-        //layout.add(table1, Size(200, 200));
-        //layout.add(tree1, Size(200, 200));
-        layout.add(tab1, Size(200, 200));
-        layout.add(slider1, Size(100, 25));
+        layout.add(btn1, Size(80, 25), 10);
+        layout.add(cont1, cont1->getPackSize(), 10);
+        layout.add(panel1, Size(200, 200), 10);
+        // layout.add(table1, Size(200, 200));
+        // layout.add(tree1, Size(200, 200));
+        layout.add(tab1, Size(200, 200), 10);
+        layout.add(slider1, Size(100, 25), 10);
     }
-    MyFrame() : Frame("My first application") {
+    MyFrame() : Frame("My first application")
+    {
 
         font = new Font("Courier New", 12, Font::ITALIC);
         setBackColor(Color::getSysColor());
@@ -123,87 +140,95 @@ public:
 
         initCtrl();
 
-        //fileMenu.setItemEnabled(ID_FILEOPEN, FALSE);
-        //setBackColor(Color::CYAN);
-        //btn1->setEnabled(FALSE);
+        // fileMenu.setItemEnabled(ID_FILEOPEN, FALSE);
+        // setBackColor(Color::CYAN);
+        // btn1->setEnabled(FALSE);
     }
+
 protected:
-    void onRightClick(UINT id, Point pt) {
+    void onRightClick(UINT id, Point pt)
+    {
         StrBuffer str;
-        TreeNode * pNode = tree1->getNodeAt(pt);        
+        TreeNode *pNode = tree1->getNodeAt(pt);
         str.format("onRightClick id=%d node=%p", id, pNode);
         showMsg(str.getBuffer());
     }
 
-    void onDblClick(UINT id) {
-         StrBuffer str;
-         if (id == ID_LISTBOX1) {
+    void onDblClick(UINT id)
+    {
+        StrBuffer str;
+        if (id == ID_LISTBOX1)
+        {
             listbox1->getSelItem(str);
-            showMsg(str.getBuffer());             
-         }
-    }
-
-    void onSelChange(UINT id) {
-
-        StrBuffer str;
-        
-        switch(id) {
-            case ID_TREE1:
-                {
-                    tree1->getSelNode()->getText(str);
-                    showMsg(str.getBuffer());
-                }
-                break;
-
-            case ID_COMBO1:
-                combo1->getSelItem(str);
-                showMsg(str.getBuffer());
-                break;
-
-            case ID_SLIDER1:
-                str.format("%d", slider1->getValue());
-                label1->setText(str.getBuffer());
-                break;
-        }        
-    }
-
-    void onCommand(UINT id) {
-        StrBuffer str;
-        
-        switch(id) {
-
-            case ID_BUTTON1:
-                {
-                    Color color = panel1->getBackColor();
-                    if (color.chooseColor()) {
-                        panel1->setBackColor(color);
-                    }
-                }
-                break;
-
-            case ID_BUTTON2:
-                {
-                    Dialog dialog1;
-                    int ret = dialog1.run();
-                    str.format("ret=%d", ret);
-                    showMsg(str.getBuffer());
-
-                }
-                break;                
-
+            showMsg(str.getBuffer());
         }
     }
 
+    void onSelChange(UINT id)
+    {
 
-    BOOL canClose() {
+        StrBuffer str;
+
+        switch (id)
+        {
+        case ID_TREE1:
+        {
+            tree1->getSelNode()->getText(str);
+            showMsg(str.getBuffer());
+        }
+        break;
+
+        case ID_COMBO1:
+            combo1->getSelItem(str);
+            showMsg(str.getBuffer());
+            break;
+
+        case ID_SLIDER1:
+            str.format("%d", slider1->getValue());
+            label1->setText(str.getBuffer());
+            break;
+        }
+    }
+
+    void onCommand(UINT id)
+    {
+        StrBuffer str;
+
+        switch (id)
+        {
+
+        case ID_BUTTON1:
+        {
+            Color color = panel1->getBackColor();
+            if (color.chooseColor())
+            {
+                panel1->setBackColor(color);
+            }
+        }
+        break;
+
+        case ID_BUTTON2:
+        {
+            Dialog dialog1;
+            int ret = dialog1.run();
+            str.format("ret=%d", ret);
+            showMsg(str.getBuffer());
+        }
+        break;
+        }
+    }
+
+    BOOL canClose()
+    {
         showMsg("Bye");
         return TRUE;
     }
 
-    void onCreate() {
+    void onCreate()
+    {
         Frame::onCreate();
 
-        //text1->setMaxChar(5);
+        // text1->setMaxChar(5);
         listbox1->setFont(font);
         btn1->setFont(font);
         label1->setFont(font);
@@ -220,15 +245,14 @@ protected:
         tab1->addTab("Tab1", table1);
         tab1->addTab("Tab2", tree1);
 
-
         table1->addColumn("Name", 50);
         table1->addColumn("Age", 50);
 
         table1->addItem(new MyTableItem("Marc", "52"));
         table1->addItem(new MyTableItem("Quentin", "22"));
 
-        Bitmap* pBitmap;
-        
+        Bitmap *pBitmap;
+
         pBitmap = Bitmap::loadFromFile("bitmaps\\variable.bmp");
         int bmp1 = tree1->addBitmap(pBitmap);
         delete pBitmap;
@@ -236,22 +260,21 @@ protected:
         int bmp2 = tree1->addBitmap(pBitmap);
         delete pBitmap;
 
-        TreeNode* node1 = tree1->addNode("Georges");
-        TreeNode* node2 = node1->addNode("Marc", bmp2);
+        TreeNode *node1 = tree1->addNode("Georges");
+        TreeNode *node2 = node1->addNode("Marc", bmp2);
         node1->addNode("Christelle");
         node2->addNode("Quentin");
         tree1->getRootNode()->setExpanded(TRUE);
 
         slider1->setRange(0, 100);
-
     }
 };
 
 int APIENTRY WinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
-                     LPSTR     lpCmdLine,
-                     int       nCmdShow)
-{ 
+                     LPSTR lpCmdLine,
+                     int nCmdShow)
+{
     Application app;
     MyFrame frame;
 
