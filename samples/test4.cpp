@@ -75,10 +75,6 @@ protected:
             pt = getPageOrigin();
             printf("org = (%d, %d)\n", pt.x, pt.y);
 
-            HDC hDC = GetDC(NULL);
-            HDC hMemDC = CreateCompatibleDC(hDC);
-            ReleaseDC(NULL, hDC);
-
             Graphic *pBmpGraphic = pBitmap->getGraphic();
 
             Bounds bds(p1, p2);

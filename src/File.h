@@ -17,6 +17,7 @@ public:
 
     static BOOL readTextFile(LPSTR fileName, StrBuffer& text);
     static void findFile(LPSTR strFilter, StrVector &vector);
+    static void findFolder(LPSTR strPath, StrVector &vector);
 
 
 private:

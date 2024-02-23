@@ -17,11 +17,16 @@ public:
     TreeNode* getPrevSibling();
     TreeNode* getNextSibling();
     TreeNode* getFirstChild();
+    void getNodePath(StrBuffer &path);
+
     void getText(StrBuffer& text);
     void setText(LPSTR strText);
+    void clear();
 
 private:
     TreeNode(LPSTR text, int bitmapIdx, TreeCtrl* pTreeCtrl, TreeNode* parent);
+
+    void getNodeInfo(StrVector &vector);
 
     HTREEITEM hTreeItem;
     TreeCtrl* pTreeCtrl;
@@ -43,8 +48,8 @@ public:
     TreeNode* getNodeAt(Point pt);
     UINT addBitmap(Bitmap* pBitmap);
 
-
 protected:
+    BOOL isDynamic;
     void onNotify(Event& evt);
 private:
     TreeNode* getNode(HTREEITEM hItem);
@@ -54,6 +59,16 @@ private:
 
     friend class TreeNode;
 
+};
+
+class DllExport DynamicTreeCtrl : public TreeCtrl {
+public:
+    DynamicTreeCtrl(UINT id);
+protected:
+    void onNotify(Event& evt);
+
+    virtual BOOL onItemHasChildren(TreeNode* pNode) = 0;
+    virtual void onItemExpanding(TreeNode* pNode) = 0;
 };
 
 #endif

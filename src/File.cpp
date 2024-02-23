@@ -1,18 +1,20 @@
 #include "File.h"
 #include "StrVector.h"
 
-File::File() 
+File::File()
 {
     fd = NULL;
 }
 
-File::~ File() 
+File::~File()
 {
     close();
 }
 
-void File::close() {
-    if (fd != NULL) {
+void File::close()
+{
+    if (fd != NULL)
+    {
         fclose(fd);
         fd = NULL;
     }
@@ -36,45 +38,78 @@ BOOL File::read(LPBYTE pBuffer, UINT bufSize)
 
 ULONG File::getSize()
 {
-	long cur = ftell(fd);
-	fseek(fd, 0, SEEK_END);
-	long ret = ftell(fd);
-	fseek(fd, cur, SEEK_SET);
-	return ret;
+    long cur = ftell(fd);
+    fseek(fd, 0, SEEK_END);
+    long ret = ftell(fd);
+    fseek(fd, cur, SEEK_SET);
+    return ret;
 }
 
-BOOL File::readTextFile(LPSTR fileName, StrBuffer& text)
+BOOL File::readTextFile(LPSTR fileName, StrBuffer &text)
 {
     File fd;
-    if (!fd.open(fileName, "rb")) 
+    if (!fd.open(fileName, "rb"))
         return FALSE;
-    
-	long length = fd.getSize();
+
+    long length = fd.getSize();
 
     LPSTR buffer = text.allocate(length + 1);
-	if (!fd.read((LPBYTE)buffer, length))
+    if (!fd.read((LPBYTE)buffer, length))
         return FALSE;
 
     buffer[length] = 0;
 
-    return TRUE;	
+    return TRUE;
 }
 
 void File::findFile(LPSTR strFilter, StrVector &vector)
 {
-	WIN32_FIND_DATA data;
-	HANDLE hFind;
+    WIN32_FIND_DATA data;
+    HANDLE hFind;
 
-	hFind = FindFirstFile(strFilter, &data);
+    hFind = FindFirstFile(strFilter, &data);
 
-	if (hFind == INVALID_HANDLE_VALUE)
-		return ;
+    if (hFind == INVALID_HANDLE_VALUE)
+        return;
 
-	do
-	{
-		vector.add(data.cFileName);			
-	}
-	while (FindNextFile(hFind, &data));
+    do
+    {
+        BOOL isDir = (data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
+        BOOL isHidden = (data.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN) != 0;
 
-	FindClose(hFind);
+        if (!isDir && !isHidden)
+            vector.add(data.cFileName);
+
+    } while (FindNextFile(hFind, &data));
+
+    FindClose(hFind);
+}
+
+void File::findFolder(LPSTR path, StrVector &vector)
+{
+    WIN32_FIND_DATA data;
+    HANDLE hFind;
+    StrBuffer strPath;
+    strPath.format("%s\\*", path);
+
+    hFind = FindFirstFile(strPath.getBuffer(), &data);
+
+    if (hFind == INVALID_HANDLE_VALUE)
+        return;
+
+    do
+    {
+        BOOL isDir = (data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
+        BOOL isHidden = (data.dwFileAttributes & FILE_ATTRIBUTE_HIDDEN) != 0;
+
+        StrBuffer fileName(data.cFileName);
+
+        if (isDir && !isHidden && !fileName.equals(".") && !fileName.equals(".."))
+        {
+            vector.add(data.cFileName);
+        }
+
+    } while (FindNextFile(hFind, &data));
+
+    FindClose(hFind);
 }

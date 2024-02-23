@@ -12,3 +12,4 @@ wine $BIN/link /SUBSYSTEM:WINDOWS /OUT:test3.exe test3.obj ../lib/wtk.lib
 wine $BIN/link /SUBSYSTEM:WINDOWS /OUT:test4.exe test4.obj ../lib/wtk.lib
 wine $BIN/link /SUBSYSTEM:WINDOWS /OUT:test5.exe test5.obj ../lib/wtk.lib
 wine $BIN/link /SUBSYSTEM:WINDOWS /OUT:test6.exe test6.obj ../lib/wtk.lib
+wine $BIN/link /SUBSYSTEM:WINDOWS /OUT:test7.exe test7.obj ../lib/wtk.lib
