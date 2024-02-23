@@ -18,6 +18,8 @@ public:
         this->size = 0;
     }
 
+    T* getBuffer() {return buffer;}
+
     void grow() {
         T* tmpBuff = new T[size + growSize];
         if (buffer != NULL) {
@@ -49,8 +51,6 @@ public:
     BOOL removeAt(UINT idx)
     {
         if (idx >= count) return FALSE;
-
-        void* temp = buffer[idx];
 
         if ( (idx + 1) != count ) 
         {

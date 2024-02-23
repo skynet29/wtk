@@ -1,24 +1,5 @@
 #include "Cursor.h"
 
-Cursor::Cursor(HCURSOR hCursor)
-{
-    this->hCursor = hCursor;
-
-}
-
-Cursor::~Cursor()
-{
-    DeleteObject(hCursor);
-}
-
-
-Cursor* Cursor::loadFromResource(int resId)
-{
-    HCURSOR hCursor = LoadCursor(NULL, MAKEINTRESOURCE(resId));
-    return (hCursor != NULL) ? new Cursor(hCursor) : NULL;
-}
-
-
 const UINT Cursor::K_ARROW           = 32512;
 const UINT Cursor::K_IBEAM           = 32513;
 const UINT Cursor::K_WAIT            = 32514;

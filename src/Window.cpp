@@ -81,6 +81,7 @@ void Window::getText(StrBuffer& buff)
 
 void Window::setText(LPSTR text)
 {
+    attr.title = text;
     SetWindowText(hWnd, text);
 }
 
@@ -178,6 +179,11 @@ void Control::setFont(Font* font)
     sendMsg(WM_SETFONT, (WPARAM) font->getHandle(), TRUE);
 }
 
+void Control::create(HWND hParent) {
+    Window::create(hParent);
+    setFont(Font::getDefaultGuiFont());
+}
+
 
 ////////////////////////////////////
 
@@ -207,12 +213,12 @@ CustCtrl::CustCtrl()
 {
     backColor = Color::WHITE;
     attr.className = MAINCLASSNAME;
-    pCursor = NULL;
+    hCursor = NULL;
 }
 
- void CustCtrl::setCursor(Cursor* pCursor)
+ void CustCtrl::setCursor(UINT resId)
  {
-    this->pCursor = pCursor;
+    hCursor = LoadCursor(NULL, MAKEINTRESOURCE(resId));
  }
 
 BOOL CustCtrl::registerMainWindow()
@@ -281,8 +287,8 @@ void CustCtrl::handleEvent(Event& evt)
 
         case WM_SETCURSOR:
             {
-                if (pCursor != NULL && LOWORD(evt.lParam) == HTCLIENT) {
-                    SetCursor(pCursor->getHandle());
+                if (hCursor != NULL && LOWORD(evt.lParam) == HTCLIENT) {
+                    SetCursor(hCursor);
                     evt.lResult = TRUE;
                 }
                 else {

@@ -12,6 +12,8 @@ public:
     Layout(Container* pContainer, int left, int top, LayoutType type = K_HORIZONTAL);
 
     void add(Window* pCtrl, Size size, int pad = 10);
+    void addLabel(LPSTR strText, UINT width, UINT height, int pad = 10);
+
 private:
     int left;
     int top;

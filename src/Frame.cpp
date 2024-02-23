@@ -17,6 +17,11 @@ void Frame::close()
     sendMsg(WM_CLOSE);
 }
 
+void Frame::setResizable(BOOL isResizable)
+{
+	attr.modifyStyle(WS_THICKFRAME | WS_MAXIMIZEBOX, isResizable);
+}
+
 void Frame::handleEvent(Event& evt)
 {
     switch(evt.uMsg) {
@@ -44,16 +49,16 @@ LPSTR Frame::getOpenFileName(LPSTR strFilter, LPSTR strInitDir)
 	OPENFILENAME ofn;
 	ZeroMemory(&ofn, sizeof(ofn));
     static char strFileName[512];
+	strFileName[0] = 0;
+	
+	LPSTR lpTemp = NULL;
 	
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = hWnd;
 
-	StrBuffer buff;
-
 	if (strFilter != NULL)
 	{
-		
-		LPSTR lpTemp = buff.format("%s|", strFilter);
+		lpTemp = strdup(strFilter);
 
 		LPSTR lpTemp2 = lpTemp;
 		while (lpTemp2 = strchr(lpTemp2, '|'))
@@ -69,6 +74,8 @@ LPSTR Frame::getOpenFileName(LPSTR strFilter, LPSTR strInitDir)
 
 	ofn.lpstrInitialDir = strInitDir;
     BOOL ret = GetOpenFileName(&ofn);
+
+    if (lpTemp) free(lpTemp);
 
     return (ret) ? strFileName : NULL;
 }

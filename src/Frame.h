@@ -10,6 +10,8 @@ public:
 
     void setMenu(Menu& menu);
     void close();
+    void setResizable(BOOL isResizable);
+
     LPSTR getOpenFileName(LPSTR strFilter = NULL, LPSTR strInitDir = NULL);
     LPSTR getSaveFileName(LPSTR strDefaultExt = NULL, LPSTR strInitDir = NULL);
 

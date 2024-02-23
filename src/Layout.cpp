@@ -1,4 +1,5 @@
 #include "Layout.h"
+#include "Button.h"
 
 Layout::Layout(Container* pContainer, int left, int top, LayoutType type)
 {
@@ -17,4 +18,14 @@ void Layout::add(Window* pCtrl, Size size, int pad)
     else {
         top += size.height + pad;
     }
+}
+
+void Layout::addLabel(LPSTR strText, UINT width, UINT height, int pad) 
+{
+    if (width == 0) {
+        Font* pFont = Font::getDefaultGuiFont();
+        Size sz = pFont->measureString(strText);
+        width = sz.width;
+    }
+    add(new Label(strText), Size(width, height), pad);
 }

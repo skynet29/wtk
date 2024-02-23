@@ -20,7 +20,7 @@ public:
         setVertScrollbar(HEIGHT, 100);
         setHorzScrollbar(WIDTH, 100);
 
-        setCursor(Cursor::loadFromResource(Cursor::K_CROSS));
+        setCursor(Cursor::K_CROSS);
     }
 
     void setSelColor(Color selColor)

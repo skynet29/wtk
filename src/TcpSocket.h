@@ -3,7 +3,7 @@
 
 #include "Container.h"
 
-class Socket {
+class DllExport Socket {
 public:
     Socket(SOCKET sock = INVALID_SOCKET);
 
@@ -18,7 +18,7 @@ protected:
 
 };
 
-class TcpSocketClient : public Socket {
+class DllExport TcpSocketClient : public Socket {
 public:
     BOOL connect(Container* pCtrl, LPSTR strHostName, UINT portNumber);
 
@@ -26,7 +26,7 @@ private:
     Container* pCtrl;
 };
 
-class TcpSocketServer : public Socket {
+class DllExport TcpSocketServer : public Socket {
 public:
     BOOL listen(Container* pCtrl, UINT port, UINT maxPendingConnection = 5);
 };

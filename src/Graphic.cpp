@@ -40,6 +40,23 @@ void Graphic::drawRect(Point p1, Point p2)
     Rectangle(hDC, p1.x, p1.y, p2.x, p2.y);
 }
 
+void Graphic::drawLine(Point p1, Point p2)
+{
+	MoveToEx(hDC, p1.x, p1.y, NULL);
+	LineTo(hDC, p2.x, p2.y);
+}
+
+void Graphic::drawPolyline(Vector<Point>& pts)
+{
+    Polyline(hDC, pts.getBuffer(), pts.getCount());
+}
+
+void Graphic::drawPolygon(Vector<Point>& pts)
+{
+    Polygon(hDC, pts.getBuffer(), pts.getCount());
+}
+
+
 void Graphic::drawEllipse(Bounds bounds)
 {
     Ellipse(hDC, bounds.left, bounds.top, bounds.left + bounds.width, bounds.top + bounds.height);

@@ -5,10 +5,6 @@
 
 class DllExport Cursor {
 public:
-    ~Cursor();
-    HCURSOR getHandle() {return hCursor;}
-
-    static Cursor* loadFromResource(int resId);
 
 	static const UINT K_ARROW;
 	static const UINT K_IBEAM;           
@@ -24,10 +20,6 @@ public:
 	static const UINT K_HAND;            
 	static const UINT K_HELP;   
         
-private:
-    Cursor(HCURSOR hCursor);
-
-    HCURSOR hCursor;
 };
 
 #endif

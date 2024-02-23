@@ -4,6 +4,7 @@
 #include "Color.h"
 #include "Bitmap.h"
 #include "Font.h"
+#include "Vector.h"
 
 class DllExport Graphic {
 protected:
@@ -26,9 +27,12 @@ public:
     void drawRect(Point p1, Point p2);
     void drawEllipse(Bounds);
     void drawCircle(Point center, UINT radius);
+    void drawLine(Point p1, Point p2);
     void drawBitmap(Point pt, Bitmap* pBitmap);
     void drawText(Point pt, LPSTR str);
     void drawText(Bounds bounds, LPSTR str, UINT textAlignment = DT_LEFT);
+    void drawPolyline(Vector<Point>& pts);
+    void drawPolygon(Vector<Point>& pts);
 
     Bitmap* copyArea(Bounds bounds);
     Color getPixelColor(Point pt);

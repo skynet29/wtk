@@ -21,7 +21,7 @@ public:
     MyPanel()     {
         pGraphic = NULL;
 
-        setCursor(Cursor::loadFromResource(Cursor::K_CROSS));
+        setCursor(Cursor::K_CROSS);
     }
 
     void setSelColor(Color selColor) {

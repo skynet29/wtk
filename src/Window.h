@@ -77,6 +77,7 @@ public:
     void setEnabled(BOOL isEnabled);
     void setFont(Font* font);
     UINT getId();
+    void create(HWND hParent);
 protected:
     virtual void onNotify(Event& evt) {}  
     virtual void onDrawItem(Event& evt) {}
@@ -88,14 +89,14 @@ protected:
 class DllExport CustCtrl : public Window {
 private:
     Color backColor;
-    Cursor* pCursor;
+    HCURSOR hCursor;
 public:   
     CustCtrl();
     void setBackColor(Color backColor);
     Color getBackColor() {return backColor;}
     void startTimer(UINT timerId, UINT delayMs);
     void stopTimer(UINT timerId);
-    void setCursor(Cursor* pCursor);
+    void setCursor(UINT resId);
 
 protected:
     virtual void handleEvent(Event& evt);
