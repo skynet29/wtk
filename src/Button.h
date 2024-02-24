@@ -4,6 +4,7 @@
 #include "Window.h"
 
 class Bitmap;
+class Container;
 
 class DllExport Label : public Control {
 public:
@@ -33,7 +34,7 @@ public:
     void setBitmap(Bitmap* pBitmap);
 
 protected:
-    void Button::onCommand(Event& evt);    
+    void onCommand(Event& evt);    
 };
 
 class DllExport CheckBox : public Control {
@@ -42,12 +43,18 @@ public:
 
     void setChecked(BOOL isChecked);
     BOOL isChecked();
-
+protected:
+    void onCommand(Event& evt);    
 };
 
 class DllExport RadioButton : public CheckBox {
 public:
-    RadioButton(LPSTR title, UINT id);            
+    RadioButton(LPSTR title, UINT id, BOOL isFirst = FALSE);         
+
+    void create(HWND hParent);   
+
+    static RadioButton* getSelButton(Container* pContainer, UINT* ids, UINT nbId);
+
 };
 
 

@@ -14,6 +14,7 @@ public:
     
     void addChild(Window* child);
     void addChild(Window* child, Bounds bounds);
+    Control* getControlById(UINT id);
 
     Size getPackSize();
     void packSize(int xPad = 0, int yPad = 0);

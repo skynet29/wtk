@@ -1,5 +1,8 @@
 #include "Container.h"
 
+#define MAINCLASSNAME "MDZ_WINDOW"
+
+
 WndAttr::WndAttr() 
 {
     hMenu = NULL;
@@ -161,6 +164,11 @@ Size Window::getClientSize()
     return Size(rc.getWidth(), rc.getHeight());
 }
 
+BOOL Window::isControl()
+{
+    return !StrBuffer(attr.className).equals(MAINCLASSNAME);
+}
+
 //////////////////////////////////////
 
 UINT Control::getId()
@@ -206,7 +214,6 @@ void Event::processMdiDefault()
     lResult = DefMDIChildProc(hWnd, uMsg, wParam, lParam);
 }
 ///////////////////////////////////////
-#define MAINCLASSNAME "MDZ_WINDOW"
 
 
 CustCtrl::CustCtrl()

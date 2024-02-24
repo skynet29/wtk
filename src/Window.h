@@ -70,6 +70,7 @@ public:
     Bounds getBounds();
     Size getRealSize();
     Size getClientSize();
+    BOOL isControl();
 };
 
 class DllExport Control : public Window {

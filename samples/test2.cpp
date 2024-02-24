@@ -27,7 +27,9 @@ enum
     ID_COMBO1,
     ID_TREE1,
     ID_BUTTON2,
-    ID_SLIDER1
+    ID_SLIDER1,
+    ID_RADIO1,
+    ID_RADIO2
 };
 
 class MyPanel : public Panel
@@ -96,16 +98,19 @@ private:
 public:
     void initCtrl()
     {
-        Layout layout2(cont1, 0, 0);
+        Layout layout2(cont1, 10, 15);
         layout2.add(listbox1, Size(100, 200));
         layout2.endl();
         layout2.add(combo1, Size(100, 25));
         layout2.endl();
-
+        layout2.add(new RadioButton("Male", ID_RADIO1, TRUE), Size(100, 25));
+        layout2.endl();
+        layout2.add(new RadioButton("Female", ID_RADIO2), Size(100, 25));
+        layout2.endl();
         layout2.add(text1, Size(100, 25));
         layout2.endl();
-
         layout2.add(btn2, Size(100, 25));
+        layout2.addBorder("Props");
 
         Layout layout(this, 10, 40);
         layout.add(label1, Size(100, 25));
@@ -209,10 +214,18 @@ protected:
 
         case ID_BUTTON2:
         {
-            Dialog dialog1;
-            int ret = dialog1.run();
-            str.format("ret=%d", ret);
-            showMsg(str.getBuffer());
+            const UINT ids[] = {ID_RADIO1, ID_RADIO2};
+            RadioButton *pRadio = RadioButton::getSelButton(cont1, (UINT*)ids, 2);
+            if (pRadio != NULL)
+            {
+                pRadio->getText(str);
+                showMsg(str.getBuffer());
+            }
+
+            // Dialog dialog1;
+            // int ret = dialog1.run();
+            // str.format("ret=%d", ret);
+            // showMsg(str.getBuffer());
         }
         break;
         }
@@ -227,6 +240,8 @@ protected:
     void onCreate()
     {
         Frame::onCreate();
+
+        //((RadioButton*)cont1->getControlById(ID_RADIO1))->setChecked(TRUE);
 
         // text1->setMaxChar(5);
         listbox1->setFont(font);

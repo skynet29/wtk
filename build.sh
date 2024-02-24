@@ -10,9 +10,14 @@ mkdir -p include
 cp src/*.h include
 
 cd build
-rm *.obj
 
-wine $BIN/cl -c -DDLLMDZ ../src/*.cpp
+if [ $# = 1 ]; then
+    echo "arg1=$1"
+    wine $BIN/cl -c -DDLLMDZ ../src/$1.cpp
+else
+    rm *.obj
+    wine $BIN/cl -c -DDLLMDZ ../src/*.cpp
+fi 
 
 wine $BIN/link /DLL /OUT:../lib/wtk.dll *.obj User32.lib Gdi32.lib Comdlg32.lib Comctl32.lib Wsock32.lib
 
