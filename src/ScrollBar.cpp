@@ -1,24 +1,18 @@
 #include "ScrollBar.h"
 
-ScrollBar::ScrollBar(UINT range, UINT inc, UINT type)
+ScrollBar::ScrollBar(HWND hWnd, UINT range, UINT inc, UINT type)
 {
-    this->range = range;
-    this->inc = inc;
-    this->type = type;
-    this->hWnd = NULL;
-}
-
-void ScrollBar::create(HWND hWnd)
-{
-    this->hWnd = hWnd;
+	this->inc = inc;
+	this->type = type;
+	this->hWnd = hWnd;
 
 	Rect rc;
 	GetClientRect(hWnd, &rc);
 
 	SCROLLINFO info;
 	info.cbSize = sizeof(info);
- 	info.fMask = SIF_ALL;
- 	info.nMin = 0;
+	info.fMask = SIF_ALL;
+	info.nMin = 0;
 	info.nPos = 0;
 	info.nMax = range;
 	info.nPage = (type == SB_VERT) ? rc.getHeight() : rc.getWidth();
@@ -33,7 +27,6 @@ void ScrollBar::resize(UINT newSize)
 	info.fMask = SIF_PAGE;
 	info.nPage = newSize;
 	SetScrollInfo(hWnd, type, &info, TRUE);
-
 }
 
 void ScrollBar::scroll(UINT code, UINT trackPos)
@@ -51,7 +44,7 @@ void ScrollBar::scroll(UINT code, UINT trackPos)
 		break;
 
 	case SB_LINEDOWN:
- 		nPos += inc;
+		nPos += inc;
 		break;
 
 	case SB_PAGEUP:
@@ -66,7 +59,7 @@ void ScrollBar::scroll(UINT code, UINT trackPos)
 		nPos = trackPos;
 		break;
 	}
-	
+
 	nPos = min(info.nMax - (int)info.nPage, max(info.nMin, nPos));
 
 	SetScrollPos(hWnd, type, nPos, TRUE);
@@ -75,7 +68,6 @@ void ScrollBar::scroll(UINT code, UINT trackPos)
 		ScrollWindow(hWnd, 0, info.nPos - nPos, NULL, NULL);
 	else
 		ScrollWindow(hWnd, info.nPos - nPos, 0, NULL, NULL);
-
 }
 
 UINT ScrollBar::getPos()

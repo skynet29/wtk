@@ -15,7 +15,6 @@ public:
     void setHorzScrollbar(UINT pageWidth, UINT inc);
 
 protected:
-    void create(HWND hParent);
     void handleEvent(Event& evt);
 
     virtual void onPaint(Graphic& gr) {}

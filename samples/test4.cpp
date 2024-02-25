@@ -17,9 +17,6 @@ public:
         pGraphic = NULL;
         pBitmap = new Bitmap(WIDTH, HEIGHT);
         setBackColor(Color::CYAN);
-        setVertScrollbar(HEIGHT, 100);
-        setHorzScrollbar(WIDTH, 100);
-
         setCursor(Cursor::K_CROSS);
     }
 
@@ -33,6 +30,14 @@ protected:
     Bitmap *pBitmap;
     Point p1, p2;
     Color selColor;
+
+    void onCreate()
+    {
+        Panel::onCreate();
+
+        setVertScrollbar(HEIGHT, 100);
+        setHorzScrollbar(WIDTH, 100);
+    }
 
     void onPaint(Graphic &gr)
     {
@@ -179,15 +184,16 @@ protected:
         switch (id)
         {
         case IDM_FILESAVE:
+        {
+            LPSTR fileName = getSaveFileName("bmp");
+            if (fileName != NULL)
             {
-                LPSTR fileName = getSaveFileName("bmp");           
-                if (fileName != NULL) {
-                    printf("fileName=%s\n", fileName);
-                    panel1->pBitmap->saveToFile(fileName);
-                }  
+                printf("fileName=%s\n", fileName);
+                panel1->pBitmap->saveToFile(fileName);
             }
-         
-            break;
+        }
+
+        break;
         case IDM_FILEEXIT:
             close();
             break;
