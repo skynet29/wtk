@@ -4,9 +4,9 @@
 #include "types.h"
 
 class DllExport ScrollBar {
-public:
-    ScrollBar(HWND hWnd, UINT range, UINT inc, UINT type);
 private:
+    ScrollBar(HWND hWnd, UINT range, UINT inc, UINT type);
+
 	void setPos(UINT pos);
 	UINT getPos();
 	void scroll(UINT  code, UINT trackPos);
