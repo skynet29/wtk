@@ -220,7 +220,7 @@ CustCtrl::CustCtrl()
 {
     backColor = Color::WHITE;
     attr.className = MAINCLASSNAME;
-    hCursor = NULL;
+    hCursor = LoadCursor(NULL, IDC_ARROW);
 }
 
  void CustCtrl::setCursor(UINT resId)
