@@ -21,6 +21,29 @@ void Layout::add(Window* pCtrl, Size size, int pad)
     maxLineHeight = max(maxLineHeight, size.height);
 }
 
+void Layout::addEnd(Window* pCtrl, int height, int pad)
+{
+    curX += pad;
+    int width = right - left;
+    pContainer->addChild(pCtrl, Bounds(curX, curY, width - curX + left, height));
+    curX = left;
+    maxLineHeight = max(maxLineHeight, height);
+    curY += maxLineHeight;
+    maxLineHeight = 0;
+}
+
+void Layout::addRight(Window* pCtrl, Size size)
+{
+    int width = right - left;
+    curX += width - size.width;
+
+    pContainer->addChild(pCtrl, Bounds(curX, curY, size.width, size.height));
+    curX = left;
+    maxLineHeight = max(maxLineHeight, size.height);
+    curY += maxLineHeight;
+    maxLineHeight = 0;
+}
+
 void Layout::endl(int pad) 
 {
     curX = left;

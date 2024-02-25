@@ -11,6 +11,7 @@ private:
 public:
     StrBuffer(char* text = NULL);
     ~StrBuffer();
+    operator LPSTR() {return buffer;}
     char* getBuffer() {return buffer;}
     char* allocate(UINT size);
     char* format(const char* format, ...);

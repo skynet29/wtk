@@ -13,6 +13,8 @@ public:
     void addLabel(LPSTR strText, UINT width, UINT height, int pad = 0);
     void endl(int pad = 10); 
     void addBorder(LPSTR strText = NULL, int pad = 10); 
+    void addEnd(Window* pCtrl, int height, int pad = 0);
+    void addRight(Window* pCtrl, Size size);
 
 
 private:

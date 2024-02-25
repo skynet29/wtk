@@ -7,6 +7,9 @@
 #include "TreeCtrl.h"
 #include "File.h"
 #include "StrVector.h"
+#include "Layout.h"
+#include "TextField.h"
+#include "Button.h"
 
 class MyTree : public DynamicTreeCtrl
 {
@@ -19,7 +22,7 @@ protected:
         path.append("\\");
         pNode->getNodePath(path);
         //printf("path=%s\n", path.getBuffer());
-        File::findFolder(path.getBuffer(), folders);
+        File::findFolder(path, folders);
     }
 
     BOOL onItemHasChildren(TreeNode *pNode)
@@ -48,20 +51,47 @@ private:
 public:
     enum
     {
-        ID_LIST1 = 100
+        ID_TREE1 = 100
     };
 
     TreeCtrl *tree1;
+    TextField* text1;
+    Container* cont1;
 
     MyFrame() : Frame("Test 7")
     {
+        cont1 = new Container();
+        cont1->setBackColor(Color::getSysColor());
 
-        addChild(tree1 = new MyTree(ID_LIST1), Bounds(10, 40, 300, 300));
+        Layout layout2(cont1, 0, 0);
+        layout2.add(new Button("OK", IDOK), Size(60, 25));
+        layout2.add(new Button("Cancel", IDCANCEL), Size(60, 25), 10);
+
+        Layout layout(this, 10, 10);
+        layout.add(tree1 = new MyTree(ID_TREE1), Size(500, 400));
+        layout.endl();
+        layout.addLabel("Folder:", 0, 25);
+        layout.addEnd(text1 = new TextField(0), 25, 5);
+        layout.endl();
+        layout.addRight(cont1, cont1->getPackSize());
+
+
+
+        setBackColor(Color::getSysColor());
     }
 
 protected:
     void onCommand(UINT id)
     {
+    }
+
+    void onSelChange(UINT id) {
+        if (id == ID_TREE1) {
+            StrBuffer text(getenv("USERPROFILE"));
+            text.append("\\");
+            tree1->getSelNode()->getNodePath(text);
+            text1->setText(text);
+        }
     }
 
     void onCreate()
