@@ -14,6 +14,9 @@ cd build
 if [ $# = 1 ]; then
     echo "arg1=$1"
     wine $BIN/cl -c -DDLLMDZ ../src/$1.cpp
+    if [ $? != 0 ]; then
+        exit
+    fi
 else
     rm *.obj
     wine $BIN/cl -c -DDLLMDZ ../src/*.cpp
