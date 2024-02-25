@@ -4,12 +4,15 @@ BIN=$COMPILO/Bin
 export include=$COMPILO/include
 export lib=$COMPILO/lib
 
-wine $BIN/cl -c *.cpp -I../include
+if [ $# = 1 ]; then
+        wine $BIN/cl -c $1.cpp -I../include
+        wine $BIN/link /SUBSYSTEM:WINDOWS /OUT:$1.exe $1.obj ../lib/wtk.lib
+else
+    wine $BIN/cl -c *.cpp -I../include
 
-wine $BIN/link /SUBSYSTEM:WINDOWS /OUT:test1.exe test1.obj ../lib/wtk.lib
-wine $BIN/link /SUBSYSTEM:WINDOWS /OUT:test2.exe test2.obj ../lib/wtk.lib
-wine $BIN/link /SUBSYSTEM:WINDOWS /OUT:test3.exe test3.obj ../lib/wtk.lib
-wine $BIN/link /SUBSYSTEM:WINDOWS /OUT:test4.exe test4.obj ../lib/wtk.lib
-wine $BIN/link /SUBSYSTEM:WINDOWS /OUT:test5.exe test5.obj ../lib/wtk.lib
-wine $BIN/link /SUBSYSTEM:WINDOWS /OUT:test6.exe test6.obj ../lib/wtk.lib
-wine $BIN/link /SUBSYSTEM:WINDOWS /OUT:test7.exe test7.obj ../lib/wtk.lib
+    for i in `ls *.cpp`; do
+        name=$(echo "$i" | cut -f 1 -d '.')
+        wine $BIN/link /SUBSYSTEM:WINDOWS /OUT:$name.exe $name.obj ../lib/wtk.lib
+    done
+
+fi
