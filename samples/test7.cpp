@@ -10,7 +10,6 @@
 #include "Layout.h"
 #include "TextField.h"
 #include "Button.h"
-#include "FolderTreeCtrl.h"
 
 class MyTree : public DynamicTreeCtrl
 {
@@ -69,7 +68,7 @@ public:
         layout2.add(new Button("Cancel", IDCANCEL), Size(60, 25), 10);
 
         Layout layout(this, 10, 10);
-        layout.add(tree1 = new FolderTreeCtrl(ID_TREE1, getenv("USERPROFILE")), Size(500, 400));
+        layout.add(tree1 = new MyTree(ID_TREE1), Size(500, 400));
         layout.endl();
         layout.addLabel("Folder:", 0, 25);
         layout.addEnd(text1 = new TextField(0), 25, 5);
@@ -99,12 +98,12 @@ protected:
     {
         Frame::onCreate();
 
-        // StrVector folders;
-        // File::findFolder(getenv("USERPROFILE"), folders);
-        // for (UINT i = 0; i < folders.getCount(); i++)
-        // {
-        //     tree1->addNode(folders[i]);
-        // }
+        StrVector folders;
+        File::findFolder(getenv("USERPROFILE"), folders);
+        for (UINT i = 0; i < folders.getCount(); i++)
+        {
+            tree1->addNode(folders[i]);
+        }
         packSize(10, 10);
     }
 };

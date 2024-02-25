@@ -1,9 +1,9 @@
 #include "Dialog.h"
 
-Dialog::Dialog()
+Dialog::Dialog(LPSTR strTitle)
 {
 	attr.bounds = Bounds(0, 0, 200, 200);
-	attr.title = "Dialog";
+	attr.title = strTitle;
 	attr.styleEx = WS_EX_DLGMODALFRAME;
 	attr.style = WS_POPUPWINDOW | WS_CAPTION;
 	setBackColor(GetSysColor(COLOR_BTNFACE));

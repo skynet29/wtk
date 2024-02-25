@@ -16,6 +16,7 @@
 #include "TreeCtrl.h"
 #include "SliderCtrl.h"
 #include "TabCtrl.h"
+#include "BrowseFolderDialog.h"
 
 #include <stdio.h>
 
@@ -214,18 +215,20 @@ protected:
 
         case ID_BUTTON2:
         {
-            const UINT ids[] = {ID_RADIO1, ID_RADIO2};
-            RadioButton *pRadio = RadioButton::getSelButton(cont1, (UINT*)ids, 2);
-            if (pRadio != NULL)
+            // const UINT ids[] = {ID_RADIO1, ID_RADIO2};
+            // RadioButton *pRadio = RadioButton::getSelButton(cont1, (UINT *)ids, 2);
+            // if (pRadio != NULL)
+            // {
+            //     pRadio->getText(str);
+            //     showMsg(str.getBuffer());
+            // }
+
+            BrowseFolderDialog dialog1(getenv("USERPROFILE"));
+            if (dialog1.run())
             {
-                pRadio->getText(str);
+                dialog1.getPath(str);
                 showMsg(str.getBuffer());
             }
-
-            // Dialog dialog1;
-            // int ret = dialog1.run();
-            // str.format("ret=%d", ret);
-            // showMsg(str.getBuffer());
         }
         break;
         }

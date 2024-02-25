@@ -5,7 +5,7 @@
 
 class DllExport Dialog : public Container {
 public:
-    Dialog();
+    Dialog(LPSTR strTitle = "Dialog");
     ~Dialog();
     void close(int retCode);
     int run();
