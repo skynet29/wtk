@@ -11,7 +11,7 @@ BrowseFolderDialog::BrowseFolderDialog(LPSTR strPath) : Dialog("Select Folder")
     cont1->setBackColor(Color::getSysColor());
 
     Layout layout2(cont1, 0, 0);
-    layout2.add(new Button("OK", IDOK), Size(60, 25));
+    layout2.add(new Button("OK", IDOK, TRUE), Size(60, 25));
     layout2.add(new Button("Cancel", IDCANCEL), Size(60, 25), 10);
 
     Layout layout(this, 10, 10);
@@ -23,25 +23,14 @@ BrowseFolderDialog::BrowseFolderDialog(LPSTR strPath) : Dialog("Select Folder")
     layout.addRight(cont1, cont1->getPackSize());
 }
 
-void BrowseFolderDialog::onCommand(UINT id)
-{
-    switch (id)
-    {
-    case IDOK:
-        close(TRUE);
-        break;
-
-    case IDCANCEL:
-        close(FALSE);
-        break;
-    }
-}
 
 void BrowseFolderDialog::getPath(StrBuffer& text)
 {
     text.set(strPath.getBuffer());
     text.append("\\");
-    tree1->getSelNode()->getNodePath(text);
+    TreeNode *pNode = tree1->getSelNode();
+    if (pNode != NULL)
+        pNode->getNodePath(text);
 }
 
 void BrowseFolderDialog::onSelChange(UINT id)

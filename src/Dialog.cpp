@@ -59,9 +59,17 @@ int Dialog::run()
 	return msg.wParam;    
 }
 
-void Dialog::onCommand(UINT id, UINT code)
+void Dialog::onCommand(UINT id)
 {
-    if (id == IDCANCEL) {
+    switch (id)
+    {
+    case IDOK:
+        close(TRUE);
+        break;
+
+    case IDCANCEL:
         close(FALSE);
+        break;
     }
+
 }

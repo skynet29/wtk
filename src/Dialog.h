@@ -12,7 +12,7 @@ public:
 
 protected:
     void handleEvent(Event& evt);
-    void onCommand(UINT id, UINT code);
+    void onCommand(UINT id);
 };
 
 #endif

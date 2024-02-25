@@ -15,8 +15,6 @@ public:
 
 protected:
     void onSelChange(UINT id);
-    void onCommand(UINT id);
-
     void onCreate();
 
 private:

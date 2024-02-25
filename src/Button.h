@@ -29,7 +29,7 @@ private:
 
 class DllExport Button : public Control {
 public: 
-    Button(LPSTR title, UINT id);
+    Button(LPSTR title, UINT id, BOOL isDefault = FALSE);
 
     void setBitmap(Bitmap* pBitmap);
 

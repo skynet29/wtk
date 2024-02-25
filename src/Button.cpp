@@ -53,12 +53,14 @@ void Label::onDrawItem(Event &evt)
              DT_VCENTER | DT_SINGLELINE | DT_NOPREFIX | align);
 }
 
-Button::Button(LPSTR title, UINT id)
+Button::Button(LPSTR title, UINT id, BOOL isDefault)
 {
     attr.title = title;
     attr.style |= BS_PUSHBUTTON;
     attr.className = "BUTTON";
     attr.hMenu = (HMENU)id;
+    if (isDefault)
+        attr.style |= BS_DEFPUSHBUTTON;
 }
 
 void Button::setBitmap(Bitmap *pBitmap)
