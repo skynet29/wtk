@@ -17,11 +17,12 @@ public:
     MyTree(UINT id) : DynamicTreeCtrl(id) {}
 
 protected:
-    void getFolder(TreeNode* pNode, StrVector& folders) {
+    void getFolder(TreeNode *pNode, StrVector &folders)
+    {
         StrBuffer path(getenv("USERPROFILE"));
         path.append("\\");
         pNode->getNodePath(path);
-        //printf("path=%s\n", path.getBuffer());
+        // printf("path=%s\n", path.getBuffer());
         File::findFolder(path, folders);
     }
 
@@ -55,8 +56,8 @@ public:
     };
 
     TreeCtrl *tree1;
-    TextField* text1;
-    Container* cont1;
+    TextField *text1;
+    Container *cont1;
 
     MyFrame() : Frame("Test 7")
     {
@@ -75,8 +76,6 @@ public:
         layout.endl();
         layout.addRight(cont1, cont1->getPackSize());
 
-
-
         setBackColor(Color::getSysColor());
     }
 
@@ -85,8 +84,10 @@ protected:
     {
     }
 
-    void onSelChange(UINT id) {
-        if (id == ID_TREE1) {
+    void onSelChange(UINT id)
+    {
+        if (id == ID_TREE1)
+        {
             StrBuffer text(getenv("USERPROFILE"));
             text.append("\\");
             tree1->getSelNode()->getNodePath(text);
@@ -113,8 +114,78 @@ int APIENTRY WinMain(HINSTANCE hInstance,
                      LPSTR lpCmdLine,
                      int nCmdShow)
 {
-    Application app;
-    MyFrame frame;
+    // Application app;
+    // MyFrame frame;
 
-    return app.run(frame);
+    printf("lpCmdLine=%s\n", lpCmdLine);
+
+    WAVEOUTCAPS woc;
+    unsigned long iNumDevs, i;
+
+    /* Get the number of Digital Audio Out devices in this computer */
+    iNumDevs = waveOutGetNumDevs();
+
+    /* Go through all of those devices, displaying their names */
+    for (i = 0; i < iNumDevs; i++)
+    {
+        /* Get info about the next device */
+        if (!waveOutGetDevCaps(i, &woc, sizeof(WAVEOUTCAPS)))
+        {
+            /* Display its Device ID and name */
+            printf("Device ID #%u: %s wChannels=%d, dwFormats=%04X, dwSupport=%04X\r\n", i, woc.szPname, woc.wChannels, woc.dwFormats, woc.dwSupport);
+        }
+    }
+
+    DWORD nbBytesToPlay;
+    HMMIO hMMIO = mmioOpen(lpCmdLine, 0, MMIO_READ);
+    printf("hMMIO=%d\n", hMMIO);
+
+    MMCKINFO infoParent;
+    MMCKINFO infoSubchunk;
+    infoParent.fccType = mmioFOURCC('W', 'A', 'V', 'E');
+
+    if (mmioDescend(hMMIO, (LPMMCKINFO)&infoParent, 0, MMIO_FINDRIFF))
+    {
+        printf("ERROR: This file doesn't contain a WAVE!\n");
+        goto out;
+    }
+    infoSubchunk.ckid = mmioFOURCC('f', 'm', 't', ' ');
+    if (mmioDescend(hMMIO, &infoSubchunk, &infoParent, MMIO_FINDCHUNK))
+    {
+        /* Oops! The required fmt chunk was not found! */
+        printf("ERROR: Required fmt chunk was not found!\n");
+        goto out;
+    }
+
+    WAVEFORMATEX WaveFormat;
+    if (mmioRead(hMMIO, (HPSTR)&WaveFormat, infoSubchunk.cksize) != (LRESULT)infoSubchunk.cksize)
+    {
+        /* Oops! */
+        printf("ERROR: reading the fmt chunk!\n");
+        goto out;
+    }
+
+    printf("nChannels=%d, nSamplesPerSec=%d, nAvgBytesPerSec=%d, wBitsPerSample=%d\n",
+           WaveFormat.nChannels,
+           WaveFormat.nSamplesPerSec,
+           WaveFormat.nAvgBytesPerSec,
+           WaveFormat.wBitsPerSample);
+
+    mmioAscend(hMMIO, &infoSubchunk, 0);
+    infoSubchunk.ckid = mmioFOURCC('d', 'a', 't', 'a');
+    if (mmioDescend(hMMIO, &infoSubchunk, &infoParent, MMIO_FINDCHUNK))
+    {
+        /* Oops! */
+        printf("ERROR: reading the data chunk!\n");
+        goto out;
+    }
+    nbBytesToPlay = infoSubchunk.cksize;
+    printf("nbBytesToPlay=%ld\n", nbBytesToPlay);
+    printf("duration=%d\n", nbBytesToPlay / WaveFormat.nAvgBytesPerSec);
+
+out:
+    mmioClose(hMMIO, 0);
+
+    // return app.run(frame);
+    return 0;
 }
