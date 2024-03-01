@@ -19,6 +19,16 @@ void WaveFile::play(LONG startTimeSec)
     player.play(offset);
 }
 
+void WaveFile::stop()
+{
+    player.stop();
+}
+
+BOOL WaveFile::isPlaying()
+{
+    return player.isPlaying();
+}
+
 LONG WaveFile::getDuration()
 {
     return dataSize / format.nAvgBytesPerSec;

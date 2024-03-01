@@ -17,7 +17,9 @@ public:
     
     BOOL open(WavePlayerReader* pReader, CustCtrl* pCtrl, WAVEFORMATEX& format, LONG dataSize);
     void play(LONG offset);
+    void stop();
     LONG getSamplePlayed();
+    BOOL isPlaying() {return _isPlaying;}
 
 private:
     void onWomDone(LPWAVEHDR lpwh);
@@ -29,7 +31,7 @@ private:
     WavePlayerReader* pReader;
     LONG dataSize;
     LONG dataToRead;
-    BOOL isPlaying;
+    BOOL _isPlaying;
     CustCtrl* pCtrl;
     friend class CustCtrl;
 };

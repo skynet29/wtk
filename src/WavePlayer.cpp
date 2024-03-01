@@ -1,10 +1,9 @@
 #include "WavePlayer.h"
 #include "Window.h"
 
-
 WavePlayer::WavePlayer()
 {
-    isPlaying = FALSE;
+    _isPlaying = FALSE;
 }
 
 BOOL WavePlayer::open(WavePlayerReader *pReader, CustCtrl *pCtrl, WAVEFORMATEX &format, LONG dataSize)
@@ -43,12 +42,18 @@ void WavePlayer::play(LONG offset)
 {
     pReader->seek(offset);
     dataToRead = dataSize - offset;
-    isPlaying = TRUE;
+    _isPlaying = TRUE;
 
     for (UINT i = 0; i < 2; i++)
     {
         queueWaveData(&waveHeaders[i]);
     }
+}
+
+void WavePlayer::stop()
+{
+    _isPlaying = FALSE;
+    waveOutReset(hWaveOut);
 }
 
 LONG WavePlayer::getSamplePlayed()
@@ -66,7 +71,7 @@ long WavePlayer::queueWaveData(LPWAVEHDR lpwh)
     LONG sizeToRead = min(bufSize, dataToRead);
     debugPrint("sizeToRead=%ld, dataToRead=%ld\n", sizeToRead, dataToRead);
 
-    if (isPlaying && sizeToRead > 0)
+    if (_isPlaying && sizeToRead > 0)
     {
         LONG bytesRead = pReader->readData(lpwh->lpData, sizeToRead);
         if (bytesRead != sizeToRead)
@@ -79,8 +84,9 @@ long WavePlayer::queueWaveData(LPWAVEHDR lpwh)
 
         waveOutWrite(hWaveOut, lpwh, sizeof(WAVEHDR));
     }
-    else if (isPlaying) {
-        isPlaying = FALSE;
+    else if (_isPlaying)
+    {
+        _isPlaying = FALSE;
         waveOutReset(hWaveOut);
         pCtrl->onAudioEndReached();
     }

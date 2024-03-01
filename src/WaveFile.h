@@ -11,8 +11,10 @@ public:
 
     BOOL open(CustCtrl* pCtrl, LPSTR fileName);
     void play(LONG startTimeSec = 0);
+    void stop();
     LONG getDuration();
     LONG getElapsedTime();
+    BOOL isPlaying();
 
 private:
     LONG readData(LPSTR buff, LONG bufSize);

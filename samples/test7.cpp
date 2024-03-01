@@ -11,6 +11,8 @@ public:
     enum
     {
         ID_FILEOPEN = 100,
+        ID_PLAY,
+        ID_STOP,
         ID_SLIDER
     };
 
@@ -18,23 +20,52 @@ public:
     {
         menuBar.addPopupMenu(fileMenu, "File");
         fileMenu.addItem(ID_FILEOPEN, "Open...");
+        fileMenu.addItem(ID_PLAY, "Play");
+        fileMenu.addItem(ID_STOP, "Stop");
+
         setMenu(menuBar);
 
         addChild(pSlider = new SliderCtrl(ID_SLIDER), Bounds(10, 10, 400, 25));
     }
 
 protected:
+    void onInitMenu(HMENU hMenu)
+    {
+        fileMenu.setItemEnabled(ID_PLAY, !waveFile.isPlaying());
+        fileMenu.setItemEnabled(ID_STOP, waveFile.isPlaying());
+    }
+
     void onCommand(UINT id)
     {
-        LPSTR fileName = getOpenFileName("Wave|*.wav");
-        if (fileName != NULL)
+        switch (id)
         {
-            if (waveFile.open(this, fileName))
+        case ID_PLAY:
+            waveFile.play(startTime);
+            startTimer(0, 1000);
+            break;
+
+        case ID_STOP:
+            startTime = waveFile.getElapsedTime();
+            stopTimer(0);
+            waveFile.stop();
+            break;
+
+        case ID_FILEOPEN:
+        {
+            LPSTR fileName = getOpenFileName("Wave|*.wav");
+            if (fileName != NULL)
             {
-                pSlider->setRange(0, waveFile.getDuration());
-                waveFile.play(60);
-                startTimer(0, 1000);
+                if (waveFile.open(this, fileName))
+                {
+                    pSlider->setRange(0, waveFile.getDuration());
+                    startTime = 0;
+                }
             }
+        }
+        break;
+
+        default:
+            break;
         }
     }
 
@@ -54,6 +85,7 @@ protected:
     SliderCtrl *pSlider;
     Menu menuBar;
     PopupMenu fileMenu;
+    LONG startTime;
 };
 
 int APIENTRY WinMain(HINSTANCE hInstance,
