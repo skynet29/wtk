@@ -4,6 +4,8 @@
 #include "Frame.h"
 #include "WaveFile.h"
 #include "SliderCtrl.h"
+#include "Button.h"
+#include "Layout.h"
 
 class MyFrame : public Frame
 {
@@ -20,12 +22,19 @@ public:
     {
         menuBar.addPopupMenu(fileMenu, "File");
         fileMenu.addItem(ID_FILEOPEN, "Open...");
+        fileMenu.addSeparator();
         fileMenu.addItem(ID_PLAY, "Play");
         fileMenu.addItem(ID_STOP, "Stop");
 
         setMenu(menuBar);
 
-        addChild(pSlider = new SliderCtrl(ID_SLIDER), Bounds(10, 10, 400, 25));
+        Layout layout(this, 10, 10);
+        layout.add(pLabelTime = new Label("00:00"), Size(40, 25));
+        layout.add(pSlider = new SliderCtrl(ID_SLIDER), Size(400, 25), 10);
+
+
+        pLabelTime->setBackColor(Color::WHITE);
+
     }
 
 protected:
@@ -71,8 +80,15 @@ protected:
 
     void onTimer(UINT timerId)
     {
-        debugPrint("onTimer %ld\n", waveFile.getElapsedTime());
-        pSlider->setValue(waveFile.getElapsedTime());
+        LONG time = waveFile.getElapsedTime();
+
+        //debugPrint("onTimer %ld\n", time);
+        pSlider->setValue(time);
+        StrBuffer text;
+        LONG min = time / 60;
+        LONG sec = time % 60;
+        text.format("%02d:%02d", min, sec);
+        pLabelTime->setText(text);
     }
 
     void onAudioEndReached()
@@ -83,6 +99,7 @@ protected:
 
     WaveFile waveFile;
     SliderCtrl *pSlider;
+    Label* pLabelTime;
     Menu menuBar;
     PopupMenu fileMenu;
     LONG startTime;
