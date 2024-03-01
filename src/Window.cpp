@@ -1,4 +1,5 @@
 #include "Container.h"
+#include "WavePlayer.h"
 
 #define MAINCLASSNAME "MDZ_WINDOW"
 
@@ -236,7 +237,7 @@ BOOL CustCtrl::registerMainWindow()
     wc.lpszClassName = MAINCLASSNAME;
     wc.lpfnWndProc = (WNDPROC) wndProc;
     //wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-    wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+    //wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
     //wc.hbrBackground = (HBRUSH)(COLOR_BACKGROUND+1);
 
     return RegisterClass(&wc);
@@ -310,6 +311,16 @@ void CustCtrl::handleEvent(Event& evt)
 
         case WM_CREATE:
             onCreate();
+            break;
+
+        case MM_WOM_DONE:
+            {
+                LPWAVEHDR lpwh = (LPWAVEHDR)evt.lParam;
+                WavePlayer *pPlayer = (WavePlayer*)lpwh->dwUser;
+                if (pPlayer != NULL) {
+                    pPlayer->onWomDone(lpwh);                    
+                }
+            }
             break;
 
         default:

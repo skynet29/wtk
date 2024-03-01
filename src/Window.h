@@ -104,12 +104,14 @@ protected:
 
     virtual void onCreate() {}
     virtual void onTimer(UINT timerId) {}
+    virtual void onAudioEndReached() {}
 
 private:
     static LRESULT wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
     static BOOL registerMainWindow();
 
     friend class Application;
+    friend class WavePlayer;
 };
 
 #endif

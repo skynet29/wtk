@@ -22,7 +22,7 @@ else
     wine $BIN/cl -c -DDLLMDZ ../src/*.cpp
 fi 
 
-wine $BIN/link /DLL /OUT:../lib/wtk.dll *.obj User32.lib Gdi32.lib Comdlg32.lib Comctl32.lib Wsock32.lib
+wine $BIN/link /DLL /OUT:../lib/wtk.dll *.obj User32.lib Gdi32.lib Comdlg32.lib Comctl32.lib Wsock32.lib Winmm.lib
 
 cd ..
 cp lib/wtk.dll samples
