@@ -130,7 +130,7 @@ void WavePlayer::onWomDone(LPWAVEHDR lpwh)
     queueWaveData(lpwh);
 }
 
-void WavePlayer::getDeviceCaps(Vector<WAVEOUTCAPS> devices)
+void WavePlayer::getDeviceCaps(Vector<WAVEOUTCAPS>& devices)
 {    
     WAVEOUTCAPS woc;
     UINT iNumDevs = waveOutGetNumDevs();

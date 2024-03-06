@@ -23,7 +23,7 @@ public:
     LONG getSamplePlayed();
     BOOL isPlaying() {return _isPlaying;}
 
-    static void getDeviceCaps(Vector<WAVEOUTCAPS> devices);
+    static void getDeviceCaps(Vector<WAVEOUTCAPS>& devices);
 
 
 private:
