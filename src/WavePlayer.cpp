@@ -144,3 +144,8 @@ void WavePlayer::getDeviceCaps(Vector<WAVEOUTCAPS>& devices)
         }
     }
 }
+
+ void WavePlayer::setVolume(WORD volume)
+ {
+    waveOutSetVolume(hWaveOut, MAKELONG(volume, volume));
+ }

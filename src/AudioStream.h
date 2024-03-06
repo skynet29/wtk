@@ -13,6 +13,8 @@ public:
     LONG getDuration();
     LONG getElapsedTime();
     BOOL isPlaying();
+    void setVolume(WORD volume);
+
 private:
     AudioStream(CustCtrl* pCtrl, PAVISTREAM pStream);
 

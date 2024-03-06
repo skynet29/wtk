@@ -15,6 +15,7 @@ public:
     LONG getDuration();
     LONG getElapsedTime();
     BOOL isPlaying();
+    void setVolume(WORD volume);
 
 private:
     LONG readData(LPSTR buff, LONG bufSize);

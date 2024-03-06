@@ -22,6 +22,7 @@ public:
     void stop();
     LONG getSamplePlayed();
     BOOL isPlaying() {return _isPlaying;}
+    void setVolume(WORD volume);
 
     static void getDeviceCaps(Vector<WAVEOUTCAPS>& devices);
 

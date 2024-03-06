@@ -169,3 +169,8 @@ BOOL WaveFile::readFormatChunk(MMCKINFO& infoParent)
     mmioAscend(hMMIO, &chunk, 0);
     return TRUE;
 }
+
+ void WaveFile::setVolume(WORD volume)
+ {
+    player.setVolume(volume);
+ }

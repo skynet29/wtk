@@ -9,8 +9,8 @@ public:
     ~Application();
 
     int run(Frame& frame);
-    void getExeName(StrBuffer& str);
-    Size getScreenSize();
+    static void getExeName(StrBuffer& str);
+    static Size getScreenSize();
 
 };
 

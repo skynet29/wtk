@@ -85,3 +85,7 @@ BOOL AudioStream::isPlaying()
     return player.isPlaying();
 }
 
+ void AudioStream::setVolume(WORD volume)
+ {
+    player.setVolume(volume);
+ }
