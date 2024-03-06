@@ -4,17 +4,47 @@
 WavePlayer::WavePlayer()
 {
     _isPlaying = FALSE;
+    hWaveOut = NULL;
+}
+
+WavePlayer::~WavePlayer()
+{
+    close();
+}
+
+void WavePlayer::close()
+{
+    if (hWaveOut == NULL)
+        return;
+
+    stop();
+
+    for (UINT i = 0; i < 2; i++)
+    {
+        LPWAVEHDR lpwh = &waveHeaders[i];
+
+        waveOutUnprepareHeader(hWaveOut, lpwh, sizeof(WAVEHDR));
+        free(lpwh->lpData);
+    }
+
+    waveOutClose(hWaveOut);
+    hWaveOut = NULL;
+
 }
 
 BOOL WavePlayer::open(WavePlayerReader *pReader, CustCtrl *pCtrl, WAVEFORMATEX &format, LONG dataSize)
 {
+    close();
+
     this->pCtrl = pCtrl;
     this->pReader = pReader;
     this->dataSize = dataSize;
     dataToRead = dataSize;
 
-    if (waveOutOpen(&hWaveOut, WAVE_MAPPER, &format, (DWORD)pCtrl->getHandle(), 0, CALLBACK_WINDOW) != 0)
+    if (waveOutOpen(&hWaveOut, WAVE_MAPPER, &format, (DWORD)pCtrl->getHandle(), 0, CALLBACK_WINDOW) != 0) {
+        debugPrint("waveOutOpen fail!\n");
         return FALSE;
+    }
 
     bufSize = format.nAvgBytesPerSec * 2; // 2 sec
 
@@ -40,7 +70,6 @@ BOOL WavePlayer::open(WavePlayerReader *pReader, CustCtrl *pCtrl, WAVEFORMATEX &
 
 void WavePlayer::play(LONG offset)
 {
-    pReader->seek(offset);
     dataToRead = dataSize - offset;
     _isPlaying = TRUE;
 
@@ -87,6 +116,7 @@ long WavePlayer::queueWaveData(LPWAVEHDR lpwh)
     else if (_isPlaying)
     {
         _isPlaying = FALSE;
+        debugPrint("Audio finish!\n");
         waveOutReset(hWaveOut);
         pCtrl->onAudioEndReached();
     }
@@ -98,4 +128,19 @@ void WavePlayer::onWomDone(LPWAVEHDR lpwh)
 {
     debugPrint("onWomDone\n");
     queueWaveData(lpwh);
+}
+
+void WavePlayer::getDeviceCaps(Vector<WAVEOUTCAPS> devices)
+{    
+    WAVEOUTCAPS woc;
+    UINT iNumDevs = waveOutGetNumDevs();
+
+    for (UINT i = 0; i < iNumDevs; i++)
+    {
+        if (!waveOutGetDevCaps(i, &woc, sizeof(WAVEOUTCAPS)))
+        {
+            devices.add(woc);
+            //debugPrint("Device ID #%u: %s, wChannels=%d, dwFormats=%04X, dwSupport=%04X\r\n", i, woc.szPname, woc.wChannels, woc.dwFormats, woc.dwSupport);
+        }
+    }
 }

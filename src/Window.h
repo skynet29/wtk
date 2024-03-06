@@ -52,6 +52,7 @@ public:
     virtual ~Window() {}
 
     HWND getHandle() {return hWnd;}
+    Container* getParent() {return parent;}
 
     void setVisible(BOOL isVisible);
     void setParent(Container* parent);
@@ -99,19 +100,19 @@ public:
     void stopTimer(UINT timerId);
     void setCursor(UINT resId);
 
+    virtual void onAudioEndReached() {}
+
 protected:
     virtual void handleEvent(Event& evt);
 
     virtual void onCreate() {}
     virtual void onTimer(UINT timerId) {}
-    virtual void onAudioEndReached() {}
 
 private:
     static LRESULT wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
     static BOOL registerMainWindow();
 
     friend class Application;
-    friend class WavePlayer;
 };
 
 #endif

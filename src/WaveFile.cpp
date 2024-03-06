@@ -16,6 +16,9 @@ void WaveFile::play(LONG startTimeSec)
     this->startTimeSec = startTimeSec;
 
     LONG offset = startTimeSec * format.nAvgBytesPerSec;
+
+    mmioSeek(hMMIO, offset + dataOffset, SEEK_SET);
+
     player.play(offset);
 }
 
@@ -76,12 +79,6 @@ LONG WaveFile::readData(LPSTR buff, LONG bufSize)
 {
     return mmioRead(hMMIO, buff, bufSize);
 }
-
-void WaveFile::seek(LONG offset)
-{
-    mmioSeek(hMMIO, offset + dataOffset, SEEK_SET);
-}
-
 
 BOOL WaveFile::readDataChunk(MMCKINFO& infoParent)
 {

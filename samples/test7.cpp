@@ -113,21 +113,5 @@ int APIENTRY WinMain(HINSTANCE hInstance,
     Application app;
     MyFrame frame;
 
-    debugPrint("lpCmdLine=%s\n", lpCmdLine);
-    /*
-        WAVEOUTCAPS woc;
-        unsigned long iNumDevs, i;
-
-        iNumDevs = waveOutGetNumDevs();
-
-        for (i = 0; i < iNumDevs; i++)
-        {
-            if (!waveOutGetDevCaps(i, &woc, sizeof(WAVEOUTCAPS)))
-            {
-                debugPrint("Device ID #%u: %s, wChannels=%d, dwFormats=%04X, dwSupport=%04X\r\n", i, woc.szPname, woc.wChannels, woc.dwFormats, woc.dwSupport);
-            }
-        }
-        */
-
     return app.run(frame);
 }

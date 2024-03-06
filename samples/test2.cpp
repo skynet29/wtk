@@ -284,8 +284,7 @@ protected:
         node2->addNode("Quentin");
         tree1->getRootNode()->setExpanded(TRUE);
 
-        slider1->setRange(0, 200);
-        slider1->setValue(100);
+        slider1->setRange(0, 100);
     }
 };
 

@@ -10,7 +10,6 @@ SliderCtrl::SliderCtrl(UINT id)
 
 void SliderCtrl::setRange(int min, int max)
 {
-    //debugPrint("SliderCtrl::setRange min=%d, max=%d\n", min, max);
 	//lpWnd->SendMsg(TBM_SETRANGE, (WPARAM) TRUE, MAKELONG(iMin, iMax));
 	sendMsg(TBM_SETRANGEMIN, FALSE, min);
 	sendMsg(TBM_SETRANGEMAX, TRUE, max);
@@ -19,8 +18,6 @@ void SliderCtrl::setRange(int min, int max)
 
 void SliderCtrl::setValue(int value)
 {
-    //debugPrint("SliderCtrl::setValue value=%d\n", value);
-
 	sendMsg(TBM_SETPOS, (WPARAM) TRUE, value); 
 }
 

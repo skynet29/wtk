@@ -1,7 +1,18 @@
 
- cl -c *.cpp -I../include
+ @echo off
 
-link /SUBSYSTEM:WINDOWS /OUT:test1.exe test1.obj ../lib/wtk.lib
-link /SUBSYSTEM:WINDOWS /OUT:test2.exe test2.obj ../lib/wtk.lib
-link /SUBSYSTEM:WINDOWS /OUT:test3.exe test3.obj ../lib/wtk.lib
-link /SUBSYSTEM:WINDOWS /OUT:test4.exe test4.obj ../lib/wtk.lib
+
+if not [%1] == [] (
+    cl -c %1.cpp -I../include
+    link /SUBSYSTEM:WINDOWS /OUT:%1.exe %1.obj ../lib/wtk.lib
+    goto :end
+)
+
+for %%i in (*.cpp) do (
+    cl -c %%~ni.cpp -I../include
+    link /SUBSYSTEM:WINDOWS /OUT:%%~ni.exe %%~ni.obj ../lib/wtk.lib
+)    
+
+
+:end
+    echo Fini

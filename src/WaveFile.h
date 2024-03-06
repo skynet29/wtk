@@ -18,7 +18,6 @@ public:
 
 private:
     LONG readData(LPSTR buff, LONG bufSize);
-    void seek(LONG offset);
 
     BOOL readFormatChunk(MMCKINFO& infoParent);
     BOOL readInfoItem(MMCKINFO& infoParent, char* name, StrBuffer& text);

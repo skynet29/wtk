@@ -20,6 +20,7 @@ public:
     };
 
     Graphic(HDC hdc);
+    HDC getHandle() {return hDC;}
 
     virtual ~Graphic();
 
