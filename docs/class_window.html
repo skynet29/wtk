@@ -61,6 +61,7 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="class_window-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Window Class Reference</div>  </div>
@@ -73,7 +74,9 @@ Inheritance diagram for Window:</div>
   <img src="class_window.png" usemap="#Window_map" alt=""/>
   <map id="Window_map" name="Window_map">
 <area href="class_control.html" alt="Control" shape="rect" coords="0,56,72,80"/>
-<area href="class_cust_ctrl.html" alt="CustCtrl" shape="rect" coords="164,56,236,80"/>
+<area href="class_control.html" alt="Control" shape="rect" coords="164,56,236,80"/>
+<area href="class_cust_ctrl.html" alt="CustCtrl" shape="rect" coords="328,56,400,80"/>
+<area href="class_cust_ctrl.html" alt="CustCtrl" shape="rect" coords="492,56,564,80"/>
 <area href="class_border.html" alt="Border" shape="rect" coords="82,112,154,136"/>
 <area href="class_button.html" alt="Button" shape="rect" coords="82,168,154,192"/>
 <area href="class_check_box.html" alt="CheckBox" shape="rect" coords="82,224,154,248"/>
@@ -88,13 +91,74 @@ Inheritance diagram for Window:</div>
 <area href="class_text_field.html" alt="TextField" shape="rect" coords="82,728,154,752"/>
 <area href="class_tool_bar.html" alt="ToolBar" shape="rect" coords="82,784,154,808"/>
 <area href="class_tree_ctrl.html" alt="TreeCtrl" shape="rect" coords="82,840,154,864"/>
-<area href="class_container.html" alt="Container" shape="rect" coords="246,112,318,136"/>
-<area href="class_panel.html" alt="Panel" shape="rect" coords="246,168,318,192"/>
+<area href="class_border.html" alt="Border" shape="rect" coords="246,112,318,136"/>
+<area href="class_button.html" alt="Button" shape="rect" coords="246,168,318,192"/>
+<area href="class_check_box.html" alt="CheckBox" shape="rect" coords="246,224,318,248"/>
+<area href="class_combo_box.html" alt="ComboBox" shape="rect" coords="246,280,318,304"/>
+<area href="class_label.html" alt="Label" shape="rect" coords="246,336,318,360"/>
+<area href="class_list_box.html" alt="ListBox" shape="rect" coords="246,392,318,416"/>
+<area href="class_mdi_ctrl.html" alt="MdiCtrl" shape="rect" coords="246,448,318,472"/>
+<area href="class_slider_ctrl.html" alt="SliderCtrl" shape="rect" coords="246,504,318,528"/>
+<area href="class_tab_ctrl.html" alt="TabCtrl" shape="rect" coords="246,560,318,584"/>
+<area href="class_table_ctrl.html" alt="TableCtrl" shape="rect" coords="246,616,318,640"/>
+<area href="class_text_area.html" alt="TextArea" shape="rect" coords="246,672,318,696"/>
+<area href="class_text_field.html" alt="TextField" shape="rect" coords="246,728,318,752"/>
+<area href="class_tool_bar.html" alt="ToolBar" shape="rect" coords="246,784,318,808"/>
+<area href="class_tree_ctrl.html" alt="TreeCtrl" shape="rect" coords="246,840,318,864"/>
+<area href="class_container.html" alt="Container" shape="rect" coords="410,112,482,136"/>
+<area href="class_panel.html" alt="Panel" shape="rect" coords="410,168,482,192"/>
+<area href="class_container.html" alt="Container" shape="rect" coords="574,112,646,136"/>
+<area href="class_panel.html" alt="Panel" shape="rect" coords="574,168,646,192"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:aee453e58c0e728f3b70f14d8e394408d"><td class="memItemLeft" align="right" valign="top"><a id="aee453e58c0e728f3b70f14d8e394408d"></a>
+HWND&#160;</td><td class="memItemRight" valign="bottom"><b>getHandle</b> ()</td></tr>
+<tr class="separator:aee453e58c0e728f3b70f14d8e394408d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a303dfb280e1ed55d387727a8889b1530"><td class="memItemLeft" align="right" valign="top"><a id="a303dfb280e1ed55d387727a8889b1530"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setVisible</b> (BOOL isVisible)</td></tr>
+<tr class="separator:a303dfb280e1ed55d387727a8889b1530"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a520bbdf0573aeeb67834fa360b644352"><td class="memItemLeft" align="right" valign="top"><a id="a520bbdf0573aeeb67834fa360b644352"></a>
+LRESULT&#160;</td><td class="memItemRight" valign="bottom"><b>sendMsg</b> (UINT uMsg, WPARAM wParam=0, LPARAM lParam=0)</td></tr>
+<tr class="separator:a520bbdf0573aeeb67834fa360b644352"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56d8a59e4986e76575b0c333a51b491e"><td class="memItemLeft" align="right" valign="top"><a id="a56d8a59e4986e76575b0c333a51b491e"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>create</b> (HWND hParent)</td></tr>
+<tr class="separator:a56d8a59e4986e76575b0c333a51b491e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c9e07966c7e38ba49e6168fbc3c9cfe"><td class="memItemLeft" align="right" valign="top"><a id="a7c9e07966c7e38ba49e6168fbc3c9cfe"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>getText</b> (<a class="el" href="class_str_buffer.html">StrBuffer</a> &amp;buff)</td></tr>
+<tr class="separator:a7c9e07966c7e38ba49e6168fbc3c9cfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62b55374e39ad2c2d99643d6943ad849"><td class="memItemLeft" align="right" valign="top"><a id="a62b55374e39ad2c2d99643d6943ad849"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setText</b> (LPSTR text)</td></tr>
+<tr class="separator:a62b55374e39ad2c2d99643d6943ad849"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42e83e4847ecb933141946c32bbf30e3"><td class="memItemLeft" align="right" valign="top"><a id="a42e83e4847ecb933141946c32bbf30e3"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setLocation</b> (int left, int top)</td></tr>
+<tr class="separator:a42e83e4847ecb933141946c32bbf30e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0bafe22adef5f008ee06a67a971b004"><td class="memItemLeft" align="right" valign="top"><a id="ac0bafe22adef5f008ee06a67a971b004"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>seSize</b> (int width, int height)</td></tr>
+<tr class="separator:ac0bafe22adef5f008ee06a67a971b004"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a508a6a9abdc84387e0304f235d07c189"><td class="memItemLeft" align="right" valign="top"><a id="a508a6a9abdc84387e0304f235d07c189"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setBounds</b> (<a class="el" href="class_bounds.html">Bounds</a> bounds)</td></tr>
+<tr class="separator:a508a6a9abdc84387e0304f235d07c189"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afad55b40c630b9559728493bae47b3ce"><td class="memItemLeft" align="right" valign="top"><a id="afad55b40c630b9559728493bae47b3ce"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setBounds</b> (<a class="el" href="class_rect.html">Rect</a> rc)</td></tr>
+<tr class="separator:afad55b40c630b9559728493bae47b3ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ee70e57d13a70ca5e5b3dabc0e74e5a"><td class="memItemLeft" align="right" valign="top"><a id="a0ee70e57d13a70ca5e5b3dabc0e74e5a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setFocus</b> ()</td></tr>
+<tr class="separator:a0ee70e57d13a70ca5e5b3dabc0e74e5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71fbe9c08dfa5acabbf8148545097f93"><td class="memItemLeft" align="right" valign="top"><a id="a71fbe9c08dfa5acabbf8148545097f93"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>centerToParent</b> ()</td></tr>
+<tr class="separator:a71fbe9c08dfa5acabbf8148545097f93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6a0ed099dd7365b79c373f9023e7e27"><td class="memItemLeft" align="right" valign="top"><a id="ad6a0ed099dd7365b79c373f9023e7e27"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>showMsg</b> (LPSTR text, LPSTR title=NULL, UINT type=MB_OK)</td></tr>
+<tr class="separator:ad6a0ed099dd7365b79c373f9023e7e27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac88b2e5f4f85097c1be185181d2b4dab"><td class="memItemLeft" align="right" valign="top"><a id="ac88b2e5f4f85097c1be185181d2b4dab"></a>
+<a class="el" href="class_bounds.html">Bounds</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getBounds</b> ()</td></tr>
+<tr class="separator:ac88b2e5f4f85097c1be185181d2b4dab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a184f5b536c5d47829dd245394a645572"><td class="memItemLeft" align="right" valign="top"><a id="a184f5b536c5d47829dd245394a645572"></a>
+<a class="el" href="class_size.html">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getRealSize</b> ()</td></tr>
+<tr class="separator:a184f5b536c5d47829dd245394a645572"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aee453e58c0e728f3b70f14d8e394408d"><td class="memItemLeft" align="right" valign="top"><a id="aee453e58c0e728f3b70f14d8e394408d"></a>
 HWND&#160;</td><td class="memItemRight" valign="bottom"><b>getHandle</b> ()</td></tr>
 <tr class="separator:aee453e58c0e728f3b70f14d8e394408d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -110,12 +174,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setParent</b> (<a cla
 <tr class="memitem:a520bbdf0573aeeb67834fa360b644352"><td class="memItemLeft" align="right" valign="top"><a id="a520bbdf0573aeeb67834fa360b644352"></a>
 LRESULT&#160;</td><td class="memItemRight" valign="bottom"><b>sendMsg</b> (UINT uMsg, WPARAM wParam=0, LPARAM lParam=0)</td></tr>
 <tr class="separator:a520bbdf0573aeeb67834fa360b644352"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c69a3b259c83514f6e25920fb556c4b"><td class="memItemLeft" align="right" valign="top"><a id="a9c69a3b259c83514f6e25920fb556c4b"></a>
+<tr class="memitem:a56d8a59e4986e76575b0c333a51b491e"><td class="memItemLeft" align="right" valign="top"><a id="a56d8a59e4986e76575b0c333a51b491e"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>create</b> (HWND hParent)</td></tr>
-<tr class="separator:a9c69a3b259c83514f6e25920fb556c4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21298af7780e4b1c43b5a8bc2e3cab18"><td class="memItemLeft" align="right" valign="top"><a id="a21298af7780e4b1c43b5a8bc2e3cab18"></a>
+<tr class="separator:a56d8a59e4986e76575b0c333a51b491e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a998e5f926c3caea8d732608e6d59f6f5"><td class="memItemLeft" align="right" valign="top"><a id="a998e5f926c3caea8d732608e6d59f6f5"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>setSize</b> (int width, int height)</td></tr>
-<tr class="separator:a21298af7780e4b1c43b5a8bc2e3cab18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a998e5f926c3caea8d732608e6d59f6f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c9e07966c7e38ba49e6168fbc3c9cfe"><td class="memItemLeft" align="right" valign="top"><a id="a7c9e07966c7e38ba49e6168fbc3c9cfe"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>getText</b> (<a class="el" href="class_str_buffer.html">StrBuffer</a> &amp;buff)</td></tr>
 <tr class="separator:a7c9e07966c7e38ba49e6168fbc3c9cfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -164,13 +228,19 @@ HWND&#160;</td><td class="memItemRight" valign="bottom"><b>hWnd</b></td></tr>
 <tr class="memitem:a16851cdc85953afad184aa58414f3d6b"><td class="memItemLeft" align="right" valign="top"><a id="a16851cdc85953afad184aa58414f3d6b"></a>
 <a class="el" href="class_wnd_attr.html">WndAttr</a>&#160;</td><td class="memItemRight" valign="bottom"><b>attr</b></td></tr>
 <tr class="separator:a16851cdc85953afad184aa58414f3d6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf2bc2ed5112857ddd586422acc9f8c8"><td class="memItemLeft" align="right" valign="top"><a id="acf2bc2ed5112857ddd586422acc9f8c8"></a>
+<tr class="memitem:a09bf866d55485216bad52d98b94e7066"><td class="memItemLeft" align="right" valign="top"><a id="a09bf866d55485216bad52d98b94e7066"></a>
 <a class="el" href="class_container.html">Container</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>parent</b></td></tr>
-<tr class="separator:acf2bc2ed5112857ddd586422acc9f8c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a09bf866d55485216bad52d98b94e7066"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:a8b05436e78700fcb6647c410a77eef10"><td class="memItemLeft" align="right" valign="top"><a id="a8b05436e78700fcb6647c410a77eef10"></a>
+class DllExport&#160;</td><td class="memItemRight" valign="bottom"><b>Container</b></td></tr>
+<tr class="separator:a8b05436e78700fcb6647c410a77eef10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>src/<a class="el" href="_window_8h_source.html">Window.h</a></li>
-<li>src/Window.cpp</li>
+<li>include/<a class="el" href="_t_window_8h_source.html">TWindow.h</a></li>
+<li>include/<a class="el" href="_window_8h_source.html">Window.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
