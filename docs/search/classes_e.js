@@ -5,7 +5,6 @@ var searchData=
   ['tableitem',['TableItem',['../class_table_item.html',1,'']]],
   ['tcpsocketclient',['TcpSocketClient',['../class_tcp_socket_client.html',1,'']]],
   ['tcpsocketserver',['TcpSocketServer',['../class_tcp_socket_server.html',1,'']]],
-  ['tevent',['TEvent',['../class_t_event.html',1,'']]],
   ['textarea',['TextArea',['../class_text_area.html',1,'']]],
   ['textfield',['TextField',['../class_text_field.html',1,'']]],
   ['thread',['Thread',['../class_thread.html',1,'']]],
