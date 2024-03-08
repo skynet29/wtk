@@ -13,3 +13,30 @@ const UINT Cursor::K_SIZEALL         = 32646;
 const UINT Cursor::K_NO              = 32648;
 const UINT Cursor::K_HAND            = 32649;
 const UINT Cursor::K_HELP            = 32651;
+
+Point Cursor::getPos()
+{
+    Point pt;
+    GetCursorPos(&pt);
+    return pt;
+}
+
+void Cursor::show() 
+{
+    ShowCursor(TRUE); 
+}
+
+void Cursor::hide() 
+{
+    ShowCursor(FALSE); 
+}
+
+void Cursor::clip(Rect rc)
+{
+    ClipCursor(&rc);
+}
+
+void Cursor::release()
+{
+    ClipCursor(NULL);
+}

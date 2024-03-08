@@ -72,6 +72,8 @@ public:
     Size getRealSize();
     Size getClientSize();
     BOOL isControl();
+    void clientToScreen(Point& pt);
+    void screenToClient(Point& pt);
 };
 
 class DllExport Control : public Window {

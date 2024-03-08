@@ -170,6 +170,17 @@ BOOL Window::isControl()
     return !StrBuffer(attr.className).equals(MAINCLASSNAME);
 }
 
+
+void Window::clientToScreen(Point& pt)
+{
+    ClientToScreen(hWnd, &pt);
+}
+
+void Window::screenToClient(Point& pt)
+{
+    ScreenToClient(hWnd, &pt);
+}
+
 //////////////////////////////////////
 
 UINT Control::getId()

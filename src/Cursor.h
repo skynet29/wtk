@@ -5,6 +5,11 @@
 
 class DllExport Cursor {
 public:
+	static Point getPos();
+	static void show();
+	static void hide();
+	static void clip(Rect rc);
+	static void release();
 
 	static const UINT K_ARROW;
 	static const UINT K_IBEAM;           

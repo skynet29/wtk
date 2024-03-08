@@ -1,6 +1,9 @@
 #include "Panel.h"
 #include "ScrollBar.h"
 
+#define GET_X_LPARAM(lp)                        ((int)(short)LOWORD(lp))
+#define GET_Y_LPARAM(lp)                        ((int)(short)HIWORD(lp))
+
 Panel::Panel(DWORD style)
 {
     attr.style |= style;
@@ -47,7 +50,9 @@ Graphic *Panel::getGraphic()
 
 void Panel::handleEvent(Event &evt)
 {
-    Point pt(LOWORD(evt.lParam), HIWORD(evt.lParam));
+    Point pt;
+	pt.x = GET_X_LPARAM(evt.lParam);
+	pt.y = GET_Y_LPARAM(evt.lParam);
 
     switch (evt.uMsg)
     {
