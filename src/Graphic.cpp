@@ -1,5 +1,5 @@
 #include "Graphic.h"
-
+#include "Icon.h"
 
 Graphic::Graphic(HDC hDC)
 {
@@ -108,6 +108,11 @@ void Graphic::drawBitmap(Point pt, Bitmap* pBitmap)
 		BitBlt(hDC, pt.x, pt.y, bmSize.width, bmSize.height, hMemDC, 0, 0, SRCCOPY);
 		DeleteDC(hMemDC);
 	}
+}
+
+void Graphic::drawIcon(Point pt, Icon* pIcon)
+{
+    DrawIconEx (hDC, pt.x, pt.y, pIcon->getHandle(), 0, 0, 0, NULL, DI_NORMAL); 
 }
 
 void Graphic::drawText(Point pt, LPSTR str)

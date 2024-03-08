@@ -16,7 +16,11 @@ public:
     ~Bitmap();
     HBITMAP getHandle() {return hBitmap;}
     Size getSize();
+    void replaceColor(Color oldColor, Color newColor);
+
     Bitmap* createMask(Color clTransparent);
+    Bitmap* clone();
+
     Graphic* getGraphic();
     BOOL saveToFile(LPSTR fileName);
 

@@ -51,7 +51,7 @@ Bitmap *Bitmap::loadFromResource(UINT resId, HMODULE hModule)
 	HBITMAP hBitmap = LoadBitmap((hModule) ? hModule : GetModuleHandle(NULL),
 								 MAKEINTRESOURCE(resId));
 
-	return new Bitmap(hBitmap);
+	return (hBitmap != NULL) ? new Bitmap(hBitmap) : NULL;
 }
 
 Bitmap *Bitmap::createMask(Color clTransparent)
@@ -75,6 +75,50 @@ Bitmap *Bitmap::createMask(Color clTransparent)
 	ReleaseDC(NULL, hDC);
 
 	return new Bitmap(hMaskBitmap);
+}
+
+Bitmap* Bitmap::clone()
+{
+	HDC hDC = GetDC(NULL);
+	HDC hSrcDC = CreateCompatibleDC(hDC);
+	Size sz = getSize();
+
+	SelectObject(hSrcDC, hBitmap);
+
+	HDC hDestDC = CreateCompatibleDC(hDC);
+	HBITMAP hNewBitmap = CreateCompatibleBitmap(hDC, sz.width, sz.height);
+	SelectObject(hDestDC, hNewBitmap);	
+
+	BitBlt(hDestDC, 0, 0, sz.width, sz.height, hSrcDC, 0, 0, SRCCOPY);
+	DeleteDC(hSrcDC);
+	DeleteDC(hDestDC);
+	ReleaseDC(NULL, hDC);
+	return new Bitmap(hNewBitmap);
+
+}
+
+void Bitmap::replaceColor(Color clOldColor, Color clNewColor)
+{
+	Size sz = getSize();
+
+	HDC hDC = GetDC(NULL);
+	HDC hMemDC = CreateCompatibleDC(hDC);
+
+	SelectObject(hMemDC, hBitmap);
+
+	for (int y = 0; y < sz.height; y++)
+	{
+		for (int x = 0; x < sz.width; x++)
+		{
+			COLORREF color = GetPixel(hMemDC, x, y);
+			if (color == clOldColor)
+				SetPixel(hMemDC, x, y, clNewColor);
+		}
+	}
+
+	DeleteDC(hMemDC);
+	ReleaseDC(NULL, hDC);
+	
 }
 
 Graphic *Bitmap::getGraphic()

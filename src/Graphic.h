@@ -6,6 +6,8 @@
 #include "Font.h"
 #include "Vector.h"
 
+class Icon;
+
 class DllExport Graphic {
 protected:
     HDC hDC;
@@ -34,6 +36,7 @@ public:
     void drawText(Bounds bounds, LPSTR str, UINT textAlignment = DT_LEFT);
     void drawPolyline(Vector<Point>& pts);
     void drawPolygon(Vector<Point>& pts);
+    void drawIcon(Point pt, Icon* pIcon);
 
     Bitmap* copyArea(Bounds bounds);
     Color getPixelColor(Point pt);
