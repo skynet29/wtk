@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['panel',['Panel',['../class_panel.html',1,'']]],
-  ['point',['Point',['../class_point.html',1,'']]],
-  ['popupmenu',['PopupMenu',['../class_popup_menu.html',1,'']]]
+  ['mdichild',['MdiChild',['../class_mdi_child.html',1,'']]],
+  ['mdictrl',['MdiCtrl',['../class_mdi_ctrl.html',1,'']]],
+  ['memgraphic',['MemGraphic',['../class_mem_graphic.html',1,'']]],
+  ['menu',['Menu',['../class_menu.html',1,'']]],
+  ['messagethread',['MessageThread',['../class_message_thread.html',1,'']]]
 ];
