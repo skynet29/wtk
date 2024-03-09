@@ -17,6 +17,7 @@
 #include "SliderCtrl.h"
 #include "TabCtrl.h"
 #include "BrowseFolderDialog.h"
+#include "Icon.h"
 
 #include <stdio.h>
 
@@ -38,9 +39,11 @@ class MyPanel : public Panel
 public:
     MyPanel() : Panel(WS_BORDER)
     {
+        pIcon = Icon::createFromBitmap("bitmaps\\copy.bmp", Color::GREEN);
     }
 
 protected:
+    Icon* pIcon;
     void onPaint(Graphic &gr)
     {
         gr.setPen(Color::RED, 1, PS_DASHDOT);
@@ -49,6 +52,7 @@ protected:
         gr.useHollowPen();
         gr.setBrush(Color::GREEN);
         gr.drawCircle(Point(80, 80), 50);
+        gr.drawIcon(Point(100, 30), pIcon);
     }
 };
 

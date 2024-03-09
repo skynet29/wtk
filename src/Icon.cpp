@@ -36,3 +36,19 @@ Icon *Icon::loadFromResource(UINT resId, HMODULE hModule)
 
 	return (hIcon != NULL) ? new Icon(hIcon) : NULL;
 }
+
+Icon* Icon::createFromBitmap(LPSTR fileName, Color clTransparent)
+{
+    Bitmap* pBitmap = Bitmap::loadFromFile(fileName);
+    if (pBitmap == NULL)
+        return NULL;
+
+    Bitmap* pMask = pBitmap->createMask(clTransparent);
+    pBitmap->replaceColor(clTransparent, Color::BLACK);
+    Icon* pIcon = new Icon(pBitmap, pMask);
+
+    delete pMask;
+    delete pBitmap;
+
+    return pIcon;
+}

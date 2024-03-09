@@ -1,7 +1,7 @@
 #ifndef ICON_H
 #define ICON_H
 
-#include "types.h"
+#include "Color.h"
 
 class Bitmap;
 
@@ -19,6 +19,7 @@ public:
 
     static Icon* loadFromFile(LPSTR fileName);
     static Icon* loadFromResource(UINT resId, HMODULE hModule = NULL);
+    static Icon* createFromBitmap(LPSTR fileName, Color clTransparent);
 };
 
 
