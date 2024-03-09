@@ -1,5 +1,4 @@
 
-#include <windows.h>
 
 #include "Application.h"
 #include "Frame.h"

@@ -1,7 +1,6 @@
 #ifndef Menu_H
 #define Menu_H
 
-#include <windows.h>
 #include "StrBuffer.h"
 
 class DllExport Shortcut {
@@ -17,6 +16,8 @@ public:
     static HACCEL Shortcut::createAccelTable();
 };
 
+class Icon;
+
 class DllExport PopupMenu {
 private:
     HMENU hMenu;
@@ -27,6 +28,8 @@ public:
     void addPopupMenu(PopupMenu& menu, LPSTR caption);
     void setItemChecked(UINT id, BOOL isChecked);
     void setItemEnabled(UINT id, BOOL isEnabled);
+    void setItemIcon(UINT id, Icon* pIcon);
+
     HMENU getHandle() {return hMenu;}
     friend class Menu;
 };

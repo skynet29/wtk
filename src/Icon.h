@@ -16,6 +16,7 @@ public:
     ~Icon();
 
     HICON getHandle() {return hIcon;}
+    Size getSize();
 
     static Icon* loadFromFile(LPSTR fileName);
     static Icon* loadFromResource(UINT resId, HMODULE hModule = NULL);

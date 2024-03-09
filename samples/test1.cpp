@@ -1,5 +1,4 @@
 
-#include <windows.h>
 
 #include "Application.h"
 #include "Frame.h"
@@ -8,6 +7,7 @@
 #include "MdiCtrl.h"
 #include "TextArea.h"
 #include "File.h"
+#include "Icon.h"
 
 enum
 {
@@ -77,12 +77,24 @@ public:
         fileMenu.addItem(ID_FILEOPEN, "Open...", new Shortcut('O', FCONTROL));
         fileMenu.addSeparator();
         fileMenu.addItem(ID_EXIT, "Exit");
+        Icon* pIcon = Icon::createFromBitmap("bitmaps\\open.bmp", Color::GREEN);
+        debugPrint("pIcon=%p\n", pIcon);
+        fileMenu.setItemIcon(ID_FILEOPEN, pIcon);
+        pIcon = Icon::createFromBitmap("bitmaps\\new.bmp", Color::GREEN);
+        fileMenu.setItemIcon(ID_FILENEW, pIcon);
 
         menuBar.addPopupMenu(wndMenu, "Window");
         wndMenu.addItem(ID_CASCADE, "Cascade");
-        wndMenu.addItem(ID_TILEHORIZONTAL, "Tile Horizontally");
-        wndMenu.addItem(ID_TILEVERTICAL, "Tile Vertically");
+        pIcon = Icon::createFromBitmap("bitmaps\\cascade.bmp", Color::GREEN);
+        wndMenu.setItemIcon(ID_CASCADE, pIcon);
 
+        wndMenu.addItem(ID_TILEHORIZONTAL, "Tile Horizontally");
+        pIcon = Icon::createFromBitmap("bitmaps\\tile_horz.bmp", Color::GREEN);
+        wndMenu.setItemIcon(ID_TILEHORIZONTAL, pIcon);
+
+        wndMenu.addItem(ID_TILEVERTICAL, "Tile Vertically");
+        pIcon = Icon::createFromBitmap("bitmaps\\tile_vert.bmp", Color::GREEN);
+        wndMenu.setItemIcon(ID_TILEVERTICAL, pIcon);
         // fileMenu.setItemEnabled(ID_FILEOPEN, FALSE);
         setMenu(menuBar);
         mdiCtrl->setWndMenu(wndMenu);

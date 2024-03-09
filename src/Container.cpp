@@ -1,6 +1,8 @@
 #include "Container.h"
 #include "Control.h"
 #include "Event.h"
+#include "Icon.h"
+#include "Graphic.h"
 
 Container::~Container()
 {
@@ -65,14 +67,52 @@ void Container::handleEvent(Event &evt)
 
     case WM_DRAWITEM:
     {
-        LPDRAWITEMSTRUCT lpDrawItem = (LPDRAWITEMSTRUCT)evt.lParam;
-        Control *pCtrl = (Control *)GetWindowLong(lpDrawItem->hwndItem, GWL_USERDATA);
-        if (pCtrl != NULL)
-        {
-            pCtrl->onDrawItem(evt);
+        LPDRAWITEMSTRUCT lpdis = (LPDRAWITEMSTRUCT)evt.lParam;
+
+        if (lpdis->CtlType == ODT_MENU) {
+            MENUITEMINFO info;
+            info.cbSize = sizeof(info); 
+            info.fMask = MIIM_DATA;
+            debugPrint("WM_DRAWITEM itemID=%d\n", lpdis->itemID);
+            GetMenuItemInfo((HMENU)lpdis->hwndItem, lpdis->itemID, FALSE, &info);
+            Icon* pIcon = (Icon*)info.dwItemData;
+            debugPrint("pIcon=%p\n", pIcon);
+            Graphic gr(lpdis->hDC);
+            debugPrint("rcItem=(%d, %d, %d, %d)\n", lpdis->rcItem.left, lpdis->rcItem.top, lpdis->rcItem.right, lpdis->rcItem.bottom);
+            gr.drawIcon(Point(lpdis->rcItem.left, lpdis->rcItem.top), pIcon);
+        }
+        else {
+            Control *pCtrl = (Control *)GetWindowLong(lpdis->hwndItem, GWL_USERDATA);
+            if (pCtrl != NULL)
+            {
+                pCtrl->onDrawItem(evt);
+            }
         }
     }
     break;
+
+    case WM_MEASUREITEM:
+    {
+        LPMEASUREITEMSTRUCT lpmis = (LPMEASUREITEMSTRUCT)evt.lParam;
+
+        if (lpmis->CtlType == ODT_MENU) {
+
+            debugPrint("WM_MEASUREITEM itemID=%d, itemData=%p\n", lpmis->itemID, lpmis->itemData);
+            Icon* pIcon = (Icon*)lpmis->itemData;
+            Size sz = pIcon->getSize();
+            debugPrint("size =(%d, %d)\n", sz.width, sz.height);
+            lpmis->itemWidth = sz.width;
+            lpmis->itemHeight = sz.height;
+        }
+        else {
+            // Control *pCtrl = (Control *)GetWindowLong(lpmis->hwndItem, GWL_USERDATA);
+            // if (pCtrl != NULL)
+            // {
+            //     pCtrl->onMeasureItem(evt);
+            // }
+        }
+    }
+    break;    
 
     case WM_NOTIFY:
     {

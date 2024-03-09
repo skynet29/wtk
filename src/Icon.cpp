@@ -52,3 +52,16 @@ Icon* Icon::createFromBitmap(LPSTR fileName, Color clTransparent)
 
     return pIcon;
 }
+
+Size Icon::getSize()
+{
+    ICONINFO iconinfo;
+    GetIconInfo(hIcon, &iconinfo);
+
+    BITMAP bitmap;
+    GetObject(iconinfo.hbmColor, sizeof(bitmap), &bitmap);
+    DeleteObject(iconinfo.hbmColor);
+    DeleteObject(iconinfo.hbmMask);
+
+    return Size(bitmap.bmWidth, bitmap.bmHeight);
+}

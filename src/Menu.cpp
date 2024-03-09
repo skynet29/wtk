@@ -103,3 +103,14 @@ void PopupMenu::setItemEnabled(UINT id, BOOL isEnabled)
     EnableMenuItem(hMenu, id, isEnabled ? MF_ENABLED : MF_GRAYED);
 }
 
+void PopupMenu::setItemIcon(UINT id, Icon* pIcon)
+{
+    MENUITEMINFO info;
+    info.cbSize = sizeof(info); 
+    info.fMask = MIIM_FTYPE | MIIM_BITMAP | MIIM_DATA;
+    info.hbmpItem = HBMMENU_CALLBACK;
+    info.fType = MFT_STRING;   
+    info.dwItemData = (DWORD)pIcon;
+
+    SetMenuItemInfo(hMenu, id, FALSE, &info);
+}

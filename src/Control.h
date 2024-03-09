@@ -15,6 +15,7 @@ public:
 protected:
     virtual void onNotify(Event& evt) {}  
     virtual void onDrawItem(Event& evt) {}
+    virtual void onMeasureItem(Event& evt) {}
     virtual void onCommand(Event& evt) {}
     virtual void onHScroll(Event& evt) {}
     friend class Container;  
