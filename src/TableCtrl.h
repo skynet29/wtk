@@ -1,7 +1,7 @@
 #ifndef TableCtrl_H
 #define TableCtrl_H
 
-#include "Window.h"
+#include "Control.h"
 
 class DllExport TableItem {
 protected:

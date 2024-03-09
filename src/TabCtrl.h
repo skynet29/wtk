@@ -1,7 +1,7 @@
 #ifndef TABCTRL_H
 #define TABCTRL_H
 
-#include "Window.h"
+#include "Control.h"
 #include "Vector.h"
 
 class DllExport TabCtrl : public Control {

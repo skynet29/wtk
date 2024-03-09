@@ -1,7 +1,7 @@
 #ifndef ComboBox_H
 #define ComboBox_H
 
-#include "Window.h"
+#include "Control.h"
 #include "StrBuffer.h"
 
 class DllExport ComboBox : public Control {

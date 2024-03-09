@@ -1,5 +1,5 @@
 #include "WavePlayer.h"
-#include "Window.h"
+#include "CustCtrl.h"
 
 WavePlayer::WavePlayer()
 {

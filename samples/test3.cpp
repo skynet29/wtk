@@ -5,6 +5,7 @@
 #include "Frame.h"
 #include "StrBuffer.h"
 #include "Panel.h"
+#include "Cursor.h"
 
 class Shape
 {

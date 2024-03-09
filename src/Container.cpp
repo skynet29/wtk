@@ -1,4 +1,6 @@
 #include "Container.h"
+#include "Control.h"
+#include "Event.h"
 
 Container::~Container()
 {

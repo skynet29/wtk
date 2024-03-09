@@ -1,7 +1,7 @@
 #ifndef SLIDERCTRL_H
 #define SLIDERCTRL_H
 
-#include "Window.h"
+#include "Control.h"
 
 class DllExport SliderCtrl : public Control
 {

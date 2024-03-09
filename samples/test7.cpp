@@ -6,6 +6,7 @@
 #include "SliderCtrl.h"
 #include "Button.h"
 #include "Layout.h"
+#include "Label.h"
 
 class MyFrame : public Frame
 {

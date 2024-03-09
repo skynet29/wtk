@@ -2,6 +2,7 @@
 #define MdiCtrl_H
 
 #include "Container.h"
+#include "Control.h"
 
 class DllExport PopupMenu;
 

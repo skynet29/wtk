@@ -1,5 +1,6 @@
 #include "VertDividerCtrl.h"
 #include "Panel.h"
+#include "Cursor.h"
 
 #define SIZEPANELHEIGHT 5
 

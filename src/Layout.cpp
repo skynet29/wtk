@@ -1,5 +1,6 @@
 #include "Layout.h"
 #include "Button.h"
+#include "Label.h"
 
 Layout::Layout(Container* pContainer, int left, int top)
 {

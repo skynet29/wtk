@@ -5,6 +5,7 @@
 #include "Frame.h"
 #include "StrBuffer.h"
 #include "Panel.h"
+#include "Cursor.h"
 
 #define WIDTH 1920
 #define HEIGHT 1080

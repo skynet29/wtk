@@ -2,12 +2,8 @@
 #define Window_H
 
 
-#include "types.h"
 #include "StrBuffer.h"
-#include "Font.h"
-#include "Color.h"
-#include "Vector.h"
-#include "Cursor.h"
+
 
 class DllExport WndAttr {
 public:    
@@ -25,22 +21,10 @@ public:
     void modifyStyle(DWORD addedStyle, BOOL state);
 };
 
-class DllExport Event {
-public:
-    HWND hWnd;
-    UINT uMsg;
-    WPARAM wParam;
-    LPARAM lParam;
-    LRESULT lResult;
-
-    Event(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
-    void processDefault(HWND hMdiClient = NULL);
-    void processMdiDefault();
-};
 
 
-class DllExport Container;
+
+class Container;
 
 class DllExport Window {
 protected:
@@ -71,50 +55,13 @@ public:
     Bounds getBounds();
     Size getRealSize();
     Size getClientSize();
-    BOOL isControl();
+    virtual BOOL isControl() {return FALSE;}
     void clientToScreen(Point& pt);
     void screenToClient(Point& pt);
 };
 
-class DllExport Control : public Window {
-public: 
-    void setEnabled(BOOL isEnabled);
-    void setFont(Font* font);
-    UINT getId();
-    void create(HWND hParent);
-protected:
-    virtual void onNotify(Event& evt) {}  
-    virtual void onDrawItem(Event& evt) {}
-    virtual void onCommand(Event& evt) {}
-    virtual void onHScroll(Event& evt) {}
-    friend class Container;  
-};
 
-class DllExport CustCtrl : public Window {
-private:
-    Color backColor;
-    HCURSOR hCursor;
-public:   
-    CustCtrl();
-    void setBackColor(Color backColor);
-    Color getBackColor() {return backColor;}
-    void startTimer(UINT timerId, UINT delayMs);
-    void stopTimer(UINT timerId);
-    void setCursor(UINT resId);
 
-    virtual void onAudioEndReached() {}
 
-protected:
-    virtual void handleEvent(Event& evt);
-
-    virtual void onCreate() {}
-    virtual void onTimer(UINT timerId) {}
-
-private:
-    static LRESULT wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-    static BOOL registerMainWindow();
-
-    friend class Application;
-};
 
 #endif

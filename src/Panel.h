@@ -1,4 +1,4 @@
-#include "Window.h"
+#include "CustCtrl.h"
 #include "Graphic.h"
 
 class ScrollBar;

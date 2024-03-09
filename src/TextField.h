@@ -1,7 +1,7 @@
-#ifndef TextField_H
-#define TextField_H
+#ifndef TEXTFIELD_H
+#define TEXTFIELD_H
 
-#include "Window.h"
+#include "Control.h"
 
 class DllExport TextField : public Control {
 public:

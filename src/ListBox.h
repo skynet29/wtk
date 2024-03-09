@@ -1,7 +1,7 @@
 #ifndef ListBox_H
 #define ListBox_H
 
-#include "Window.h"
+#include "Control.h"
 #include "StrBuffer.h"
 
 class DllExport ListBox : public Control {

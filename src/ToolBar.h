@@ -1,7 +1,7 @@
 #ifndef ToolBar_H
 #define ToolBar_H
 
-#include "Window.h"
+#include "Control.h"
 
 class DllExport Bitmap;
 

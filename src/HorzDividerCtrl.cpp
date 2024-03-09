@@ -1,5 +1,6 @@
 #include "HorzDividerCtrl.h"
 #include "Panel.h"
+#include "Cursor.h"
 
 #define SIZEPANELWIDTH 5
 

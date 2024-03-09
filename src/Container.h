@@ -1,10 +1,13 @@
 #ifndef Container_H
 #define Container_H
 
-#include "Window.h"
+#include "CustCtrl.h"
 #include "Vector.h"
 
 #define WSA_EVENT     (WM_USER + 1)
+
+
+class Control;
 
 class DllExport Container : public CustCtrl {
 private:

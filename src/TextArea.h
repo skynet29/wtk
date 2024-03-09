@@ -1,7 +1,7 @@
 #ifndef TextArea_H
 #define TextArea_H
 
-#include "Window.h"
+#include "Control.h"
 
 class DllExport TextArea : public Control {
 public:

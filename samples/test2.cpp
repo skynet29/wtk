@@ -18,6 +18,7 @@
 #include "TabCtrl.h"
 #include "BrowseFolderDialog.h"
 #include "Icon.h"
+#include "Label.h"
 
 #include <stdio.h>
 
