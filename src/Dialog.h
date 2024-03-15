@@ -12,7 +12,6 @@ public:
 
 protected:
     void handleEvent(Event& evt);
-    void onCommand(UINT id);
 };
 
 #endif

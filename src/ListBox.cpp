@@ -1,11 +1,10 @@
 #include "ListBox.h"
 #include "Container.h"
 
-ListBox::ListBox(UINT id, DWORD style)
+ListBox::ListBox(DWORD style)
 {
     attr.style |= LBS_NOTIFY | style;
     attr.className = "LISTBOX";
-    attr.hMenu = (HMENU)id;
     attr.styleEx = WS_EX_CLIENTEDGE;
 }
 

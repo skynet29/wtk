@@ -72,18 +72,3 @@ int Dialog::run()
 	ShowWindow(hWnd, SW_HIDE);
 	return msg.wParam;    
 }
-
-void Dialog::onCommand(UINT id)
-{
-    switch (id)
-    {
-    case IDOK:
-        close(TRUE);
-        break;
-
-    case IDCANCEL:
-        close(FALSE);
-        break;
-    }
-
-}

@@ -6,7 +6,7 @@
 
 class DllExport ListBox : public Control {
 public:
-    ListBox(UINT id, DWORD style = 0);
+    ListBox(DWORD style = 0);
 
     void addItem(LPSTR str);
     int getSelIndex();
