@@ -1,7 +1,9 @@
 #include "Menu.h"
 #include "Vector.h"
+#include "Application.h"
 
 static Vector<Shortcut*> shortcuts;
+static Vector<MenuItem*> items;
 
 Shortcut::Shortcut(char character, UINT keyChanger)
 {
@@ -52,10 +54,49 @@ void Shortcut::getText(StrBuffer& buffer)
     } 
 }
 
+MenuItem::MenuItem(HMENU hParent, UINT id)
+{
+    this->hParent = hParent;
+    this->id = id;
+    this->pIcon = NULL;
+    items.add(this);
+}
+
+void MenuItem::setChecked(BOOL isChecked)
+{
+    CheckMenuItem(hParent, id, isChecked ? MF_CHECKED : MF_UNCHECKED);
+}
+
+void MenuItem::setEnabled(BOOL isEnabled)
+{
+    EnableMenuItem(hParent, id, isEnabled ? MF_ENABLED : MF_GRAYED);
+}
+
+void MenuItem::setIcon(Icon* pIcon)
+{
+    this->pIcon = pIcon;
+
+    MENUITEMINFO info;
+    info.cbSize = sizeof(info); 
+    info.fMask = MIIM_FTYPE | MIIM_BITMAP;
+    info.hbmpItem = HBMMENU_CALLBACK;
+    info.fType = MFT_STRING;   
+
+    SetMenuItemInfo(hParent, id, FALSE, &info);
+}
+
+MenuItem* MenuItem::getFromId(UINT id)
+{
+    for(UINT i = 0; i< items.getCount(); i++) {
+        if (items[i]->getId() == id)
+            return items[i];
+    }
+    return NULL;
+}
 
 Menu::Menu()
 {
-    hMenu = CreateMenu();
+    hMenu = CreateMenu(); 
 }
 
 void Menu::addPopupMenu(PopupMenu& menu, LPSTR caption)
@@ -66,10 +107,20 @@ void Menu::addPopupMenu(PopupMenu& menu, LPSTR caption)
 PopupMenu::PopupMenu()
 {
     hMenu = CreatePopupMenu();
+    MENUINFO info;
+    debugPrint("PopupMenu %p\n", this);
+    info.cbSize = sizeof(info);
+    info.fMask = MIM_MENUDATA;
+    info.dwMenuData = (DWORD)this;
+    SetMenuInfo(hMenu, &info);
 }
 
-void PopupMenu::addItem(UINT id, LPSTR caption, Shortcut* shortcut)
+MenuItem* PopupMenu::addItem(LPSTR caption, Shortcut* shortcut)
 {
+    static UINT g_Id = 100;
+
+    UINT id = g_Id++;    
+
     if (shortcut != NULL) {
         StrBuffer t;
         t.format("%s\t", caption);
@@ -81,6 +132,8 @@ void PopupMenu::addItem(UINT id, LPSTR caption, Shortcut* shortcut)
     else {
         AppendMenu(hMenu, MF_STRING, id, caption);
     }
+
+    return new MenuItem(hMenu, id);
 }
 
 void PopupMenu::addPopupMenu(PopupMenu& menu, LPSTR caption)
@@ -93,24 +146,12 @@ void PopupMenu::addSeparator()
     AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
 }
 
-void PopupMenu::setItemChecked(UINT id, BOOL isChecked)
-{
-    CheckMenuItem(hMenu, id, isChecked ? MF_CHECKED : MF_UNCHECKED);
-}
 
-void PopupMenu::setItemEnabled(UINT id, BOOL isEnabled)
-{
-    EnableMenuItem(hMenu, id, isEnabled ? MF_ENABLED : MF_GRAYED);
-}
 
-void PopupMenu::setItemIcon(UINT id, Icon* pIcon)
+UINT PopupMenu::track(Point pt)
 {
-    MENUITEMINFO info;
-    info.cbSize = sizeof(info); 
-    info.fMask = MIIM_FTYPE | MIIM_BITMAP | MIIM_DATA;
-    info.hbmpItem = HBMMENU_CALLBACK;
-    info.fType = MFT_STRING;   
-    info.dwItemData = (DWORD)pIcon;
-
-    SetMenuItemInfo(hMenu, id, FALSE, &info);
+	return TrackPopupMenu(hMenu, 
+		TPM_LEFTBUTTON | TPM_RETURNCMD | TPM_NONOTIFY,
+		pt.x, pt.y, 0,
+		Application::getMainFrame()->getHandle(), NULL);    
 }

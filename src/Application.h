@@ -11,6 +11,7 @@ public:
     int run(Frame& frame);
     static void getExeName(StrBuffer& str);
     static Size getScreenSize();
+    static Frame* getMainFrame();
 
 };
 

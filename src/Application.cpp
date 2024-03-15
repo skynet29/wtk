@@ -5,6 +5,8 @@
 
 #include <stdio.h>
 
+static Frame* pMainFrame = NULL;
+
 Application::Application() 
 {
     Font::initClass();
@@ -48,6 +50,8 @@ int Application::run(Frame& frame)
         return -1;
     }
 
+    pMainFrame = &frame;
+
     frame.create(NULL);
 
     HACCEL hAccel = Shortcut::createAccelTable();
@@ -70,3 +74,7 @@ int Application::run(Frame& frame)
 
 }
 
+Frame* Application::getMainFrame()
+{
+    return pMainFrame;
+}

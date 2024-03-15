@@ -16,19 +16,18 @@ public:
 
 class MyFrame : public Frame {
 public:
-    enum {ID_FILEOPEN = 100, ID_PLAY, ID_STOP, ID_SLIDER};
 
     MyFrame() : Frame("Test 8") {
         pVideoStream = NULL;
         pAudioStream = NULL;
         menuBar.addPopupMenu(fileMenu, "File");
-        fileMenu.addItem(ID_FILEOPEN, "Open...");
+        fileMenu.addItem("Open...")->setOnClick(CBK(MyFrame, openFile));
         fileMenu.addSeparator();
-        fileMenu.addItem(ID_PLAY, "Play");
-        fileMenu.addItem(ID_STOP, "Stop");
+        fileMenu.addItem("Play")->setOnClick(CBK(MyFrame, play));
+        fileMenu.addItem("Stop")->setOnClick(CBK(MyFrame, stop));
         setMenu(menuBar);
         addChild(panel = new MyPanel());
-        addChild(slider = new SliderCtrl(ID_SLIDER));
+        addChild(slider = new SliderCtrl());
 
         panel->setBackColor(Color::GREEN);
     }
@@ -38,7 +37,7 @@ protected:
         panel->setSize(width, height -25);
     }
 
-    void onAudioEndReached() {
+    void onAudioEndReached(void* from) {
         debugPrint("onAudioEndReached\n");
         stopTimer(0);
     }
@@ -62,7 +61,7 @@ protected:
         }
     }
 
-    void play() {
+    void play(void* from) {
          if (pAudioStream != NULL) {
              pAudioStream->play(startTime);
              startTimer(0, 10);
@@ -73,7 +72,7 @@ protected:
          }
     }
 
-    void stop() {
+    void stop(void* from) {
         if (pAudioStream != NULL) {
             startTime = pAudioStream->getElapsedTime();
             pAudioStream->stop();
@@ -81,24 +80,8 @@ protected:
         stopTimer(0);
 
     }
-
-    void onCommand(UINT id ) {
-        switch(id) {
-            case ID_FILEOPEN:
-                openFile();
-                break;
-            
-            case ID_PLAY:
-               play();
-               break;
-
-            case ID_STOP:
-                stop();
-                break;
-        }
-    }
     
-    void openFile() {
+    void openFile(void* from) {
         if (pVideoStream != NULL) {
             delete pVideoStream;
             pVideoStream = NULL;
@@ -111,7 +94,7 @@ protected:
         LPSTR fileName = getOpenFileName("AVI|*.avi");
         if (fileName != NULL) {
             if (aviFile.open(fileName)) {
-                pAudioStream = aviFile.getAudioStream(this);
+                pAudioStream = aviFile.getAudioStream();
                 if (pAudioStream == NULL) {
                     debugPrint("No audio found!");
                 }
@@ -123,7 +106,7 @@ protected:
                 }
                 pVideoStream = aviFile.getVideoStream();
                 if (pVideoStream == NULL) {
-                    showMsg("Codec not supported!");
+                    showMsg("Video Codec not supported!");
                 }
                 else {
                     currentFrame = 0;

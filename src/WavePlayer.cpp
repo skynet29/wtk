@@ -1,5 +1,6 @@
 #include "WavePlayer.h"
-#include "CustCtrl.h"
+#include "Application.h"
+
 
 WavePlayer::WavePlayer()
 {
@@ -32,7 +33,7 @@ void WavePlayer::close()
 
 }
 
-BOOL WavePlayer::open(WavePlayerReader *pReader, CustCtrl *pCtrl, WAVEFORMATEX &format, LONG dataSize)
+BOOL WavePlayer::open(WavePlayerReader *pReader, WAVEFORMATEX &format, LONG dataSize)
 {
     close();
 
@@ -41,7 +42,7 @@ BOOL WavePlayer::open(WavePlayerReader *pReader, CustCtrl *pCtrl, WAVEFORMATEX &
     this->dataSize = dataSize;
     dataToRead = dataSize;
 
-    if (waveOutOpen(&hWaveOut, WAVE_MAPPER, &format, (DWORD)pCtrl->getHandle(), 0, CALLBACK_WINDOW) != 0) {
+    if (waveOutOpen(&hWaveOut, WAVE_MAPPER, &format, (DWORD)Application::getMainFrame()->getHandle(), 0, CALLBACK_WINDOW) != 0) {
         debugPrint("waveOutOpen fail!\n");
         return FALSE;
     }
@@ -118,7 +119,7 @@ long WavePlayer::queueWaveData(LPWAVEHDR lpwh)
         _isPlaying = FALSE;
         debugPrint("Audio finish!\n");
         waveOutReset(hWaveOut);
-        pCtrl->onAudioEndReached();
+        onEndReached.fire(this);
     }
 
     return 0;

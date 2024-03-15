@@ -6,14 +6,16 @@
 class DllExport SliderCtrl : public Control
 {
 public:
-    SliderCtrl(UINT id);
+    SliderCtrl();
 
     void setRange(int min, int max);
     void setValue(int value);
     int getValue();
+    void setOnSelChange(Callback* cbk) {onSelChange.set(cbk);}
 protected:
     void onHScroll(Event& evt); 
-
+private:
+    CbkHolder onSelChange;
 };
 
 

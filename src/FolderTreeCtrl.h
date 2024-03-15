@@ -6,7 +6,7 @@
 
 class DllExport FolderTreeCtrl : public DynamicTreeCtrl {
 public: 
-    FolderTreeCtrl(UINT id, LPSTR strPath);
+    FolderTreeCtrl(LPSTR strPath);
 
     void create(HWND hParent);
 

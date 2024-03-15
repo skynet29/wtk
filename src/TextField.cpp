@@ -1,10 +1,9 @@
 #include "TextField.h"
 
-TextField::TextField(UINT id, DWORD style)
+TextField::TextField(DWORD style)
 {
     attr.style |= ES_AUTOHSCROLL | style;
     attr.className = "EDIT";
-    attr.hMenu = (HMENU)id;
     attr.styleEx = WS_EX_CLIENTEDGE;
 }
 

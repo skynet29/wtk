@@ -1,7 +1,7 @@
 #include "FolderTreeCtrl.h"
 #include "File.h"
 
-FolderTreeCtrl::FolderTreeCtrl(UINT id, LPSTR strPath) : DynamicTreeCtrl(id)
+FolderTreeCtrl::FolderTreeCtrl(LPSTR strPath)
 {
     this->strPath.set(strPath);
 }

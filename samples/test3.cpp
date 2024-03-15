@@ -89,31 +89,24 @@ protected:
     }
 };
 
-enum
-{
-    IDM_RED = 100,
-    IDM_GREEN,
-    IDM_BLUE
-};
-
 struct ColorEntry
 {
     char *label;
-    UINT id;
     Color color;
+    MenuItem *pItem;
 
-    ColorEntry(char *label, UINT id, Color color)
+    ColorEntry(char *label, Color color)
     {
         this->label = label;
-        this->id = id;
         this->color = color;
+        pItem = NULL;
     }
 };
 
 static ColorEntry colorMap[] = {
-    ColorEntry("Red", IDM_RED, Color::RED),
-    ColorEntry("Green", IDM_GREEN, Color::GREEN),
-    ColorEntry("Blue", IDM_BLUE, Color::BLUE),
+    ColorEntry("Red", Color::RED),
+    ColorEntry("Green", Color::GREEN),
+    ColorEntry("Blue", Color::BLUE),
 };
 
 #define NB_COLOR 3
@@ -139,10 +132,12 @@ public:
         panel1->setBackColor(Color::CYAN);
 
         menu.addPopupMenu(colorMenu, "Color");
+        colorMenu.setOnInit(CBK(MyFrame, onInitMenu));
         for (UINT i = 0; i < NB_COLOR; i++)
         {
-            ColorEntry e = colorMap[i];
-            colorMenu.addItem(e.id, e.label);
+            ColorEntry& e = colorMap[i];
+            e.pItem = colorMenu.addItem(e.label);
+            e.pItem->setOnClick(CBK(MyFrame, colorItem_onClick));
         }
         setMenu(menu);
 
@@ -156,27 +151,28 @@ protected:
         panel1->setSize(width, height);
     }
 
-    void onCommand(UINT id)
+    void colorItem_onClick(void* from) 
     {
         for (UINT i = 0; i < NB_COLOR; i++)
         {
-            ColorEntry e = colorMap[i];
-            if (e.id == id)
+            ColorEntry& e = colorMap[i];
+            if (e.pItem == from)
             {
                 selColor = e.color;
                 panel1->setSelColor(selColor);
             }
-        }
+        }        
     }
 
-    void onInitMenu(HMENU hMenu)
+    void onInitMenu(void* from)
     {
         for (UINT i = 0; i < NB_COLOR; i++)
         {
-            ColorEntry e = colorMap[i];
-            colorMenu.setItemChecked(e.id, e.color == selColor);
+            ColorEntry& e = colorMap[i];
+            e.pItem->setChecked(e.color == selColor);
         }
     }
+    
 };
 
 int APIENTRY WinMain(HINSTANCE hInstance,

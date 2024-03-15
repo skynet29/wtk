@@ -94,34 +94,25 @@ protected:
     friend class MyFrame;
 };
 
-enum
-{
-    IDM_RED = 100,
-    IDM_GREEN,
-    IDM_BLUE,
-    IDM_FILEOPEN,
-    IDM_FILESAVE,
-    IDM_FILEEXIT
-};
 
 struct ColorEntry
 {
     char *label;
-    UINT id;
     Color color;
+    MenuItem* pItem;
 
-    ColorEntry(char *label, UINT id, Color color)
+    ColorEntry(char *label, Color color)
     {
         this->label = label;
-        this->id = id;
         this->color = color;
+        pItem = NULL;
     }
 };
 
 static ColorEntry colorMap[] = {
-    ColorEntry("Red", IDM_RED, Color::RED),
-    ColorEntry("Green", IDM_GREEN, Color::GREEN),
-    ColorEntry("Blue", IDM_BLUE, Color::BLUE),
+    ColorEntry("Red", Color::RED),
+    ColorEntry("Green", Color::GREEN),
+    ColorEntry("Blue", Color::BLUE),
 };
 
 #define NB_COLOR 3
@@ -146,16 +137,19 @@ public:
         addChild(panel1);
 
         menu.addPopupMenu(fileMenu, "File");
-        fileMenu.addItem(IDM_FILEOPEN, "Open...");
-        fileMenu.addItem(IDM_FILESAVE, "Save");
+        fileMenu.addItem("Open...")->setOnClick(CBK(MyFrame, fileOpen_onClick));
+        fileMenu.addItem("Save")->setOnClick(CBK(MyFrame, fileSave_onClick));
         fileMenu.addSeparator();
-        fileMenu.addItem(IDM_FILEEXIT, "Exit");
+        fileMenu.addItem("Exit")->setOnClick(CBK(MyFrame, fileExit_onClick));
 
         menu.addPopupMenu(colorMenu, "Color");
+        colorMenu.setOnInit(CBK(MyFrame, onInitMenu));
+
         for (UINT i = 0; i < NB_COLOR; i++)
         {
-            ColorEntry e = colorMap[i];
-            colorMenu.addItem(e.id, e.label);
+            ColorEntry& e = colorMap[i];
+            e.pItem = colorMenu.addItem(e.label);
+            e.pItem->setOnClick(CBK(MyFrame, colorItem_onClick));
         }
         setMenu(menu);
 
@@ -169,62 +163,59 @@ protected:
         panel1->setSize(width, height);
     }
 
-    void onCommand(UINT id)
+    void colorItem_onClick(void* from) 
     {
         for (UINT i = 0; i < NB_COLOR; i++)
         {
-            ColorEntry e = colorMap[i];
-            if (e.id == id)
+            ColorEntry& e = colorMap[i];
+            if (e.pItem == from)
             {
                 selColor = e.color;
                 panel1->setSelColor(selColor);
             }
         }
+    }
 
-        switch (id)
+    void fileSave_onClick(void *from)
+    {
+        LPSTR fileName = getSaveFileName("bmp");
+        if (fileName != NULL)
         {
-        case IDM_FILESAVE:
-        {
-            LPSTR fileName = getSaveFileName("bmp");
-            if (fileName != NULL)
-            {
-                printf("fileName=%s\n", fileName);
-                panel1->pBitmap->saveToFile(fileName);
-            }
-        }
-
-        break;
-        case IDM_FILEEXIT:
-            close();
-            break;
-        case IDM_FILEOPEN:
-        {
-            LPSTR fileName = getOpenFileName("Bitmap|*.bmp");
-            if (fileName != NULL)
-            {
-                // printf("fileName=%s\n", fileName);
-                Bitmap *pBitmap = Bitmap::loadFromFile(fileName);
-                if (pBitmap != NULL)
-                {
-                    Graphic *pGraphic = panel1->pBitmap->getGraphic();
-                    Point pt = panel1->getPageOrigin();
-                    pGraphic->drawBitmap(pt, pBitmap);
-                    delete pGraphic;
-                    delete pBitmap;
-                    panel1->redraw();
-                }
-            }
-        }
-        break;
+            printf("fileName=%s\n", fileName);
+            panel1->pBitmap->saveToFile(fileName);
         }
     }
 
-    void onInitMenu(HMENU hMenu)
+    void fileExit_onClick(void* from) 
+    {
+        close();
+    }
+
+    void fileOpen_onClick(void* from) 
+    {
+        LPSTR fileName = getOpenFileName("Bitmap|*.bmp");
+        if (fileName != NULL)
+        {
+            // printf("fileName=%s\n", fileName);
+            Bitmap *pBitmap = Bitmap::loadFromFile(fileName);
+            if (pBitmap != NULL)
+            {
+                Graphic *pGraphic = panel1->pBitmap->getGraphic();
+                Point pt = panel1->getPageOrigin();
+                pGraphic->drawBitmap(pt, pBitmap);
+                delete pGraphic;
+                delete pBitmap;
+                panel1->redraw();
+            }
+        }
+    }    
+
+    void onInitMenu(void* from)
     {
         for (UINT i = 0; i < NB_COLOR; i++)
         {
-            ColorEntry e = colorMap[i];
-            colorMenu.setItemChecked(e.id, e.color == selColor);
+            ColorEntry& e = colorMap[i];
+            e.pItem->setChecked(e.color == selColor);
         }
     }
 };

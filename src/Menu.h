@@ -18,20 +18,42 @@ public:
 
 class Icon;
 
+class DllExport MenuItem {
+public:
+    void setChecked(BOOL isChecked);
+    void setEnabled(BOOL isEnabled);
+    void setIcon(Icon* pIcon);
+    void setOnClick(Callback* cbk) {onClick.set(cbk);}
+    UINT getId() {return id;}
+private:  
+    MenuItem(HMENU hParent, UINT id); 
+    static MenuItem* getFromId(UINT id);
+   
+    HMENU hParent;    
+    UINT id;
+    Icon* pIcon;
+    CbkHolder onClick;
+
+    friend class PopupMenu;
+    friend class Container;
+};
+
 class DllExport PopupMenu {
 private:
     HMENU hMenu;
+    CbkHolder onInit;
 public:
     PopupMenu();
-    void addItem(UINT id, LPSTR caption, Shortcut* shortcut = NULL);
+    MenuItem* addItem(LPSTR caption, Shortcut* shortcut = NULL);
     void addSeparator();
     void addPopupMenu(PopupMenu& menu, LPSTR caption);
-    void setItemChecked(UINT id, BOOL isChecked);
-    void setItemEnabled(UINT id, BOOL isEnabled);
-    void setItemIcon(UINT id, Icon* pIcon);
+    UINT track(Point pt);
+    void setOnInit(Callback* cbk) {onInit.set(cbk);}
 
     HMENU getHandle() {return hMenu;}
     friend class Menu;
+    friend class Container;
+
 };
 
 class DllExport Menu {

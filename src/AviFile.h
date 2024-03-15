@@ -17,7 +17,7 @@ public:
     void close();
 
     VideoStream* getVideoStream();
-    AudioStream* getAudioStream(CustCtrl* pCtrl);
+    AudioStream* getAudioStream();
 
 private:
     PAVIFILE pFile;    

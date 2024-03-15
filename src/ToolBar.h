@@ -3,7 +3,29 @@
 
 #include "Control.h"
 
-class DllExport Bitmap;
+class Bitmap;
+class ToolBar;
+
+class DllExport ToolButton {
+public:
+    ToolButton(ToolBar* parent);
+    UINT getId() {return id;}
+    void setEnabled(BOOL isEnabled);
+    void setChecked(BOOL isChecked);
+    void setOnClick(Callback* cbk) {onClick.set(cbk);}
+    void setToolTips(LPSTR strToolTips);
+
+    BOOL isChecked();
+    BOOL isEnabled();
+
+private:
+    UINT id;
+    ToolBar* parent;
+    StrBuffer toolTips;
+    CbkHolder onClick;
+
+    friend class ToolBar;
+};
 
 class DllExport ToolBar : public Control {
 public:
@@ -31,17 +53,14 @@ public:
 
     ToolBar();
 
-    void addButton(Bitmap* pBitmap, int idCommand, LPSTR strToolTips = NULL, BYTE style = K_BUTTON);
-    void addStdButton(int idx, int idCommand, LPSTR strToolTips = NULL, BYTE style = K_BUTTON);
+    ToolButton* addButton(Bitmap* pBitmap, BYTE style = K_BUTTON);
+    ToolButton* addStdButton(int idx, BYTE style = K_BUTTON);
     void addSeparator(int size = 5);
-    void seButtonEnabled(int idCommand, BOOL isEnabled);
-    void seButtonChecked(int idCommand, BOOL isChecked);
     Size resize();
 
-    BOOL isButtonChecked(int idCommand);
-    BOOL isButtonEnabled(int idCommand);
-
 protected:
+    ToolButton* getButton(UINT id);
+
     void create(HWND hParent);    
     void onNotify(Event& evt);
     void onCommand(Event& evt);

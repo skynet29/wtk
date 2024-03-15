@@ -9,13 +9,14 @@ public:
     WaveFile();
     ~WaveFile();
 
-    BOOL open(CustCtrl* pCtrl, LPSTR fileName);
+    BOOL open(LPSTR fileName);
     void play(LONG startTimeSec = 0);
     void stop();
     LONG getDuration();
     LONG getElapsedTime();
     BOOL isPlaying();
     void setVolume(WORD volume);
+    void setOnEndReached(Callback* cbk);
 
 private:
     LONG readData(LPSTR buff, LONG bufSize);

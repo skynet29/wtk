@@ -44,7 +44,7 @@ LONG WaveFile::getElapsedTime()
     return startTimeSec + samplePlayed / format.nSamplesPerSec;
 }
 
-BOOL WaveFile::open(CustCtrl* pCtrl, LPSTR fileName)
+BOOL WaveFile::open(LPSTR fileName)
 {
     hMMIO = mmioOpen(fileName, 0, MMIO_READ);
     if (hMMIO == NULL)
@@ -69,7 +69,7 @@ BOOL WaveFile::open(CustCtrl* pCtrl, LPSTR fileName)
     if (!readDataChunk(infoParent))
         return FALSE;
 
-    if (!player.open(this, pCtrl, format, dataSize))
+    if (!player.open(this, format, dataSize))
         return FALSE;
 
     return TRUE;
@@ -170,7 +170,12 @@ BOOL WaveFile::readFormatChunk(MMCKINFO& infoParent)
     return TRUE;
 }
 
- void WaveFile::setVolume(WORD volume)
- {
+void WaveFile::setVolume(WORD volume)
+{
     player.setVolume(volume);
- }
+}
+
+void WaveFile::setOnEndReached(Callback* cbk)
+{
+    player.setOnEndReached(cbk);
+}

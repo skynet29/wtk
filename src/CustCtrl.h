@@ -19,10 +19,9 @@ public:
     void stopTimer(UINT timerId);
     void setCursor(UINT resId);
 
-    virtual void onAudioEndReached() {}
-
 protected:
     virtual void handleEvent(Event& evt);
+    virtual void processDefault(Event& evt);
 
     virtual void onCreate() {}
     virtual void onTimer(UINT timerId) {}

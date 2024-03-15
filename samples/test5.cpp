@@ -20,26 +20,24 @@ private:
     Button* btnSend;
     TextArea* txtRecvMsg;
 
-    enum {
-        ID_BTNCONNECT = 100,
-        ID_BTNCLOSE,
-        ID_BTNSEND,
-        ID_TXTPORT,
-        ID_TXTHOST,
-        ID_TEXTMSG
-    };
+
 public:
 
     MyFrame() : Frame("Test 5") {
 
         setResizable(FALSE);
         
-        txtPort = new TextField(ID_TXTPORT, ES_NUMBER);
-        txtHost = new TextField(ID_TXTHOST);
-        btnConnect = new Button("Connect", ID_BTNCONNECT);
-        btnClose = new Button("Close", ID_BTNCLOSE);
-        txtMsg = new TextField(ID_TEXTMSG);
-        btnSend = new Button("Send", ID_BTNSEND);
+        txtPort = new TextField(ES_NUMBER);
+        txtHost = new TextField();
+        btnConnect = new Button("Connect");
+        btnConnect->setOnClick(CBK(MyFrame, btnConnect_onClick));
+        btnClose = new Button("Close");
+        btnClose->setOnClick(CBK(MyFrame, btnClose_onClick));
+
+        txtMsg = new TextField();
+        btnSend = new Button("Send");
+        btnSend->setOnClick(CBK(MyFrame, btnSend_onClick));
+
         txtRecvMsg = new TextArea();
 
         txtPort->setText("60280");
@@ -91,36 +89,31 @@ protected:
         updateState(FALSE);
     }
 
-    void onCommand(UINT id) {
-        switch(id) {
-            case ID_BTNCONNECT:
-                {
-                    StrBuffer host;
-                    txtHost->getText(host);
-                    StrBuffer port;
-                    txtPort->getText(port);
-                    if (!client.connect(this, host.getBuffer(), port.toInt())) {
-                        showMsg("Connection fail!");
-                    }
-                    else {
-                        updateState(TRUE);
-                    }
-                }
-                break;
-            
-            case ID_BTNCLOSE:
-                client.close();
-                updateState(FALSE);
-                break;
-
-            case ID_BTNSEND:
-                {
-                    StrBuffer msg;
-                    txtMsg->getText(msg);
-                    client.send((LPBYTE)msg.getBuffer(), msg.getLength());
-                }
-                break;
+    void btnConnect_onClick(void* from) 
+    {
+        StrBuffer host;
+        txtHost->getText(host);
+        StrBuffer port;
+        txtPort->getText(port);
+        if (!client.connect(this, host.getBuffer(), port.toInt())) {
+            showMsg("Connection fail!");
         }
+        else {
+            updateState(TRUE);
+        }
+    }
+
+    void btnClose_onClick(void* from) 
+    {
+        client.close();
+        updateState(FALSE);
+    }
+    
+    void btnSend_onClick(void* from) 
+    {
+        StrBuffer msg;
+        txtMsg->getText(msg);
+        client.send((LPBYTE)msg.getBuffer(), msg.getLength());
     }
 
 

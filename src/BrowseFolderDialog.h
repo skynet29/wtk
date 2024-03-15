@@ -14,10 +14,13 @@ public:
     void getPath(StrBuffer& text);
 
 protected:
-    void onSelChange(UINT id);
     void onCreate();
 
 private:
+    void selChange(void* from);
+    void btnOk(void* from);
+    void btnCancel(void* from);
+
     StrBuffer strPath;
     TreeCtrl *tree1;
     TextField *text1;

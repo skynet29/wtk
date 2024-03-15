@@ -22,7 +22,6 @@ protected:
     void handleEvent(Event& evt);
 
     virtual BOOL canClose() {return TRUE;}
-    virtual void onInitMenu(HMENU hMenu) {}
 };
 
 #endif

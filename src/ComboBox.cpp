@@ -2,11 +2,10 @@
 #include "Container.h"
 #include "Event.h"
 
-ComboBox::ComboBox(UINT id)
+ComboBox::ComboBox()
 {
     attr.style |= CBS_DROPDOWNLIST | WS_VSCROLL;
     attr.className = "COMBOBOX";
-    attr.hMenu = (HMENU)id;
     attr.styleEx = WS_EX_CLIENTEDGE;
 }
 
@@ -71,6 +70,6 @@ void ComboBox::getSelItem(StrBuffer& text)
 
 void ComboBox::onCommand(Event& evt)
 {
-    if (HIWORD(evt.wParam) == CBN_SELCHANGE)
-        parent->onSelChange(LOWORD(evt.wParam));
+    if (evt.getCode() == CBN_SELCHANGE)
+        onSelChange.fire(this);
 }

@@ -6,7 +6,7 @@
 
 class DllExport ComboBox : public Control {
 public:
-    ComboBox(UINT id);
+    ComboBox();
 
     void addItem(LPSTR str);
     int getSelIndex();
@@ -17,10 +17,11 @@ public:
     UINT getItemCount();
     void setSelIndex(int index);
     void getSelItem(StrBuffer& text); 
-
+    void setOnSelChange(Callback* cbk) {onSelChange.set(cbk);}
 protected:
     void create(HWND hParent);
     void onCommand(Event& evt);
-
+private:
+    CbkHolder onSelChange;
 };
 #endif

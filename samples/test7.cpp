@@ -11,71 +11,62 @@
 class MyFrame : public Frame
 {
 public:
-    enum
-    {
-        ID_FILEOPEN = 100,
-        ID_PLAY,
-        ID_STOP,
-        ID_SLIDER
-    };
 
     MyFrame() : Frame("Test 7")
     {
         menuBar.addPopupMenu(fileMenu, "File");
-        fileMenu.addItem(ID_FILEOPEN, "Open...");
+        fileMenu.addItem("Open...")->setOnClick(CBK(MyFrame, fileOpen));
         fileMenu.addSeparator();
-        fileMenu.addItem(ID_PLAY, "Play");
-        fileMenu.addItem(ID_STOP, "Stop");
+        pItemPlay = fileMenu.addItem("Play");
+        pItemPlay->setOnClick(CBK(MyFrame, play));
+        pItemStop = fileMenu.addItem("Stop");
+        pItemStop->setOnClick(CBK(MyFrame, stop));
+        fileMenu.setOnInit(CBK(MyFrame, onInitMenu));
 
         setMenu(menuBar);
 
         Layout layout(this, 10, 10);
         layout.add(pLabelTime = new Label("00:00"), Size(40, 25));
-        layout.add(pSlider = new SliderCtrl(ID_SLIDER), Size(400, 25), 10);
+        layout.add(pSlider = new SliderCtrl(), Size(400, 25), 10);
 
+        waveFile.setOnEndReached(CBK(MyFrame, onAudioEndReached));
 
         pLabelTime->setBackColor(Color::WHITE);
 
     }
 
 protected:
-    void onInitMenu(HMENU hMenu)
+
+
+    void onInitMenu(void* from)
     {
-        fileMenu.setItemEnabled(ID_PLAY, !waveFile.isPlaying());
-        fileMenu.setItemEnabled(ID_STOP, waveFile.isPlaying());
+        pItemPlay->setEnabled(!waveFile.isPlaying());
+        pItemStop->setEnabled(waveFile.isPlaying());
     }
 
-    void onCommand(UINT id)
+    void play(void* from) 
     {
-        switch (id)
-        {
-        case ID_PLAY:
-            waveFile.play(startTime);
-            startTimer(0, 1000);
-            break;
+        waveFile.play(startTime);
+        startTimer(0, 1000);
+    }
 
-        case ID_STOP:
-            startTime = waveFile.getElapsedTime();
-            stopTimer(0);
-            waveFile.stop();
-            break;
+    void stop(void* from)
+    {
+        startTime = waveFile.getElapsedTime();
+        stopTimer(0);
+        waveFile.stop();
+    }
 
-        case ID_FILEOPEN:
+    void fileOpen(void* from)
+    {
+        LPSTR fileName = getOpenFileName("Wave|*.wav");
+        if (fileName != NULL)
         {
-            LPSTR fileName = getOpenFileName("Wave|*.wav");
-            if (fileName != NULL)
+            if (waveFile.open(fileName))
             {
-                if (waveFile.open(this, fileName))
-                {
-                    pSlider->setRange(0, waveFile.getDuration());
-                    startTime = 0;
-                }
+                pSlider->setRange(0, waveFile.getDuration());
+                startTime = 0;
             }
-        }
-        break;
-
-        default:
-            break;
         }
     }
 
@@ -92,7 +83,7 @@ protected:
         pLabelTime->setText(text);
     }
 
-    void onAudioEndReached()
+    void onAudioEndReached(void* from)
     {
         debugPrint("onAudioEndReached\n");
         stopTimer(0);
@@ -101,6 +92,8 @@ protected:
     WaveFile waveFile;
     SliderCtrl *pSlider;
     Label* pLabelTime;
+    MenuItem* pItemPlay;
+    MenuItem* pItemStop;    
     Menu menuBar;
     PopupMenu fileMenu;
     LONG startTime;

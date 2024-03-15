@@ -55,7 +55,6 @@ public:
     Bounds getBounds();
     Size getRealSize();
     Size getClientSize();
-    virtual BOOL isControl() {return FALSE;}
     void clientToScreen(Point& pt);
     void screenToClient(Point& pt);
 };

@@ -17,13 +17,13 @@ private:
     Button* btnListen;
     TextArea* txtInfo;
 public:
-    enum {ID_BTNLISTEN = 100};
 
     MyFrame() : Frame("Test 6") {
         Layout layout(this, 10, 10);
         layout.addLabel("Port", 30, 25);
-        layout.add(txtPort = new TextField(0, ES_NUMBER), Size(50, 25), 5);
-        layout.add(btnListen = new Button("Listen", ID_BTNLISTEN), Size(50, 25), 10);
+        layout.add(txtPort = new TextField(ES_NUMBER), Size(50, 25), 5);
+        layout.add(btnListen = new Button("Listen"), Size(50, 25), 10);
+        btnListen->setOnClick(CBK(MyFrame, btnListen_onClick));
         layout.endl();
         layout.add(txtInfo = new TextArea(), Size(300, 300));
 
@@ -38,19 +38,12 @@ public:
     }
 
 protected:
-    void onCommand(UINT id) {
-        switch(id) {
-            case ID_BTNLISTEN:
-                {
-                    StrBuffer port;
-                    txtPort->getText(port);
-                    server.listen(this, port.toInt());
-                    startTimer(0, 5000);
-
-                }
-                break;
-
-        }
+    void btnListen_onClick(void *from) 
+    {
+        StrBuffer port;
+        txtPort->getText(port);
+        server.listen(this, port.toInt());
+        startTimer(0, 5000);
     }
 
     void onCreate() {
@@ -63,7 +56,7 @@ protected:
         
     }
 
-    void onIncomingConnection(SOCKET sock) {
+    void onIncomingConnection(SOCKET srvSock, SOCKET sock) {
         debugPrint("onIncomingConnection");
         StrBuffer text;
         text.format("onIncomingConnection #%d\r\n", sock);

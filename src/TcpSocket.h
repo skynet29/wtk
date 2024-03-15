@@ -10,6 +10,7 @@ public:
     BOOL send(LPBYTE buffer, UINT buffSize);
     int recv(LPBYTE buffer, UINT buffSize);
     void close();
+    SOCKET getHandle() {return sock;}
 
     static BOOL initClass();
 

@@ -3,6 +3,7 @@
 #include "Event.h"
 #include "Icon.h"
 #include "Graphic.h"
+#include "Menu.h"
 
 Container::~Container()
 {
@@ -18,20 +19,6 @@ void Container::addChild(Window *child)
     childs.add(child);
 }
 
-Control *Container::getControlById(UINT id)
-{
-    for (UINT idx = 0; idx < childs.getCount(); idx++)
-    {
-        if (childs[idx]->isControl())
-        {
-            Control *pCtrl = (Control *)childs[idx];
-            if (pCtrl->getId() == id)
-                return pCtrl;
-        }
-    }
-    return NULL;
-}
-
 void Container::addChild(Window *child, Bounds bounds)
 {
     child->setBounds(bounds);
@@ -44,14 +31,31 @@ void Container::handleEvent(Event &evt)
     switch (evt.uMsg)
     {
     case WM_COMMAND:
-    {
-        Control *pCtrl = (Control *)GetWindowLong((HWND)evt.lParam, GWL_USERDATA);
-        if (pCtrl != NULL)
-            pCtrl->onCommand(evt);
-        else
-            onCommand(LOWORD(evt.wParam));
-    }
-    break;
+        {
+            //debugPrint("WM_COMMAND id=%d\n", evt.getId());
+            Control *pCtrl = (Control *)GetWindowLong((HWND)evt.lParam, GWL_USERDATA);
+            if (pCtrl != NULL)
+                pCtrl->onCommand(evt);
+            else {
+                MenuItem* pItem = MenuItem::getFromId(evt.getId());
+                if (pItem != NULL)
+                    pItem->onClick.fire(pItem);
+            }  
+        }
+        break;
+
+    case WM_INITMENUPOPUP:
+        {
+            MENUINFO info;
+            info.cbSize = sizeof(info);
+            info.fMask = MIM_MENUDATA;
+            GetMenuInfo((HMENU)evt.wParam, &info);
+            PopupMenu* pMenu = (PopupMenu*)info.dwMenuData;
+            //debugPrint("pMenu=%p\n", pMenu);
+            if (pMenu != NULL)								
+                pMenu->onInit.fire(pMenu);
+        }
+        break;    
 
     case WM_SIZE:
         onSize(LOWORD(evt.lParam), HIWORD(evt.lParam));
@@ -66,95 +70,88 @@ void Container::handleEvent(Event &evt)
         break;
 
     case WM_DRAWITEM:
-    {
-        LPDRAWITEMSTRUCT lpdis = (LPDRAWITEMSTRUCT)evt.lParam;
+        {
+            LPDRAWITEMSTRUCT lpdis = (LPDRAWITEMSTRUCT)evt.lParam;
 
-        if (lpdis->CtlType == ODT_MENU) {
-            MENUITEMINFO info;
-            info.cbSize = sizeof(info); 
-            info.fMask = MIIM_DATA;
-            debugPrint("WM_DRAWITEM itemID=%d\n", lpdis->itemID);
-            GetMenuItemInfo((HMENU)lpdis->hwndItem, lpdis->itemID, FALSE, &info);
-            Icon* pIcon = (Icon*)info.dwItemData;
-            debugPrint("pIcon=%p\n", pIcon);
-            Graphic gr(lpdis->hDC);
-            debugPrint("rcItem=(%d, %d, %d, %d)\n", lpdis->rcItem.left, lpdis->rcItem.top, lpdis->rcItem.right, lpdis->rcItem.bottom);
-            gr.drawIcon(Point(lpdis->rcItem.left, lpdis->rcItem.top), pIcon);
-        }
-        else {
-            Control *pCtrl = (Control *)GetWindowLong(lpdis->hwndItem, GWL_USERDATA);
-            if (pCtrl != NULL)
-            {
-                pCtrl->onDrawItem(evt);
+            if (lpdis->CtlType == ODT_MENU) {
+                MenuItem* pItem = MenuItem::getFromId(lpdis->itemID);
+                if (pItem != NULL) {
+                    Graphic gr(lpdis->hDC);
+                    gr.drawIcon(Point(lpdis->rcItem.left, lpdis->rcItem.top), pItem->pIcon);
+                }
+
             }
-        }
-    }
-    break;
-
-    case WM_MEASUREITEM:
-    {
-        LPMEASUREITEMSTRUCT lpmis = (LPMEASUREITEMSTRUCT)evt.lParam;
-
-        if (lpmis->CtlType == ODT_MENU) {
-
-            debugPrint("WM_MEASUREITEM itemID=%d, itemData=%p\n", lpmis->itemID, lpmis->itemData);
-            Icon* pIcon = (Icon*)lpmis->itemData;
-            Size sz = pIcon->getSize();
-            debugPrint("size =(%d, %d)\n", sz.width, sz.height);
-            lpmis->itemWidth = sz.width;
-            lpmis->itemHeight = sz.height;
-        }
-        else {
-            // Control *pCtrl = (Control *)GetWindowLong(lpmis->hwndItem, GWL_USERDATA);
-            // if (pCtrl != NULL)
-            // {
-            //     pCtrl->onMeasureItem(evt);
-            // }
-        }
-    }
-    break;    
-
-    case WM_NOTIFY:
-    {
-        LPNMHDR lpHeader = (LPNMHDR)evt.lParam;
-        Control *pCtrl = (Control *)GetWindowLong(lpHeader->hwndFrom, GWL_USERDATA);
-        if (pCtrl != NULL)
-        {
-            pCtrl->onNotify(evt);
-        }
-    }
-    break;
-
-    case WM_HSCROLL:
-    {
-        Control *pCtrl = (Control *)GetWindowLong((HWND)evt.lParam, GWL_USERDATA);
-        if (pCtrl != NULL)
-            pCtrl->onHScroll(evt);
-    }
-    break;
-
-    case WSA_EVENT:
-    {
-        switch (WSAGETSELECTEVENT(evt.lParam))
-        {
-        case FD_ACCEPT:
-        {
-            SOCKET sock = accept(evt.wParam, NULL, NULL);
-            WSAAsyncSelect(sock, hWnd, WSA_EVENT, FD_READ | FD_CLOSE);
-            onIncomingConnection(sock);
+            else {
+                Control *pCtrl = (Control *)GetWindowLong(lpdis->hwndItem, GWL_USERDATA);
+                if (pCtrl != NULL)
+                {
+                    pCtrl->onDrawItem(evt);
+                }
+            }
         }
         break;
 
-        case FD_READ:
-            onDataReceived(evt.wParam);
+    case WM_MEASUREITEM:
+        {
+            LPMEASUREITEMSTRUCT lpmis = (LPMEASUREITEMSTRUCT)evt.lParam;
+
+            if (lpmis->CtlType == ODT_MENU) {
+                MenuItem* pItem = MenuItem::getFromId(lpmis->itemID);
+                Size sz = pItem->pIcon->getSize();
+                lpmis->itemWidth = sz.width;
+                lpmis->itemHeight = sz.height;
+            }
+            else {
+                // Control *pCtrl = (Control *)GetWindowLong(lpmis->hwndItem, GWL_USERDATA);
+                // if (pCtrl != NULL)
+                // {
+                //     pCtrl->onMeasureItem(evt);
+                // }
+            }
+        }
+        break;    
+
+    case WM_NOTIFY:
+        {
+            LPNMHDR lpHeader = (LPNMHDR)evt.lParam;
+            Control *pCtrl = (Control *)GetWindowLong(lpHeader->hwndFrom, GWL_USERDATA);
+            if (pCtrl != NULL)
+            {
+                pCtrl->onNotify(evt);
+            }
+        }
+        break;
+
+    case WM_HSCROLL:
+        {
+            Control *pCtrl = (Control *)GetWindowLong((HWND)evt.lParam, GWL_USERDATA);
+            if (pCtrl != NULL)
+                pCtrl->onHScroll(evt);
+        }
+        break;
+
+    case WSA_EVENT:
+        {
+            switch (WSAGETSELECTEVENT(evt.lParam))
+            {
+            case FD_ACCEPT:
+            {
+                SOCKET sock = accept(evt.wParam, NULL, NULL);
+                WSAAsyncSelect(sock, hWnd, WSA_EVENT, FD_READ | FD_CLOSE);
+                onIncomingConnection(evt.wParam, sock);
+            }
             break;
 
-        case FD_CLOSE:
-            onConnectionClosed(evt.wParam);
-            break;
+            case FD_READ:
+                onDataReceived(evt.wParam);
+                break;
+
+            case FD_CLOSE:
+                onConnectionClosed(evt.wParam);
+                break;
+            }
         }
-    }
-    break;
+        break;
 
     default:
         CustCtrl::handleEvent(evt);
@@ -169,29 +166,6 @@ void Container::onCreate()
     }
 }
 
-void Container::onCommand(UINT id)
-{
-    if (parent != NULL)
-        parent->onCommand(id);
-}
-
-void Container::onSelChange(UINT id)
-{
-    if (parent != NULL)
-        parent->onSelChange(id);
-}
-
-void Container::onRightClick(UINT id, Point pt)
-{
-    if (parent != NULL)
-        parent->onRightClick(id, pt);
-}
-
-void Container::onDblClick(UINT id)
-{
-    if (parent != NULL)
-        parent->onDblClick(id);
-}
 
 Size Container::getPackSize()
 {

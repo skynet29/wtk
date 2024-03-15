@@ -9,7 +9,7 @@
 
 class DllExport TreeCtrl : public Control {
 public:
-    TreeCtrl(UINT id, BOOL isEditable = FALSE);
+    TreeCtrl(BOOL isEditable = FALSE);
     ~TreeCtrl();
 
     TreeNode* addNode(LPSTR text, int bitmapIdx = -1);
@@ -19,12 +19,16 @@ public:
     TreeNode* getSelNode();
     TreeNode* getNodeAt(Point pt);
     UINT addBitmap(Bitmap* pBitmap);
+    void setOnSelChange(Callback* cbk) {onSelChange.set(cbk);}
+    void setOnRightClick(Callback* cbk) {onRightClick.set(cbk);}
 
 protected:
     BOOL isDynamic;
     void onNotify(Event& evt);
 private:
     TreeNode* getNode(HTREEITEM hItem);
+    CbkHolder onSelChange;
+    CbkHolder onRightClick;
 
     Vector<TreeNode*> childs;
     ImageList* pImageList;
@@ -35,7 +39,7 @@ private:
 
 class DllExport DynamicTreeCtrl : public TreeCtrl {
 public:
-    DynamicTreeCtrl(UINT id);
+    DynamicTreeCtrl();
 protected:
     void onNotify(Event& evt);
 

@@ -6,6 +6,49 @@ const UINT ToolBar::K_BUTTON       = TBSTYLE_BUTTON;
 const UINT ToolBar::K_CHECK		= TBSTYLE_CHECK;
 const UINT ToolBar::K_CHECKGROUP	= TBSTYLE_CHECKGROUP;
 
+
+ToolButton::ToolButton(ToolBar* parent)
+{
+    static UINT g_Id = 600;
+    this->id = g_Id++;
+    this->parent = parent;
+}
+
+void ToolButton::setToolTips(LPSTR strToolTips)
+{
+    toolTips.set(strToolTips);
+}
+
+void ToolButton::setEnabled(BOOL isEnabled)
+{
+    parent->sendMsg(TB_ENABLEBUTTON, id, MAKELONG(isEnabled, 0));
+}
+
+void ToolButton::setChecked(BOOL isChecked)
+{
+    parent->sendMsg(TB_CHECKBUTTON, id, MAKELONG(isChecked, 0));
+}
+
+BOOL ToolButton::isChecked()
+{
+	int index = parent->sendMsg(TB_COMMANDTOINDEX, id);
+	TBBUTTON tbb;
+	parent->sendMsg(TB_GETBUTTON, index, (LPARAM) &tbb);
+
+    return ((tbb.fsState & TBSTATE_CHECKED) != 0);
+}
+
+BOOL ToolButton::isEnabled()
+{
+	int index = parent->sendMsg(TB_COMMANDTOINDEX, id);
+	TBBUTTON tbb;
+	parent->sendMsg(TB_GETBUTTON, index, (LPARAM) &tbb);
+
+    return ((tbb.fsState & TBSTATE_ENABLED) != 0);
+}
+
+///////////////////////
+
 ToolBar::ToolBar()
 {
     attr.className = TOOLBARCLASSNAME;
@@ -24,8 +67,10 @@ void ToolBar::create(HWND hParent)
     sendMsg(TB_LOADIMAGES,  (WPARAM)IDB_STD_SMALL_COLOR, (LPARAM)HINST_COMMCTRL);
 }
 
-void ToolBar::addButton(Bitmap* pBitmap, int idCommand, LPSTR strToolTips, BYTE style)
+ToolButton* ToolBar::addButton(Bitmap* pBitmap, BYTE style)
 {
+    ToolButton *pButton = new ToolButton(this);
+
 	TBADDBITMAP bmp;
 
 	bmp.hInst = NULL ;
@@ -33,26 +78,29 @@ void ToolBar::addButton(Bitmap* pBitmap, int idCommand, LPSTR strToolTips, BYTE 
 
     TBBUTTON tbb;
     ZeroMemory(&tbb, sizeof(tbb));
-	tbb.idCommand = idCommand;
+	tbb.idCommand = pButton->getId();
 	tbb.iBitmap = sendMsg(TB_ADDBITMAP, 1, (LPARAM) &bmp);    
 	tbb.fsState = TBSTATE_ENABLED;
     tbb.fsStyle = style; 
-    tbb.dwData = (strToolTips != NULL) ? (DWORD)strdup(strToolTips) : 0;
+    tbb.dwData = (DWORD)pButton;
 
     sendMsg(TB_ADDBUTTONS, 1, (LPARAM) &tbb);
+    return pButton;
 }
 
-void ToolBar::addStdButton(int idx, int idCommand, LPSTR strToolTips, BYTE style)
+ToolButton* ToolBar::addStdButton(int idx, BYTE style)
 {
+    ToolButton *pButton = new ToolButton(this);
     TBBUTTON tbb;
     ZeroMemory(&tbb, sizeof(tbb));
-	tbb.idCommand = idCommand;
+	tbb.idCommand = pButton->getId();
     tbb.iBitmap = MAKELONG(idx, 0);
 	tbb.fsState = TBSTATE_ENABLED;
     tbb.fsStyle = style; 
-    tbb.dwData = (strToolTips != NULL) ? (DWORD)strdup(strToolTips) : 0;
+    tbb.dwData = (DWORD)pButton;
 
     sendMsg(TB_ADDBUTTONS, 1, (LPARAM) &tbb);   
+    return pButton;
 }
 
 void ToolBar::addSeparator(int size)
@@ -65,53 +113,33 @@ void ToolBar::addSeparator(int size)
     sendMsg(TB_ADDBUTTONS, 1, (LPARAM) &tbb);   
 }
 
-void ToolBar::seButtonEnabled(int idCommand, BOOL isEnabled)
-{
-    sendMsg(TB_ENABLEBUTTON, idCommand, MAKELONG(isEnabled, 0));
-}
 
-void ToolBar::seButtonChecked(int idCommand, BOOL isChecked)
-{
-    sendMsg(TB_CHECKBUTTON, idCommand, MAKELONG(isChecked, 0));
-}
-
-BOOL ToolBar::isButtonChecked(int idCommand)
-{
-	int index = sendMsg(TB_COMMANDTOINDEX, idCommand);
-	TBBUTTON tbb;
-	sendMsg(TB_GETBUTTON, index, (LPARAM) &tbb);
-
-    return ((tbb.fsState & TBSTATE_CHECKED) != 0);
-}
-
-BOOL ToolBar::isButtonEnabled(int idCommand)
-{
-	int index = sendMsg(TB_COMMANDTOINDEX, idCommand);
-	TBBUTTON tbb;
-	sendMsg(TB_GETBUTTON, index, (LPARAM) &tbb);
-
-    return ((tbb.fsState & TBSTATE_ENABLED) != 0);
-}
 
 void ToolBar::onCommand(Event& evt)
 {
-    parent->onCommand(LOWORD(evt.wParam));
+    //debugPrint("ToolBar::onCommand id=%d\n", evt.getId());
+     ToolButton* pButton = getButton(evt.getId());
+     if (pButton != NULL) 
+        pButton->onClick.fire(pButton);
+}
+
+ToolButton* ToolBar::getButton(UINT id)
+{
+    int index = sendMsg(TB_COMMANDTOINDEX, id);
+    TBBUTTON tbb;
+    sendMsg(TB_GETBUTTON, index, (LPARAM) &tbb);   
+    return (ToolButton*)tbb.dwData;
 }
 
 void ToolBar::onNotify(Event& evt)
 {
     LPNMHDR lpHeader = (LPNMHDR)evt.lParam;
-//    StrBuffer str;
-//    str.format("ToolBar::onNotify id=%d, code=%d", lpHeader->idFrom, lpHeader->code);
-//    MessageBox(NULL, str.getBuffer(), NULL, MB_OK);
+    //debugPrint("ToolBar::onNotify id=%d, code=%d", lpHeader->idFrom, lpHeader->code);
     if (lpHeader->code == TTN_GETDISPINFO) {
-        int index = sendMsg(TB_COMMANDTOINDEX, lpHeader->idFrom);
-        TBBUTTON tbb;
-        sendMsg(TB_GETBUTTON, index, (LPARAM) &tbb);   
-
-        if (tbb.dwData != 0) {
+        ToolButton* pButton = getButton(lpHeader->idFrom);
+        if (pButton != 0 && pButton->toolTips.getBuffer() != NULL) {
     		LPNMTTDISPINFO lpnmtdi = (LPNMTTDISPINFO) lpHeader;
-			strcpy(lpnmtdi->szText, (LPSTR) tbb.dwData);	     
+			strcpy(lpnmtdi->szText, (LPSTR) pButton->toolTips.getBuffer());	     
         }
     }
 }

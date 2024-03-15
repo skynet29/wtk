@@ -14,9 +14,10 @@ public:
     LONG getElapsedTime();
     BOOL isPlaying();
     void setVolume(WORD volume);
+    void setOnEndReached(Callback* cbk);
 
 private:
-    AudioStream(CustCtrl* pCtrl, PAVISTREAM pStream);
+    AudioStream(PAVISTREAM pStream);
 
     LONG readData(LPSTR buff, LONG bufSize);
 

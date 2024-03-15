@@ -22,6 +22,20 @@ void Dialog::close(int retCode)
 void Dialog::handleEvent(Event& evt)
 {
     switch(evt.uMsg) {
+        case WM_COMMAND:
+            {
+                switch(evt.getId()) {
+                    case IDOK:
+                        close(TRUE);
+                        break;
+                    case IDCANCEL:
+                        close(FALSE);
+                        break;
+                    default:
+                         Container::handleEvent(evt);
+                }
+            }           
+            break;
         case WM_CLOSE:
             PostQuitMessage(evt.wParam);
             break;

@@ -168,7 +168,6 @@ WndGraphic::WndGraphic(HWND hWnd) : Graphic(NULL)
 
 WndGraphic::~WndGraphic()
 {
-    printf("WndGraphic::~WndGraphic\n");
     ReleaseDC(hWnd, hDC);
 }
 

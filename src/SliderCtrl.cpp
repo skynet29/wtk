@@ -1,11 +1,10 @@
 #include "SliderCtrl.h"
 #include "Container.h"
 
-SliderCtrl::SliderCtrl(UINT id)
+SliderCtrl::SliderCtrl()
 {
 	attr.className = TRACKBAR_CLASS;
 	attr.style |= TBS_AUTOTICKS;    
-    attr.hMenu = (HMENU)id;
 }
 
 void SliderCtrl::setRange(int min, int max)
@@ -35,7 +34,7 @@ void SliderCtrl::onHScroll(Event& evt)
     case TB_LINEUP:
     case TB_LINEDOWN:
     case TB_THUMBTRACK:
-        parent->onSelChange(getId());
+        onSelChange.fire(this);
         break;
     }    
 }

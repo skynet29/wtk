@@ -1,7 +1,7 @@
 #include "TreeCtrl.h"
 #include "Container.h"
 
-TreeCtrl::TreeCtrl(UINT id, BOOL isEditable)
+TreeCtrl::TreeCtrl(BOOL isEditable)
 {
 	attr.className = WC_TREEVIEW;
 	attr.styleEx = WS_EX_CLIENTEDGE;
@@ -9,8 +9,6 @@ TreeCtrl::TreeCtrl(UINT id, BOOL isEditable)
 				 TVS_HASLINES | TVS_HASBUTTONS | TVS_LINESATROOT | TVS_SHOWSELALWAYS;
 	if (isEditable)
 		attr.style |= TVS_EDITLABELS;
-
-	attr.hMenu = (HMENU)id;
 
 	isDynamic = FALSE;
 
@@ -86,15 +84,12 @@ void TreeCtrl::onNotify(Event &evt)
 	switch (lpHeader->code)
 	{
 	case TVN_SELCHANGED:
-		parent->onSelChange(getId());
+		onSelChange.fire(this);
 		break;
 
 	case NM_RCLICK:
 	{
-		Point pt;
-		GetCursorPos(&pt);
-		ScreenToClient(hWnd, &pt);
-		parent->onRightClick(getId(), pt);
+		onRightClick.fire(this);
 	}
 	break;
 
@@ -136,7 +131,7 @@ TreeNode *TreeCtrl::getNodeAt(Point pt)
 
 //////////////////////
 
-DynamicTreeCtrl::DynamicTreeCtrl(UINT id) : TreeCtrl(id) 
+DynamicTreeCtrl::DynamicTreeCtrl()
 {
 	isDynamic = TRUE;
 }

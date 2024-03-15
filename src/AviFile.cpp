@@ -56,7 +56,7 @@ VideoStream* AviFile::getVideoStream()
 	return new VideoStream(pStream, pFrame);
 }
 
-AudioStream* AviFile::getAudioStream(CustCtrl* pCtrl)
+AudioStream* AviFile::getAudioStream()
 {
 	HRESULT hr;
     PAVISTREAM pStream;
@@ -65,5 +65,5 @@ AudioStream* AviFile::getAudioStream(CustCtrl* pCtrl)
 	if (FAILED(hr))
 		return NULL;
 
-	return new AudioStream(pCtrl, pStream);
+	return new AudioStream(pStream);
 }

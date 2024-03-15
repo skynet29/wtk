@@ -5,7 +5,7 @@
 
 class DllExport TextField : public Control {
 public:
-    TextField(UINT id, DWORD style = 0);
+    TextField(DWORD style = 0);
 
     void setMaxChar(UINT maxChar);
 

@@ -1,6 +1,6 @@
 #include "AudioStream.h"
 
-AudioStream::AudioStream(CustCtrl* pCtrl, PAVISTREAM pStream)
+AudioStream::AudioStream(PAVISTREAM pStream)
 {
     this->pStream = pStream;
 
@@ -23,7 +23,7 @@ AudioStream::AudioStream(CustCtrl* pCtrl, PAVISTREAM pStream)
     LONG dataSize = si.dwLength * sampleSize;
     debugPrint("dataSize=%ld\n", dataSize);
 
-    if (!player.open(this, pCtrl, *lpFormat, dataSize)) {
+    if (!player.open(this, *lpFormat, dataSize)) {
         debugPrint("WavePlayer.open fail!\n");
     }
     free(lpFormat);
@@ -85,7 +85,12 @@ BOOL AudioStream::isPlaying()
     return player.isPlaying();
 }
 
- void AudioStream::setVolume(WORD volume)
- {
+void AudioStream::setVolume(WORD volume)
+{
     player.setVolume(volume);
- }
+}
+
+void AudioStream::setOnEndReached(Callback* cbk)
+{
+    player.setOnEndReached(cbk);
+}

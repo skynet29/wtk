@@ -18,21 +18,10 @@
 #include "BrowseFolderDialog.h"
 #include "Icon.h"
 #include "Label.h"
+#include "Cursor.h"
 
 #include <stdio.h>
 
-enum
-{
-    ID_BUTTON1 = 100,
-    ID_LISTBOX1,
-    ID_TEXT1,
-    ID_COMBO1,
-    ID_TREE1,
-    ID_BUTTON2,
-    ID_SLIDER1,
-    ID_RADIO1,
-    ID_RADIO2
-};
 
 class MyPanel : public Panel
 {
@@ -99,6 +88,7 @@ private:
     TreeCtrl *tree1;
     SliderCtrl *slider1;
     TabCtrl *tab1;
+    RadioGroup group;
 
 public:
     void initCtrl()
@@ -108,9 +98,9 @@ public:
         layout2.endl();
         layout2.add(combo1, Size(100, 25));
         layout2.endl();
-        layout2.add(new RadioButton("Male", ID_RADIO1, TRUE), Size(100, 25));
+        layout2.add(new RadioButton("Male", group), Size(100, 25));
         layout2.endl();
-        layout2.add(new RadioButton("Female", ID_RADIO2), Size(100, 25));
+        layout2.add(new RadioButton("Female", group), Size(100, 25));
         layout2.endl();
         layout2.add(text1, Size(100, 25));
         layout2.endl();
@@ -135,107 +125,96 @@ public:
 
         cont1 = new Container();
         cont1->setBackColor(Color::getSysColor());
-        listbox1 = new ListBox(ID_LISTBOX1, LBS_SORT);
-        text1 = new TextField(ID_TEXT1, ES_NUMBER);
-        btn1 = new Button("Button1", ID_BUTTON1);
+        listbox1 = new ListBox(LBS_SORT);
+        text1 = new TextField(ES_NUMBER);
+        btn1 = new Button("Button1");
         panel1 = new MyPanel();
         label1 = new Label("Hello", Label::K_CENTER);
-        combo1 = new ComboBox(ID_COMBO1);
+        combo1 = new ComboBox();
         table1 = new TableCtrl();
-        tree1 = new TreeCtrl(ID_TREE1, TRUE);
-        btn2 = new Button("Button 2", ID_BUTTON2);
-        slider1 = new SliderCtrl(ID_SLIDER1);
+        tree1 = new TreeCtrl(TRUE);
+        btn2 = new Button("Button 2");
+        slider1 = new SliderCtrl();
         tab1 = new TabCtrl();
         label1->setBackColor(Color::WHITE);
 
+        btn1->setOnClick(CBK(MyFrame, btn1_onClick));
+        btn2->setOnClick(CBK(MyFrame, btn2_onClick));
+        listbox1->setOnDblClick(CBK(MyFrame, listbox1_onDblClick));
+        slider1->setOnSelChange(CBK(MyFrame, slider1_onSelChange));
+        combo1->setOnSelChange(CBK(MyFrame, combo1_onSelChange));
+        tree1->setOnSelChange(CBK(MyFrame, tree1_onSelChange));
+        tree1->setOnRightClick(CBK(MyFrame, tree1_onRightClick));
+
+
         initCtrl();
 
-        // fileMenu.setItemEnabled(ID_FILEOPEN, FALSE);
-        // setBackColor(Color::CYAN);
-        // btn1->setEnabled(FALSE);
+
     }
 
 protected:
-    void onRightClick(UINT id, Point pt)
-    {
+    void slider1_onSelChange(void* from) {
         StrBuffer str;
-        TreeNode *pNode = tree1->getNodeAt(pt);
-        str.format("onRightClick id=%d node=%p", id, pNode);
+        str.format("%d", slider1->getValue());
+        label1->setText(str.getBuffer());        
+    }
+        
+    void combo1_onSelChange(void* from) {
+        StrBuffer str;
+        combo1->getSelItem(str);
+        showMsg(str.getBuffer());      
+    }
+
+    void tree1_onSelChange(void* from) {
+        StrBuffer str;
+        tree1->getSelNode()->getText(str);
+        showMsg(str.getBuffer());   
+    }
+
+    void btn2_onClick(void* from) {
+        RadioButton* pRadio = group.getSelButton();
+        if (pRadio != NULL) {
+            StrBuffer str;
+            pRadio->getText(str);
+            showMsg(str.getBuffer());
+        }
+    }
+
+    void btn1_onClick(void* from) {
+        debugPrint("btn1_onClick\n");
+        /*
+        Color color = panel1->getBackColor();
+        if (color.chooseColor())
+        {
+            panel1->setBackColor(color);
+        }
+        */
+
+        BrowseFolderDialog dialog1(getenv("USERPROFILE"));
+        if (dialog1.run())
+        {
+            StrBuffer str;
+            dialog1.getPath(str);
+            showMsg(str.getBuffer());
+        }
+    }
+    void listbox1_onDblClick(void* from) {
+        debugPrint("list1_onDblClick\n");
+
+        StrBuffer str;
+        listbox1->getSelItem(str);
         showMsg(str.getBuffer());
     }
 
-    void onDblClick(UINT id)
+    void tree1_onRightClick(void* from)
     {
+        //debugPrint("tree1_onRightClick\n");
+        Point pt = Cursor::getPos();
+        tree1->screenToClient(pt);
         StrBuffer str;
-        if (id == ID_LISTBOX1)
-        {
-            listbox1->getSelItem(str);
-            showMsg(str.getBuffer());
-        }
-    }
-
-    void onSelChange(UINT id)
-    {
-
-        StrBuffer str;
-
-        switch (id)
-        {
-        case ID_TREE1:
-        {
-            tree1->getSelNode()->getText(str);
-            showMsg(str.getBuffer());
-        }
-        break;
-
-        case ID_COMBO1:
-            combo1->getSelItem(str);
-            showMsg(str.getBuffer());
-            break;
-
-        case ID_SLIDER1:
-            str.format("%d", slider1->getValue());
-            label1->setText(str.getBuffer());
-            break;
-        }
-    }
-
-    void onCommand(UINT id)
-    {
-        StrBuffer str;
-
-        switch (id)
-        {
-
-        case ID_BUTTON1:
-        {
-            Color color = panel1->getBackColor();
-            if (color.chooseColor())
-            {
-                panel1->setBackColor(color);
-            }
-        }
-        break;
-
-        case ID_BUTTON2:
-        {
-            // const UINT ids[] = {ID_RADIO1, ID_RADIO2};
-            // RadioButton *pRadio = RadioButton::getSelButton(cont1, (UINT *)ids, 2);
-            // if (pRadio != NULL)
-            // {
-            //     pRadio->getText(str);
-            //     showMsg(str.getBuffer());
-            // }
-
-            BrowseFolderDialog dialog1(getenv("USERPROFILE"));
-            if (dialog1.run())
-            {
-                dialog1.getPath(str);
-                showMsg(str.getBuffer());
-            }
-        }
-        break;
-        }
+        TreeNode *pNode = tree1->getNodeAt(pt);
+        str.format("onRightClick node=%p", pNode);
+        showMsg(str.getBuffer());
     }
 
     BOOL canClose()
@@ -248,9 +227,6 @@ protected:
     {
         Frame::onCreate();
 
-        //((RadioButton*)cont1->getControlById(ID_RADIO1))->setChecked(TRUE);
-
-        // text1->setMaxChar(5);
         listbox1->setFont(font);
         btn1->setFont(font);
         label1->setFont(font);

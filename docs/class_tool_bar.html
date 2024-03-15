@@ -106,30 +106,18 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a9040d5eea7efb5893326037a9ad5042f"><td class="memItemLeft" align="right" valign="top"><a id="a9040d5eea7efb5893326037a9ad5042f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>addButton</b> (<a class="el" href="class_bitmap.html">Bitmap</a> *pBitmap, int idCommand, LPSTR strToolTips=NULL, BYTE style=K_BUTTON)</td></tr>
-<tr class="separator:a9040d5eea7efb5893326037a9ad5042f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a35548066a53e22c6f86ff7453fcdb124"><td class="memItemLeft" align="right" valign="top"><a id="a35548066a53e22c6f86ff7453fcdb124"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>addStdButton</b> (int idx, int idCommand, LPSTR strToolTips=NULL, BYTE style=K_BUTTON)</td></tr>
-<tr class="separator:a35548066a53e22c6f86ff7453fcdb124"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0355f5fede320b050cebb147bb4599d4"><td class="memItemLeft" align="right" valign="top"><a id="a0355f5fede320b050cebb147bb4599d4"></a>
+<a class="el" href="class_tool_button.html">ToolButton</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>addButton</b> (<a class="el" href="class_bitmap.html">Bitmap</a> *pBitmap, BYTE style=K_BUTTON)</td></tr>
+<tr class="separator:a0355f5fede320b050cebb147bb4599d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4507410f3070517cc997f10bb864b4df"><td class="memItemLeft" align="right" valign="top"><a id="a4507410f3070517cc997f10bb864b4df"></a>
+<a class="el" href="class_tool_button.html">ToolButton</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>addStdButton</b> (int idx, BYTE style=K_BUTTON)</td></tr>
+<tr class="separator:a4507410f3070517cc997f10bb864b4df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0214aa6b12a299fb0ea95a558ea5289"><td class="memItemLeft" align="right" valign="top"><a id="ac0214aa6b12a299fb0ea95a558ea5289"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>addSeparator</b> (int size=5)</td></tr>
 <tr class="separator:ac0214aa6b12a299fb0ea95a558ea5289"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a462ddb888174137f848c6ba0d55301f9"><td class="memItemLeft" align="right" valign="top"><a id="a462ddb888174137f848c6ba0d55301f9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>seButtonEnabled</b> (int idCommand, BOOL isEnabled)</td></tr>
-<tr class="separator:a462ddb888174137f848c6ba0d55301f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1845f2c5c19908ea21a622bcd4b0d1a9"><td class="memItemLeft" align="right" valign="top"><a id="a1845f2c5c19908ea21a622bcd4b0d1a9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>seButtonChecked</b> (int idCommand, BOOL isChecked)</td></tr>
-<tr class="separator:a1845f2c5c19908ea21a622bcd4b0d1a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6b6e2fa579c3ba05c31d79f8c77ba00b"><td class="memItemLeft" align="right" valign="top"><a id="a6b6e2fa579c3ba05c31d79f8c77ba00b"></a>
 <a class="el" href="class_size.html">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><b>resize</b> ()</td></tr>
 <tr class="separator:a6b6e2fa579c3ba05c31d79f8c77ba00b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab65c9acb765a0e562f0c76de5d1e05b0"><td class="memItemLeft" align="right" valign="top"><a id="ab65c9acb765a0e562f0c76de5d1e05b0"></a>
-BOOL&#160;</td><td class="memItemRight" valign="bottom"><b>isButtonChecked</b> (int idCommand)</td></tr>
-<tr class="separator:ab65c9acb765a0e562f0c76de5d1e05b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a080cb0c0b59df3ab814b32795577bd97"><td class="memItemLeft" align="right" valign="top"><a id="a080cb0c0b59df3ab814b32795577bd97"></a>
-BOOL&#160;</td><td class="memItemRight" valign="bottom"><b>isButtonEnabled</b> (int idCommand)</td></tr>
-<tr class="separator:a080cb0c0b59df3ab814b32795577bd97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_control"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_control')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_control.html">Control</a></td></tr>
 <tr class="memitem:a36e56d036407f9848051c4ebfcf1b6ff inherit pub_methods_class_control"><td class="memItemLeft" align="right" valign="top"><a id="a36e56d036407f9848051c4ebfcf1b6ff"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setEnabled</b> (BOOL isEnabled)</td></tr>
@@ -189,9 +177,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>centerToParent</b> ()
 <tr class="memitem:aa09f15a142d4ac46af3773fd7138eddd inherit pub_methods_class_window"><td class="memItemLeft" align="right" valign="top"><a id="aa09f15a142d4ac46af3773fd7138eddd"></a>
 <a class="el" href="class_size.html">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getClientSize</b> ()</td></tr>
 <tr class="separator:aa09f15a142d4ac46af3773fd7138eddd inherit pub_methods_class_window"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a40acd101bad19c0b0e16120cccdf566f inherit pub_methods_class_window"><td class="memItemLeft" align="right" valign="top"><a id="a40acd101bad19c0b0e16120cccdf566f"></a>
-virtual BOOL&#160;</td><td class="memItemRight" valign="bottom"><b>isControl</b> ()</td></tr>
-<tr class="separator:a40acd101bad19c0b0e16120cccdf566f inherit pub_methods_class_window"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60e0a132d1c9892a4e814fa252518f98 inherit pub_methods_class_window"><td class="memItemLeft" align="right" valign="top"><a id="a60e0a132d1c9892a4e814fa252518f98"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>clientToScreen</b> (<a class="el" href="class_point.html">Point</a> &amp;pt)</td></tr>
 <tr class="separator:a60e0a132d1c9892a4e814fa252518f98 inherit pub_methods_class_window"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -213,6 +198,9 @@ static const UINT&#160;</td><td class="memItemRight" valign="bottom"><b>K_CHECKG
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
+<tr class="memitem:a97a67010d1425dc79315ce183fb1f501"><td class="memItemLeft" align="right" valign="top"><a id="a97a67010d1425dc79315ce183fb1f501"></a>
+<a class="el" href="class_tool_button.html">ToolButton</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getButton</b> (UINT id)</td></tr>
+<tr class="separator:a97a67010d1425dc79315ce183fb1f501"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b0a17372ca52da916d3ceb82484f223"><td class="memItemLeft" align="right" valign="top"><a id="a5b0a17372ca52da916d3ceb82484f223"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>create</b> (HWND hParent)</td></tr>
 <tr class="separator:a5b0a17372ca52da916d3ceb82484f223"><td class="memSeparator" colspan="2">&#160;</td></tr>

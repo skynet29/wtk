@@ -111,12 +111,17 @@ void CustCtrl::handleEvent(Event& evt)
             break;
 
         default:
-            if (attr.styleEx & WS_EX_MDICHILD) {
-                evt.processMdiDefault();
-            }
-            else {
-                evt.processDefault();
-            }
+            processDefault(evt);
+    }
+}
+
+void CustCtrl::processDefault(Event& evt)
+{
+    if (attr.styleEx & WS_EX_MDICHILD) {
+        evt.processMdiDefault();
+    }
+    else {
+        evt.processDefault();
     }
 }
 

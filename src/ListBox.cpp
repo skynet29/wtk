@@ -63,13 +63,12 @@ void ListBox::getSelItem(StrBuffer& text)
 
 void ListBox::onCommand(Event& evt)
 {
-    UINT code = HIWORD(evt.wParam);
-    switch(code) {
+    switch(evt.getCode()) {
         case LBN_SELCHANGE:
-            parent->onSelChange(LOWORD(evt.wParam));
+            onSelChange.fire(this);
             break;
         case LBN_DBLCLK:
-            parent->onDblClick(LOWORD(evt.wParam));
+            onDblClick.fire(this);
             break;
     }
        
