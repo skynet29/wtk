@@ -1,10 +1,5 @@
 #include "Control.h"
 
-UINT Control::getId()
-{
-    return (UINT)attr.hMenu;
-}
-
 void Control::setEnabled(BOOL isEnabled)
 {
     attr.modifyStyle(WS_DISABLED, !isEnabled);

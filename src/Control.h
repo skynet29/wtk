@@ -10,7 +10,6 @@ class DllExport Control : public Window {
 public: 
     void setEnabled(BOOL isEnabled);
     void setFont(Font* font);
-    UINT getId();
     void create(HWND hParent);
 protected:
     virtual void onNotify(Event& evt) {}  
