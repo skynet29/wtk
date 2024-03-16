@@ -33,7 +33,8 @@ public:
     void remove();
     void moveUp();
     void moveDown();
-    BOOL isLast(); 
+    BOOL isLast();
+    void editLabel(); 
 
 private:
     

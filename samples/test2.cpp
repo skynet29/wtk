@@ -95,6 +95,7 @@ private:
     MenuItem* pMoveUp;
     MenuItem* pMoveDown;
     MenuItem* pRemove;
+    MenuItem* pEditLabel;
 
 public:
     void initCtrl()
@@ -145,6 +146,7 @@ public:
         label1->setBackColor(Color::WHITE);
 
         pRemove = nodeMenu.addItem("Remove");
+        pEditLabel = nodeMenu.addItem("Edit");
         nodeMenu.addSeparator();
         pMoveUp = nodeMenu.addItem("Move Up");
         pMoveDown = nodeMenu.addItem("Move Down");
@@ -233,6 +235,9 @@ protected:
             else if (pItem == pRemove) {
                  pNode->remove();
                  delete pNode;
+            }
+            else if (pItem == pEditLabel) {
+                pNode->editLabel();
             }
                
         }

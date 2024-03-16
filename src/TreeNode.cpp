@@ -207,3 +207,8 @@ void TreeNode::moveDown()
 			pTreeCtrl->insertAt(this, idx+1);
 	}
 }
+
+void TreeNode::editLabel()
+{
+	TreeView_EditLabel(pTreeCtrl->getHandle(), hTreeItem);
+}
