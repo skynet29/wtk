@@ -185,13 +185,21 @@ void TreeNode::moveUp()
 	}
 }
 
-void TreeNode::moveDown()
+BOOL TreeNode::isLast() 
 {
 	UINT idx = getIndex();
 	TreeNode* parent = getParent();
 	UINT childCount = (parent != NULL) ? parent->getChildCount() : pTreeCtrl->getChildCount();
-	if (idx < childCount-1)
+	return (idx == childCount-1);	
+}
+
+void TreeNode::moveDown()
+{
+	if (!isLast())
 	{
+		UINT idx = getIndex();
+		TreeNode* parent = getParent();
+
 		remove();
 		if (parent != NULL)
 			parent->insertAt(this, idx+1);	

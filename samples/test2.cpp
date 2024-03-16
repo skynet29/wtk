@@ -19,6 +19,8 @@
 #include "Icon.h"
 #include "Label.h"
 #include "Cursor.h"
+#include "Menu.h"
+
 
 #include <stdio.h>
 
@@ -89,6 +91,10 @@ private:
     SliderCtrl *slider1;
     TabCtrl *tab1;
     RadioGroup group;
+    PopupMenu nodeMenu;
+    MenuItem* pMoveUp;
+    MenuItem* pMoveDown;
+    MenuItem* pRemove;
 
 public:
     void initCtrl()
@@ -137,6 +143,11 @@ public:
         slider1 = new SliderCtrl();
         tab1 = new TabCtrl();
         label1->setBackColor(Color::WHITE);
+
+        pRemove = nodeMenu.addItem("Remove");
+        nodeMenu.addSeparator();
+        pMoveUp = nodeMenu.addItem("Move Up");
+        pMoveDown = nodeMenu.addItem("Move Down");
 
         btn1->setOnClick(CBK(MyFrame, btn1_onClick));
         btn2->setOnClick(CBK(MyFrame, btn2_onClick));
@@ -209,11 +220,22 @@ protected:
     {
         //debugPrint("tree1_onRightClick\n");
         Point pt = Cursor::getPos();
+        Point pt2 = pt;
         tree1->screenToClient(pt);
         StrBuffer str;
         TreeNode *pNode = tree1->getNodeAt(pt);
-        str.format("onRightClick node=%p", pNode);
-        showMsg(str.getBuffer());
+        if (pNode != NULL) {
+            MenuItem *pItem = nodeMenu.track(pt2);
+            if (pItem == pMoveDown) 
+                pNode->moveDown();
+            else if (pItem == pMoveUp)
+                pNode->moveUp();
+            else if (pItem == pRemove) {
+                 pNode->remove();
+                 delete pNode;
+            }
+               
+        }
     }
 
     BOOL canClose()

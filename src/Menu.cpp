@@ -148,10 +148,12 @@ void PopupMenu::addSeparator()
 
 
 
-UINT PopupMenu::track(Point pt)
+MenuItem* PopupMenu::track(Point pt)
 {
-	return TrackPopupMenu(hMenu, 
+	UINT id = TrackPopupMenu(hMenu, 
 		TPM_LEFTBUTTON | TPM_RETURNCMD | TPM_NONOTIFY,
 		pt.x, pt.y, 0,
-		Application::getMainFrame()->getHandle(), NULL);    
+		Application::getMainFrame()->getHandle(), NULL);  
+
+    return MenuItem::getFromId(id); 
 }

@@ -47,7 +47,7 @@ public:
     MenuItem* addItem(LPSTR caption, Shortcut* shortcut = NULL);
     void addSeparator();
     void addPopupMenu(PopupMenu& menu, LPSTR caption);
-    UINT track(Point pt);
+    MenuItem* track(Point pt);
     void setOnInit(Callback* cbk) {onInit.set(cbk);}
 
     HMENU getHandle() {return hMenu;}
