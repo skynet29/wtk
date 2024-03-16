@@ -38,21 +38,24 @@ UINT TreeCtrl::addBitmap(Bitmap *pBitmap)
 	return pImageList->addBitmap(pBitmap);
 }
 
-TreeNode *TreeCtrl::addNode(LPSTR text, int bitmapIdx)
+void TreeCtrl::addNode(TreeNode* pNode)
 {
-	return new TreeNode(text, bitmapIdx, this, NULL);
+	pNode->create(this, NULL, TVI_LAST);
+	childs.add(pNode);
 }
 
-void TreeCtrl::removeNode(TreeNode *pNode)
+TreeNode* TreeCtrl::addNode(LPSTR text, int bitmapIdx)
 {
-	TreeNode *parent = pNode->getParent();
+	TreeNode* pNode = new TreeNode(text, bitmapIdx);
+	addNode(pNode);
+	return pNode;
+}
 
-	if (parent != NULL)
-		parent->childs.remove(pNode);
-	else
-		childs.remove(pNode);
-
-	sendMsg(TVM_DELETEITEM, 0, (LPARAM)pNode->hTreeItem);
+void TreeCtrl::insertAt(TreeNode *pNode, UINT idx)
+{
+	childs.insertAt(pNode, idx);
+	pNode->create(this, NULL,
+			(idx == 0) ? TVI_FIRST : childs[idx-1]->hTreeItem);
 }
 
 TreeNode *TreeCtrl::getNode(HTREEITEM hItem)
@@ -129,6 +132,16 @@ TreeNode *TreeCtrl::getNodeAt(Point pt)
 	return NULL;
 }
 
+UINT TreeCtrl::getChildCount()
+{
+	return childs.getCount();
+}
+
+TreeNode* TreeCtrl::getChildAt(UINT idx)
+{
+	return childs[idx];
+}
+
 //////////////////////
 
 DynamicTreeCtrl::DynamicTreeCtrl()
@@ -194,3 +207,4 @@ void DynamicTreeCtrl::onNotify(Event& evt)
 		break;
 	}
 }
+

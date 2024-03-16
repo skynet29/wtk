@@ -8,7 +8,13 @@ class TreeCtrl;
 
 class DllExport TreeNode {
 public:
+    TreeNode(LPSTR text, int bitmapIdx = -1);
+
+    void addNode(TreeNode* pNode);
     TreeNode* addNode(LPSTR text, int bitmapIdx = -1);
+
+    void insertAt(TreeNode *pNode, UINT idx);
+
     ~TreeNode();
 
     void setExpanded(BOOL isExpanded);
@@ -17,18 +23,30 @@ public:
     TreeNode* getNextSibling();
     TreeNode* getFirstChild();
     void getNodePath(StrBuffer &path);
-
-    void getText(StrBuffer& text);
+    UINT getIndex();
+    UINT getChildCount();
+    TreeNode* getChildAt(UINT idx);
+    LPSTR getText();
     void setText(LPSTR strText);
     void clear();
+    void select();
+    void remove();
+    void moveUp();
+    void moveDown();
+
+
 
 private:
-    TreeNode(LPSTR text, int bitmapIdx, TreeCtrl* pTreeCtrl, TreeNode* parent);
+    
+    
+    void create(TreeCtrl* pTreeCtrl, HTREEITEM hParent, HTREEITEM hInsertAfter);
 
     void getNodeInfo(StrVector &vector);
 
     HTREEITEM hTreeItem;
     TreeCtrl* pTreeCtrl;
+    StrBuffer text;
+    int bitmapIdx;
     Vector<TreeNode*> childs;
 
     friend class TreeCtrl;

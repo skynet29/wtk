@@ -166,9 +166,8 @@ protected:
     }
 
     void tree1_onSelChange(void* from) {
-        StrBuffer str;
-        tree1->getSelNode()->getText(str);
-        showMsg(str.getBuffer());   
+       
+        showMsg(tree1->getSelNode()->getText());   
     }
 
     void btn2_onClick(void* from) {
@@ -259,6 +258,7 @@ protected:
         delete pBitmap;
 
         TreeNode *node1 = tree1->addNode("Georges");
+
         TreeNode *node2 = node1->addNode("Marc", bmp2);
         node1->addNode("Christelle");
         node2->addNode("Quentin");

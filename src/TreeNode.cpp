@@ -2,19 +2,25 @@
 #include "TreeCtrl.h"
 #include "StrVector.h"
 
-TreeNode::TreeNode(LPSTR text, int bitmapIdx, TreeCtrl *pTreeCtrl, TreeNode *parent)
+TreeNode::TreeNode(LPSTR text, int bitmapIdx)
+{
+	this->text.set(text);
+	this->bitmapIdx = bitmapIdx;
+}
+
+void TreeNode::create(TreeCtrl *pTreeCtrl, HTREEITEM hParent, HTREEITEM hInsertAfter)
 {
 	this->pTreeCtrl = pTreeCtrl;
 
 	TV_INSERTSTRUCT tvins;
 	TV_ITEM &tvi = tvins.item;
 
-	tvins.hParent = (parent) ? parent->hTreeItem : NULL;
-	tvins.hInsertAfter = TVI_LAST;
+	tvins.hParent = hParent;
+	tvins.hInsertAfter = hInsertAfter;
 
 	tvi.mask = TVIF_TEXT | TVIF_PARAM;
-	tvi.pszText = text;
-	tvi.cchTextMax = strlen(text);
+	tvi.pszText = text.getBuffer();
+	tvi.cchTextMax = text.getLength();
 	tvi.lParam = (LPARAM)this;
 	if (pTreeCtrl->isDynamic) {		
 		tvi.mask |= TVIF_CHILDREN;
@@ -43,16 +49,9 @@ TreeNode::~TreeNode()
 	clear();
 }
 
-void TreeNode::getText(StrBuffer &text)
+LPSTR TreeNode::getText()
 {
-	static char buffer[64];
-	TV_ITEM tvi;
-	tvi.mask = TVIF_TEXT;
-	tvi.hItem = hTreeItem;
-	tvi.pszText = buffer;
-	tvi.cchTextMax = sizeof(buffer);
-	TreeView_GetItem(pTreeCtrl->getHandle(), &tvi);
-	text.set(tvi.pszText);
+	return text.getBuffer();
 }
 
 void TreeNode::setText(LPSTR strText)
@@ -64,17 +63,38 @@ void TreeNode::setText(LPSTR strText)
 	tvi.cchTextMax = strlen(strText);
 	tvi.hItem = hTreeItem;
 	TreeView_SetItem(pTreeCtrl->getHandle(), &tvi);
+	text.set(strText);
 }
 
-TreeNode *TreeNode::addNode(LPSTR text, int bitmapIdx)
+void TreeNode::addNode(TreeNode* pNode)
 {
-	return new TreeNode(text, bitmapIdx, pTreeCtrl, this);
+	pNode->create(pTreeCtrl, hTreeItem, TVI_LAST);
+	childs.add(pNode);
+}
+
+TreeNode* TreeNode::addNode(LPSTR text, int bitmapIdx)
+{
+	TreeNode* pNode = new TreeNode(text, bitmapIdx);
+	addNode(pNode);
+	return pNode;
+}
+
+void TreeNode::insertAt(TreeNode *pNode, UINT idx)
+{
+	childs.insertAt(pNode, idx);
+	pNode->create(pTreeCtrl, hTreeItem,
+			(idx == 0) ? TVI_FIRST : childs[idx-1]->hTreeItem);
 }
 
 void TreeNode::setExpanded(BOOL isExpanded)
 {
 	TreeView_Expand(pTreeCtrl->getHandle(), hTreeItem,
 					(isExpanded) ? TVE_EXPAND : TVE_COLLAPSE);
+}
+
+void TreeNode::select()
+{
+	TreeView_SelectItem(pTreeCtrl->getHandle(), hTreeItem);
 }
 
 TreeNode *TreeNode::getParent()
@@ -103,9 +123,7 @@ TreeNode *TreeNode::getPrevSibling()
 
 void TreeNode::getNodeInfo(StrVector &vector)
 {
-	StrBuffer text;
-	getText(text);
-	vector.add(text.getBuffer());
+	vector.add(getText());
 	TreeNode *pParent = getParent();
 	if (pParent != NULL)
 		pParent->getNodeInfo(vector);
@@ -119,5 +137,65 @@ void TreeNode::getNodePath(StrBuffer &path)
 	{
 		path.append(v[i]);
 		path.append("\\");
+	}
+}
+
+UINT TreeNode::getIndex()
+{
+	TreeNode* parent = getParent();
+	if (parent != NULL)
+		return parent->childs.find(this);
+
+	return pTreeCtrl->childs.find(this);
+}
+
+UINT TreeNode::getChildCount()
+{
+	return childs.getCount();
+}
+
+TreeNode* TreeNode::getChildAt(UINT idx)
+{
+	return childs[idx];
+}
+
+void TreeNode::remove()
+{
+	TreeNode *parent = getParent();
+
+	if (parent != NULL)
+		parent->childs.remove(this);
+	else
+		pTreeCtrl->childs.remove(this);
+
+	pTreeCtrl->sendMsg(TVM_DELETEITEM, 0, (LPARAM)hTreeItem);
+}
+
+void TreeNode::moveUp()
+{
+	UINT idx = getIndex();
+	if (idx > 0)
+	{
+		TreeNode* parent = getParent();
+		remove();
+		if (parent != NULL)
+			parent->insertAt(this, idx-1);	
+		else
+			pTreeCtrl->insertAt(this, idx-1);
+	}
+}
+
+void TreeNode::moveDown()
+{
+	UINT idx = getIndex();
+	TreeNode* parent = getParent();
+	UINT childCount = (parent != NULL) ? parent->getChildCount() : pTreeCtrl->getChildCount();
+	if (idx < childCount-1)
+	{
+		remove();
+		if (parent != NULL)
+			parent->insertAt(this, idx+1);	
+		else
+			pTreeCtrl->insertAt(this, idx+1);
 	}
 }

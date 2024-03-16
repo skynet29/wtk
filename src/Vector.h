@@ -21,23 +21,40 @@ public:
     T* getBuffer() {return buffer;}
 
     void grow() {
-        T* tmpBuff = new T[size + growSize];
-        if (buffer != NULL) {
-            memcpy(tmpBuff, buffer, size * sizeof(T));
-            delete [] buffer;
+        if (count == size) {
+            T* tmpBuff = new T[size + growSize];
+            if (buffer != NULL) {
+                CopyMemory(tmpBuff, buffer, size * sizeof(T));
+                delete [] buffer;
+            }
+            size += growSize;
+            buffer = tmpBuff;
         }
-        size += growSize;
-        buffer = tmpBuff;
     }
 
     UINT getCount() {
         return count;
     }
 
-    void add(T item) {
-        if (count == size) {
-            grow();
+    void insertAt(T item, UINT idx)
+    {
+        if (idx > count)
+            throw "Index out of range";
+
+        if (idx == count)
+        {
+            add(item);
+            return;
         }
+
+        grow();
+        MoveMemory(&buffer[idx + 1], &buffer[idx], (count - idx) * sizeof(T));
+        buffer[idx] = item;
+        count++;
+    }    
+
+    void add(T item) {
+        grow();
         buffer[count++] = item;
     }
 

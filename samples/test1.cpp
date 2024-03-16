@@ -9,16 +9,6 @@
 #include "File.h"
 #include "Icon.h"
 
-enum
-{
-    ID_FILEOPEN = 200,
-    ID_FILENEW,
-    ID_FILESAVE,
-    ID_CASCADE,
-    ID_TILEVERTICAL,
-    ID_TILEHORIZONTAL,
-    ID_EXIT
-};
 
 class MyChild : public MdiChild
 {

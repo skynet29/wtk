@@ -12,12 +12,15 @@ public:
     TreeCtrl(BOOL isEditable = FALSE);
     ~TreeCtrl();
 
+    void addNode(TreeNode* pNode);
     TreeNode* addNode(LPSTR text, int bitmapIdx = -1);
-    void removeNode(TreeNode* pNode);
+    void insertAt(TreeNode *pNode, UINT idx);
 
     TreeNode* getRootNode();
     TreeNode* getSelNode();
     TreeNode* getNodeAt(Point pt);
+    UINT getChildCount();
+    TreeNode* getChildAt(UINT idx);
     UINT addBitmap(Bitmap* pBitmap);
     void setOnSelChange(Callback* cbk) {onSelChange.set(cbk);}
     void setOnRightClick(Callback* cbk) {onRightClick.set(cbk);}
