@@ -52,6 +52,9 @@ private:
     ToolBar *toolbar;
     MdiCtrl *mdiCtrl;
     UINT childCount;
+    Icon* pFileNewIcon;
+    Icon* pFileOpenIcon;
+    Icon* pFileSaveIcon;
 
 public:
     MyFrame() : Frame("Test 1")
@@ -62,16 +65,20 @@ public:
         addChild(toolbar = new ToolBar());
         addChild(mdiCtrl = new MdiCtrl());
 
+        pFileNewIcon = Icon::createFromBitmap("bitmaps\\new.bmp", Color::GREEN);
+        pFileOpenIcon = Icon::createFromBitmap("bitmaps\\open.bmp", Color::GREEN);
+        pFileSaveIcon = Icon::createFromBitmap("bitmaps\\save.bmp", Color::GREEN);
+
         MenuItem *pItem;
         menuBar.addPopupMenu(fileMenu, "File");
 
         pItem = fileMenu.addItem("New child", new Shortcut('N', FCONTROL));
         pItem->setOnClick(CBK(MyFrame, newChild));
-        pItem->setIcon(Icon::createFromBitmap("bitmaps\\new.bmp", Color::GREEN));
+        pItem->setIcon(pFileNewIcon);
 
         pItem = fileMenu.addItem("Open...", new Shortcut('O', FCONTROL));
         pItem->setOnClick(CBK(MyFrame, openFile));
-        pItem->setIcon(Icon::createFromBitmap("bitmaps\\open.bmp", Color::GREEN));
+        pItem->setIcon(pFileOpenIcon);
 
         fileMenu.addSeparator();
 
@@ -149,13 +156,13 @@ protected:
         Frame::onCreate();
 
         toolbar->addSeparator();
-        ToolButton* pFileNew = toolbar->addStdButton(ToolBar::K_FILENEW);
+        ToolButton* pFileNew = toolbar->addButton(pFileNewIcon);
         pFileNew->setOnClick(CBK(MyFrame, newChild));
         pFileNew->setToolTips("New");
-        ToolButton* pFileOpen = toolbar->addStdButton(ToolBar::K_FILEOPEN);
+        ToolButton* pFileOpen = toolbar->addButton(pFileOpenIcon);
         pFileOpen->setOnClick(CBK(MyFrame, openFile));
         pFileOpen->setToolTips("Open");
-        toolbar->addStdButton(ToolBar::K_FILESAVE, ToolBar::K_CHECK);
+        toolbar->addButton(pFileSaveIcon, ToolBar::K_CHECK);
 
     }
 

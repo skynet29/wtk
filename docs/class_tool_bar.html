@@ -62,10 +62,10 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Types publics</a> &#124;
 <a href="#pub-methods">Fonctions membres publiques</a> &#124;
 <a href="#pub-static-attribs">Attributs publics statiques</a> &#124;
 <a href="#pro-methods">Fonctions membres protégées</a> &#124;
+<a href="#pro-attribs">Attributs protégés</a> &#124;
 <a href="class_tool_bar-members.html">Liste de tous les membres</a>  </div>
   <div class="headertitle">
 <div class="title">Référence de la classe ToolBar</div>  </div>
@@ -82,42 +82,14 @@ Graphe d'héritage de ToolBar:</div>
 </map>
  </div></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
-Types publics</h2></td></tr>
-<tr class="memitem:aea90cd710f3f9fe8dcaeeb6ea81fe31f"><td class="memItemLeft" align="right" valign="top"><a id="aea90cd710f3f9fe8dcaeeb6ea81fe31f"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
-&#160;&#160;<b>K_CUT</b>, 
-<b>K_COPY</b>, 
-<b>K_PASTE</b>, 
-<b>K_UNDO</b>, 
-<br />
-&#160;&#160;<b>K_REDOW</b>, 
-<b>K_DELETE</b>, 
-<b>K_FILENEW</b>, 
-<b>K_FILEOPEN</b>, 
-<br />
-&#160;&#160;<b>K_FILESAVE</b>, 
-<b>K_PRINTPRE</b>, 
-<b>K_PROPERTIES</b>, 
-<b>K_HELP</b>, 
-<br />
-&#160;&#160;<b>K_FIND</b>, 
-<b>K_REPLACE</b>, 
-<b>K_PRINT</b>
-<br />
- }</td></tr>
-<tr class="separator:aea90cd710f3f9fe8dcaeeb6ea81fe31f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Fonctions membres publiques</h2></td></tr>
-<tr class="memitem:a0355f5fede320b050cebb147bb4599d4"><td class="memItemLeft" align="right" valign="top"><a id="a0355f5fede320b050cebb147bb4599d4"></a>
-<a class="el" href="class_tool_button.html">ToolButton</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>addButton</b> (<a class="el" href="class_bitmap.html">Bitmap</a> *pBitmap, BYTE style=K_BUTTON)</td></tr>
-<tr class="separator:a0355f5fede320b050cebb147bb4599d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af851c9eb89119592668ff6c08f2f672e"><td class="memItemLeft" align="right" valign="top"><a id="af851c9eb89119592668ff6c08f2f672e"></a>
+<a class="el" href="class_tool_button.html">ToolButton</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>addButton</b> (<a class="el" href="class_icon.html">Icon</a> *pIcon, BYTE style=K_BUTTON)</td></tr>
+<tr class="separator:af851c9eb89119592668ff6c08f2f672e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0214aa6b12a299fb0ea95a558ea5289"><td class="memItemLeft" align="right" valign="top"><a id="ac0214aa6b12a299fb0ea95a558ea5289"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>addSeparator</b> (int size=5)</td></tr>
 <tr class="separator:ac0214aa6b12a299fb0ea95a558ea5289"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4507410f3070517cc997f10bb864b4df"><td class="memItemLeft" align="right" valign="top"><a id="a4507410f3070517cc997f10bb864b4df"></a>
-<a class="el" href="class_tool_button.html">ToolButton</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>addStdButton</b> (int idx, BYTE style=K_BUTTON)</td></tr>
-<tr class="separator:a4507410f3070517cc997f10bb864b4df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6b6e2fa579c3ba05c31d79f8c77ba00b"><td class="memItemLeft" align="right" valign="top"><a id="a6b6e2fa579c3ba05c31d79f8c77ba00b"></a>
 <a class="el" href="class_size.html">Size</a>&#160;</td><td class="memItemRight" valign="bottom"><b>resize</b> ()</td></tr>
 <tr class="separator:a6b6e2fa579c3ba05c31d79f8c77ba00b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -221,8 +193,11 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>onHScroll</b>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>onMeasureItem</b> (<a class="el" href="class_event.html">Event</a> &amp;evt)</td></tr>
 <tr class="separator:a93d6cdbf502bb65a5a650537b4614ef9 inherit pro_methods_class_control"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Membres hérités additionnels</h2></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Attributs protégés</h2></td></tr>
+<tr class="memitem:ad19c186cfbf91c3df6d4f854a358519c"><td class="memItemLeft" align="right" valign="top"><a id="ad19c186cfbf91c3df6d4f854a358519c"></a>
+<a class="el" href="class_image_list.html">ImageList</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>pImageList</b></td></tr>
+<tr class="separator:ad19c186cfbf91c3df6d4f854a358519c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_class_window"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_window')"><img src="closed.png" alt="-"/>&#160;Attributs protégés hérités de <a class="el" href="class_window.html">Window</a></td></tr>
 <tr class="memitem:a16851cdc85953afad184aa58414f3d6b inherit pro_attribs_class_window"><td class="memItemLeft" align="right" valign="top"><a id="a16851cdc85953afad184aa58414f3d6b"></a>
 <a class="el" href="class_wnd_attr.html">WndAttr</a>&#160;</td><td class="memItemRight" valign="bottom"><b>attr</b></td></tr>

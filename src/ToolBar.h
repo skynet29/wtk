@@ -2,6 +2,7 @@
 #define ToolBar_H
 
 #include "Control.h"
+#include "ImageList.h"
 
 class Bitmap;
 class ToolBar;
@@ -29,37 +30,21 @@ private:
 
 class DllExport ToolBar : public Control {
 public:
-    enum {
-        K_CUT,
-        K_COPY,
-        K_PASTE,
-        K_UNDO,
-        K_REDOW,
-        K_DELETE,
-        K_FILENEW,
-        K_FILEOPEN,
-        K_FILESAVE,
-        K_PRINTPRE,
-        K_PROPERTIES,
-        K_HELP,
-        K_FIND,
-        K_REPLACE,
-        K_PRINT
-    };
 
 	static const UINT K_BUTTON;
 	static const UINT K_CHECK;
 	static const UINT K_CHECKGROUP;
 
     ToolBar();
+    ~ToolBar();
 
-    ToolButton* addButton(Bitmap* pBitmap, BYTE style = K_BUTTON);
-    ToolButton* addStdButton(int idx, BYTE style = K_BUTTON);
+    ToolButton* addButton(Icon* pIcon, BYTE style = K_BUTTON);
     void addSeparator(int size = 5);
     Size resize();
 
 protected:
     ToolButton* getButton(UINT id);
+    ImageList* pImageList;
 
     void create(HWND hParent);    
     void onNotify(Event& evt);

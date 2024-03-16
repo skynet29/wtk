@@ -1,5 +1,6 @@
 #include "ImageList.h"
 #include "Bitmap.h"
+#include "Icon.h"
 
 ImageList::ImageList(int cx, int cy, UINT flags)
 {
@@ -15,4 +16,10 @@ UINT ImageList::addBitmap(Bitmap* pBitmap)
 ImageList::~ImageList()
 {
     ImageList_Destroy(hImageList);
+}
+
+
+UINT ImageList::addIcon(Icon* pIcon)
+{
+    return ImageList_AddIcon(hImageList, pIcon->getHandle());
 }

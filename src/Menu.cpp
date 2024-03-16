@@ -75,7 +75,7 @@ void MenuItem::setEnabled(BOOL isEnabled)
 void MenuItem::setIcon(Icon* pIcon)
 {
     this->pIcon = pIcon;
-
+#if (_WIN32_WINNT >= 0x0500)
     MENUITEMINFO info;
     info.cbSize = sizeof(info); 
     info.fMask = MIIM_FTYPE | MIIM_BITMAP;
@@ -83,6 +83,7 @@ void MenuItem::setIcon(Icon* pIcon)
     info.fType = MFT_STRING;   
 
     SetMenuItemInfo(hParent, id, FALSE, &info);
+#endif    
 }
 
 MenuItem* MenuItem::getFromId(UINT id)
@@ -107,12 +108,13 @@ void Menu::addPopupMenu(PopupMenu& menu, LPSTR caption)
 PopupMenu::PopupMenu()
 {
     hMenu = CreatePopupMenu();
+#if (_WIN32_WINNT >= 0x0500)    
     MENUINFO info;
-    debugPrint("PopupMenu %p\n", this);
     info.cbSize = sizeof(info);
     info.fMask = MIM_MENUDATA;
     info.dwMenuData = (DWORD)this;
     SetMenuInfo(hMenu, &info);
+#endif
 }
 
 MenuItem* PopupMenu::addItem(LPSTR caption, Shortcut* shortcut)

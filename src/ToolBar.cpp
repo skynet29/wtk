@@ -1,6 +1,7 @@
 #include "ToolBar.h"
 #include "Bitmap.h"
 #include "Container.h"
+#include "Icon.h"
 
 const UINT ToolBar::K_BUTTON       = TBSTYLE_BUTTON;
 const UINT ToolBar::K_CHECK		= TBSTYLE_CHECK;
@@ -55,6 +56,11 @@ ToolBar::ToolBar()
     attr.style |= TBSTYLE_TOOLTIPS;
 }
 
+ToolBar::~ToolBar()
+{
+    delete pImageList;
+}
+
 void ToolBar::create(HWND hParent)
 {
     Control::create(hParent);
@@ -64,22 +70,22 @@ void ToolBar::create(HWND hParent)
     HWND hTooltips = (HWND) sendMsg(TB_GETTOOLTIPS);
 	SetWindowLong(hTooltips, GWL_USERDATA, (LONG) this);
 
-    sendMsg(TB_LOADIMAGES,  (WPARAM)IDB_STD_SMALL_COLOR, (LPARAM)HINST_COMMCTRL);
+    pImageList = new ImageList(16, 16, ILC_COLOR24 | ILC_MASK);
+
+    sendMsg(TB_SETIMAGELIST, 0, (LPARAM)pImageList->getHandle());
+
+    //sendMsg(TB_LOADIMAGES,  (WPARAM)IDB_STD_SMALL_COLOR, (LPARAM)HINST_COMMCTRL);
 }
 
-ToolButton* ToolBar::addButton(Bitmap* pBitmap, BYTE style)
+ToolButton* ToolBar::addButton(Icon* pIcon, BYTE style)
 {
     ToolButton *pButton = new ToolButton(this);
-
-	TBADDBITMAP bmp;
-
-	bmp.hInst = NULL ;
-	bmp.nID = (UINT) pBitmap->getHandle();
+    debugPrint("addButton pIcon=%p\n", pIcon);
 
     TBBUTTON tbb;
     ZeroMemory(&tbb, sizeof(tbb));
 	tbb.idCommand = pButton->getId();
-	tbb.iBitmap = sendMsg(TB_ADDBITMAP, 1, (LPARAM) &bmp);    
+	tbb.iBitmap = pImageList->addIcon(pIcon);    
 	tbb.fsState = TBSTATE_ENABLED;
     tbb.fsStyle = style; 
     tbb.dwData = (DWORD)pButton;
@@ -88,20 +94,6 @@ ToolButton* ToolBar::addButton(Bitmap* pBitmap, BYTE style)
     return pButton;
 }
 
-ToolButton* ToolBar::addStdButton(int idx, BYTE style)
-{
-    ToolButton *pButton = new ToolButton(this);
-    TBBUTTON tbb;
-    ZeroMemory(&tbb, sizeof(tbb));
-	tbb.idCommand = pButton->getId();
-    tbb.iBitmap = MAKELONG(idx, 0);
-	tbb.fsState = TBSTATE_ENABLED;
-    tbb.fsStyle = style; 
-    tbb.dwData = (DWORD)pButton;
-
-    sendMsg(TB_ADDBUTTONS, 1, (LPARAM) &tbb);   
-    return pButton;
-}
 
 void ToolBar::addSeparator(int size)
 {
@@ -134,8 +126,9 @@ ToolButton* ToolBar::getButton(UINT id)
 void ToolBar::onNotify(Event& evt)
 {
     LPNMHDR lpHeader = (LPNMHDR)evt.lParam;
-    //debugPrint("ToolBar::onNotify id=%d, code=%d", lpHeader->idFrom, lpHeader->code);
+    debugPrint("ToolBar::onNotify id=%d, code=%d\n", lpHeader->idFrom, lpHeader->code);
     if (lpHeader->code == TTN_GETDISPINFO) {
+        
         ToolButton* pButton = getButton(lpHeader->idFrom);
         if (pButton != 0 && pButton->toolTips.getBuffer() != NULL) {
     		LPNMTTDISPINFO lpnmtdi = (LPNMTTDISPINFO) lpHeader;

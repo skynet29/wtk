@@ -4,6 +4,7 @@
 #include "types.h"
 
 class Bitmap;
+class Icon;
 
 class DllExport ImageList {
 public:
@@ -11,6 +12,8 @@ public:
     ~ImageList();
 
     UINT addBitmap(Bitmap* pBitmap);
+    UINT addIcon(Icon* pIcon);
+
     HIMAGELIST getHandle() {return hImageList;}
 
 

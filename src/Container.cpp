@@ -46,14 +46,16 @@ void Container::handleEvent(Event &evt)
 
     case WM_INITMENUPOPUP:
         {
-            MENUINFO info;
-            info.cbSize = sizeof(info);
-            info.fMask = MIM_MENUDATA;
-            GetMenuInfo((HMENU)evt.wParam, &info);
-            PopupMenu* pMenu = (PopupMenu*)info.dwMenuData;
-            //debugPrint("pMenu=%p\n", pMenu);
-            if (pMenu != NULL)								
-                pMenu->onInit.fire(pMenu);
+            #if (_WIN32_WINNT >= 0x0500)
+                MENUINFO info;
+                info.cbSize = sizeof(info);
+                info.fMask = MIM_MENUDATA;
+                GetMenuInfo((HMENU)evt.wParam, &info);
+                PopupMenu* pMenu = (PopupMenu*)info.dwMenuData;
+                //debugPrint("pMenu=%p\n", pMenu);
+                if (pMenu != NULL)								
+                    pMenu->onInit.fire(pMenu);
+            #endif
         }
         break;    
 
