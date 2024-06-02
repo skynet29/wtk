@@ -18,25 +18,22 @@ void FolderTreeCtrl::create(HWND hParent)
     }
 }
 
-void FolderTreeCtrl::getFolder(TreeNode *pNode, StrVector &folders)
+
+BOOL FolderTreeCtrl::onItemHasChildren(TreeNode *pNode)
 {
     StrBuffer path(strPath.getBuffer());
     path.append("\\");
     pNode->getNodePath(path);
-    File::findFolder(path, folders);
-}
-
-BOOL FolderTreeCtrl::onItemHasChildren(TreeNode *pNode)
-{
-    StrVector folders;
-    getFolder(pNode, folders);
-    return (folders.getCount() > 0);
+    return File::hasFolder(path);
 }
 
 void FolderTreeCtrl::onItemExpanding(TreeNode *pNode)
 {
     StrVector folders;
-    getFolder(pNode, folders);
+    StrBuffer path(strPath.getBuffer());
+    path.append("\\");
+    pNode->getNodePath(path);
+    File::findFolder(path, folders);
 
     for (UINT i = 0; i < folders.getCount(); i++)
     {

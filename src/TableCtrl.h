@@ -3,12 +3,18 @@
 
 #include "Control.h"
 
+class TabCtrl;
+
 class DllExport TableItem {
+public:
+    void update();
 protected:
     virtual char* getColumnData(int numCol) = 0;
     virtual ~TableItem() {}
 
     friend class TableCtrl;
+private:
+    TableCtrl* pTableCtrl;    
 };
 
 class DllExport TableCtrl : public Control {
@@ -20,11 +26,14 @@ public:
     TableCtrl();
     UINT getItemCount();
     void addColumn(LPSTR strColName, int colWidth, int alignment = K_CENTER);
+    UINT getColumnCount();
+
     void addItem(TableItem *pItem);
     TableItem* getItemAt(UINT idx);
     int getSelIndex();
     void removeItemAt(int index);
     void removeAllItems();
+    void updateItem(TableItem* pItem);
 
 protected:
     void create(HWND hParent);

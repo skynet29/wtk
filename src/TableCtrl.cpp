@@ -4,6 +4,11 @@ const UINT TableCtrl::K_CENTER = LVCFMT_CENTER;
 const UINT TableCtrl::K_RIGHT = LVCFMT_RIGHT;
 const UINT TableCtrl::K_LEFT = LVCFMT_LEFT;
 
+void TableItem::update()
+{
+    pTableCtrl->updateItem(this);
+}
+
 TableCtrl::TableCtrl()
 {
     attr.className = WC_LISTVIEW;
@@ -25,6 +30,12 @@ UINT TableCtrl::getItemCount()
     return ListView_GetItemCount(hWnd);
 }
 
+UINT TableCtrl::getColumnCount()
+{
+    HWND hWndHdr = (HWND)sendMsg(LVM_GETHEADER);
+    return SendMessage(hWndHdr, HDM_GETITEMCOUNT, 0, 0L);       
+}
+
 void TableCtrl::addColumn(LPSTR strColName, int colWidth, int alignment)
 {
     LVCOLUMN col;
@@ -40,6 +51,7 @@ void TableCtrl::addColumn(LPSTR strColName, int colWidth, int alignment)
 
 void TableCtrl::addItem(TableItem *pItem)
 {
+    pItem->pTableCtrl = this;
     LVITEM item;
     item.mask = LVIF_TEXT | LVIF_PARAM;
     item.pszText = LPSTR_TEXTCALLBACK;
@@ -102,3 +114,14 @@ void TableCtrl::removeAllItems()
 
     ListView_DeleteAllItems(hWnd);
 }
+
+void TableCtrl::updateItem(TableItem* pItem)
+{
+    int count = getItemCount();
+    for (int i = 0; i < count; i++) {
+        if (getItemAt(i) == pItem) {
+            ListView_Update(hWnd, i);
+            return;
+        }
+    }    
+}   

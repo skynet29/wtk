@@ -5,17 +5,28 @@
 #include "StrBuffer.h"
 
 class TreeCtrl;
+class TreeNode;
 
-class DllExport TreeNode {
+class DllExport BaseNode {
 public:
-    TreeNode(LPSTR text, int bitmapIdx = -1);
-
+    ~BaseNode();
     void addNode(TreeNode* pNode);
     TreeNode* addNode(LPSTR text, int bitmapIdx = -1);
+    void clear();
 
     void insertAt(TreeNode *pNode, UINT idx);
+    UINT getChildCount();
+    TreeNode* getChildAt(UINT idx);
 
-    ~TreeNode();
+protected:
+    virtual void createNode(TreeNode* pNode, HTREEITEM hInsertAfter) = 0;
+    Vector<TreeNode*> childs;
+
+};
+
+class DllExport TreeNode : public BaseNode {
+public:
+    TreeNode(LPSTR text, int bitmapIdx = -1);
 
     void setExpanded(BOOL isExpanded);
     TreeNode* getParent();
@@ -24,21 +35,19 @@ public:
     TreeNode* getFirstChild();
     void getNodePath(StrBuffer &path);
     UINT getIndex();
-    UINT getChildCount();
-    TreeNode* getChildAt(UINT idx);
     LPSTR getText();
     void setText(LPSTR strText);
-    void clear();
     void select();
     void remove();
     void moveUp();
     void moveDown();
     BOOL isLast();
     void editLabel(); 
+    HTREEITEM getHandle() {return hTreeItem;}
 
 private:
     
-    
+    void createNode(TreeNode* pNode, HTREEITEM hInsertAfter);
     void create(TreeCtrl* pTreeCtrl, HTREEITEM hParent, HTREEITEM hInsertAfter);
 
     void getNodeInfo(StrVector &vector);
@@ -47,7 +56,6 @@ private:
     TreeCtrl* pTreeCtrl;
     StrBuffer text;
     int bitmapIdx;
-    Vector<TreeNode*> childs;
 
     friend class TreeCtrl;
 };

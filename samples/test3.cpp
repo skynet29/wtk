@@ -59,7 +59,7 @@ protected:
     {
         p1 = p2 = pt;
         pGraphic = getGraphic();
-        pGraphic->setDrawMode(Graphic::K_NOT);
+        pGraphic->setDrawMode(DrawMode::NOT);
         pGraphic->useHollowBrush();
         pGraphic->drawRect(p1, p2);
     }
@@ -76,7 +76,7 @@ protected:
 
     void onLButtonUp(Point pt)
     {
-        pGraphic->setDrawMode(Graphic::K_NORMAL);
+        pGraphic->setDrawMode(DrawMode::NORMAL);
         pGraphic->setBrush(selColor);
         pGraphic->drawRect(p1, p2);
         pt = getPageOrigin();

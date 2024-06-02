@@ -55,7 +55,7 @@ public:
         layout.add(txtMsg, Size(100, 25), 5);
         layout.add(btnSend, Size(80, 25), 10);
         layout.endl();
-        layout.add(txtRecvMsg, Size(200, 100));
+        layout.addEnd(txtRecvMsg, 100);
         
         updateState(FALSE);
     }

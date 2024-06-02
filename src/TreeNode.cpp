@@ -2,10 +2,59 @@
 #include "TreeCtrl.h"
 #include "StrVector.h"
 
+
+void BaseNode::clear()
+{
+	for (UINT idx = 0; idx < childs.getCount(); idx++)
+	{
+		delete childs[idx];
+	}
+}
+
+BaseNode::~BaseNode()
+{
+	clear();
+}
+
+void BaseNode::addNode(TreeNode* pNode)
+{
+	createNode(pNode, TVI_LAST);
+	childs.add(pNode);
+}
+
+TreeNode* BaseNode::addNode(LPSTR text, int bitmapIdx)
+{
+	TreeNode* pNode = new TreeNode(text, bitmapIdx);
+	addNode(pNode);
+	return pNode;
+}
+
+void BaseNode::insertAt(TreeNode *pNode, UINT idx)
+{
+	childs.insertAt(pNode, idx);
+	createNode(pNode, (idx == 0) ? TVI_FIRST : childs[idx-1]->getHandle());
+}
+
+UINT BaseNode::getChildCount()
+{
+	return childs.getCount();
+}
+
+TreeNode* BaseNode::getChildAt(UINT idx)
+{
+	return childs[idx];
+}
+
+//////////////////////////
 TreeNode::TreeNode(LPSTR text, int bitmapIdx)
 {
 	this->text.set(text);
 	this->bitmapIdx = bitmapIdx;
+}
+
+void TreeNode::createNode(TreeNode* pNode, HTREEITEM hInsertAfter)
+{
+	pNode->create(pTreeCtrl, hTreeItem, hInsertAfter);
 }
 
 void TreeNode::create(TreeCtrl *pTreeCtrl, HTREEITEM hParent, HTREEITEM hInsertAfter)
@@ -36,18 +85,7 @@ void TreeNode::create(TreeCtrl *pTreeCtrl, HTREEITEM hParent, HTREEITEM hInsertA
 	hTreeItem = TreeView_InsertItem(pTreeCtrl->getHandle(), &tvins);
 }
 
-void TreeNode::clear()
-{
-	for (UINT idx = 0; idx < childs.getCount(); idx++)
-	{
-		delete childs[idx];
-	}
-}
 
-TreeNode::~TreeNode()
-{
-	clear();
-}
 
 LPSTR TreeNode::getText()
 {
@@ -66,25 +104,7 @@ void TreeNode::setText(LPSTR strText)
 	text.set(strText);
 }
 
-void TreeNode::addNode(TreeNode* pNode)
-{
-	pNode->create(pTreeCtrl, hTreeItem, TVI_LAST);
-	childs.add(pNode);
-}
 
-TreeNode* TreeNode::addNode(LPSTR text, int bitmapIdx)
-{
-	TreeNode* pNode = new TreeNode(text, bitmapIdx);
-	addNode(pNode);
-	return pNode;
-}
-
-void TreeNode::insertAt(TreeNode *pNode, UINT idx)
-{
-	childs.insertAt(pNode, idx);
-	pNode->create(pTreeCtrl, hTreeItem,
-			(idx == 0) ? TVI_FIRST : childs[idx-1]->hTreeItem);
-}
 
 void TreeNode::setExpanded(BOOL isExpanded)
 {
@@ -149,15 +169,7 @@ UINT TreeNode::getIndex()
 	return pTreeCtrl->childs.find(this);
 }
 
-UINT TreeNode::getChildCount()
-{
-	return childs.getCount();
-}
 
-TreeNode* TreeNode::getChildAt(UINT idx)
-{
-	return childs[idx];
-}
 
 void TreeNode::remove()
 {

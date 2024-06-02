@@ -3,7 +3,7 @@
 
 
 if not [%1] == [] (
-    cl -c %1.cpp -I../include
+    cl -c -GX %1.cpp -I../include
     link /SUBSYSTEM:WINDOWS /OUT:%1.exe %1.obj ../lib/wtk.lib
     goto :end
 )

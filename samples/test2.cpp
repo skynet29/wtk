@@ -37,13 +37,23 @@ protected:
     Icon* pIcon;
     void onPaint(Graphic &gr)
     {
-        gr.setPen(Color::RED, 1, PS_DASHDOT);
+        gr.setPen(Color::RED, 1, PenStyle::DASH);
         gr.useHollowBrush();
         gr.drawRect(Bounds(5, 5, 100, 100));
         gr.useHollowPen();
         gr.setBrush(Color::GREEN);
         gr.drawCircle(Point(80, 80), 50);
         gr.drawIcon(Point(100, 30), pIcon);
+
+        Region* pRgn1 = Region::createRoundRect(Bounds(20, 20, 50, 60), Size(10, 10));
+        Region* pRgn2 = Region::createEllipse(Bounds(50, 50, 50, 60));
+        pRgn1->combine(pRgn2, CombineMode::XOR);
+        delete pRgn2;
+
+        gr.setBrush(Color::BLUE, BrushStyle::HATCHED_DIAGCROSS);
+
+        gr.drawRegion(pRgn1);
+        delete pRgn1;
     }
 };
 
@@ -62,6 +72,8 @@ public:
 protected:
     char *getColumnData(int numCol)
     {
+        debugPrint("getColumnData %d\n", numCol);
+        
         switch (numCol)
         {
         case 0:
@@ -136,7 +148,7 @@ public:
         text1 = new TextField(ES_NUMBER);
         btn1 = new Button("Button1");
         panel1 = new MyPanel();
-        label1 = new Label("Hello", Label::K_CENTER);
+        label1 = new Label("Hello", TextAlignment::CENTER);
         combo1 = new ComboBox();
         table1 = new TableCtrl();
         tree1 = new TreeCtrl(TRUE);
@@ -145,10 +157,10 @@ public:
         tab1 = new TabCtrl();
         label1->setBackColor(Color::WHITE);
 
-        pRemove = nodeMenu.addItem("Remove");
-        pEditLabel = nodeMenu.addItem("Edit");
-        nodeMenu.addSeparator();
-        pMoveUp = nodeMenu.addItem("Move Up");
+        pRemove =   nodeMenu.addItem("Remove");
+        pEditLabel= nodeMenu.addItem("Edit");
+                    nodeMenu.addSeparator();
+        pMoveUp =   nodeMenu.addItem("Move Up");
         pMoveDown = nodeMenu.addItem("Move Down");
 
         btn1->setOnClick(CBK(MyFrame, btn1_onClick));
@@ -202,6 +214,7 @@ protected:
         }
         */
 
+    
         BrowseFolderDialog dialog1(getenv("USERPROFILE"));
         if (dialog1.run())
         {
@@ -209,6 +222,21 @@ protected:
             dialog1.getPath(str);
             showMsg(str.getBuffer());
         }
+        /*
+
+        int idx = table1->getSelIndex();
+        debugPrint("selIdx=%d\n", idx);
+        if (idx >= 0) {
+            debugPrint("nbCol=%d\n", table1->getColumnCount());
+            MyTableItem* pItem = (MyTableItem*)table1->getItemAt(idx);
+            debugPrint("name=%s, age=%s\n", pItem->name.getBuffer(), pItem->age.getBuffer());
+            pItem->name.set("Toto");
+            pItem->age.set("33");
+            pItem->update();
+            //table1->updateItem(idx, 1);
+        }
+        */
+
     }
     void listbox1_onDblClick(void* from) {
         debugPrint("list1_onDblClick\n");

@@ -7,20 +7,14 @@
 
 
 
-class DllExport TreeCtrl : public Control {
+class DllExport TreeCtrl : public Control, public BaseNode {
 public:
     TreeCtrl(BOOL isEditable = FALSE);
     ~TreeCtrl();
 
-    void addNode(TreeNode* pNode);
-    TreeNode* addNode(LPSTR text, int bitmapIdx = -1);
-    void insertAt(TreeNode *pNode, UINT idx);
-
     TreeNode* getRootNode();
     TreeNode* getSelNode();
     TreeNode* getNodeAt(Point pt);
-    UINT getChildCount();
-    TreeNode* getChildAt(UINT idx);
     UINT addBitmap(Bitmap* pBitmap);
     void setOnSelChange(Callback* cbk) {onSelChange.set(cbk);}
     void setOnRightClick(Callback* cbk) {onRightClick.set(cbk);}
@@ -29,11 +23,11 @@ protected:
     BOOL isDynamic;
     void onNotify(Event& evt);
 private:
+    void createNode(TreeNode* pNode, HTREEITEM hInsertAfter);
     TreeNode* getNode(HTREEITEM hItem);
     CbkHolder onSelChange;
     CbkHolder onRightClick;
 
-    Vector<TreeNode*> childs;
     ImageList* pImageList;
 
     friend class TreeNode;

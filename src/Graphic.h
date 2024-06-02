@@ -5,8 +5,47 @@
 #include "Bitmap.h"
 #include "Font.h"
 #include "Vector.h"
+#include "Region.h"
 
 class Icon;
+
+struct PenStyle {
+    enum e {
+        SOLID = PS_SOLID,
+        DASH = PS_DASH,
+        DOT = PS_DOT,
+        DASHDOT = PS_DASHDOT,
+        DASHDOTDOT = PS_DASHDOTDOT
+    };
+};
+
+struct DrawMode {
+    enum e {
+        NORMAL = R2_COPYPEN,
+        NOT = R2_NOT,
+        XOR = R2_XORPEN
+    };
+};
+
+struct BrushStyle {
+    enum e {
+        SOLID,
+        HATCHED_BDIAGONAL,
+        HATCHED_CROSS,
+        HATCHED_DIAGCROSS,
+        HATCHED_FDIAGONAL,
+        HATCHED_HORIZONTAL,
+        HATCHED_VERTICAL
+    };
+};
+
+struct TextAlignment {
+    enum e {
+        LEFT = DT_LEFT,
+        RIGHT = DT_RIGHT,
+        CENTER = DT_CENTER
+    };
+};
 
 class DllExport Graphic {
 protected:
@@ -15,11 +54,7 @@ protected:
     HBRUSH hBrush;
 
 public:
-    enum DrawMode {
-        K_NORMAL,
-        K_NOT,
-        K_XOR
-    };
+
 
     Graphic(HDC hdc);
     HDC getHandle() {return hDC;}
@@ -33,21 +68,22 @@ public:
     void drawLine(Point p1, Point p2);
     void drawBitmap(Point pt, Bitmap* pBitmap);
     void drawText(Point pt, LPSTR str);
-    void drawText(Bounds bounds, LPSTR str, UINT textAlignment = DT_LEFT);
+    void drawText(Bounds bounds, LPSTR str, TextAlignment::e textAlignment = TextAlignment::LEFT);
     void drawPolyline(Vector<Point>& pts);
     void drawPolygon(Vector<Point>& pts);
     void drawIcon(Point pt, Icon* pIcon);
+    void drawRegion(Region* pRgn);
 
     Bitmap* copyArea(Bounds bounds);
     Color getPixelColor(Point pt);
     void setPixelColor(Point pt, Color color);
 
 
-    void setDrawMode(DrawMode mode);
+    void setDrawMode(DrawMode::e mode);
     void setFont(Font* pFont);
     void setTextColor(Color textColor);
-    void setPen(Color color, UINT width = 1, UINT style = PS_SOLID);
-    void setBrush(Color color);
+    void setPen(Color color, UINT width = 1, PenStyle::e style = PenStyle::SOLID);
+    void setBrush(Color color, BrushStyle::e style = BrushStyle::SOLID);
     
     void useHollowBrush();
     void useHollowPen();

@@ -11,22 +11,9 @@ Graphic::Graphic(HDC hDC)
 }
 
 
-void Graphic::setDrawMode(DrawMode mode)
+void Graphic::setDrawMode(DrawMode::e mode)
 {
-    switch(mode) {
-        case K_NORMAL:
-        	SetROP2(hDC, R2_COPYPEN);
-            break;
-
-        case K_NOT:
-            SetROP2(hDC, R2_NOT);
-            break;
-
-        case K_XOR:
-            SetROP2(hDC, R2_XORPEN);
-            break;
-
-    }
+    SetROP2(hDC, mode);
 }
 
 
@@ -67,13 +54,42 @@ void Graphic::drawCircle(Point center, UINT radius)
     drawEllipse(Bounds(center.x - radius, center.y - radius, radius * 2, radius * 2));
 }
 
-void Graphic::setBrush(Color color)
+void Graphic::setBrush(Color color, BrushStyle::e style)
 {
-    hBrush = CreateSolidBrush(color);
+    LOGBRUSH lb;
+    lb.lbColor = color;
+    lb.lbStyle = BS_HATCHED;
+    
+    switch(style) {
+        case BrushStyle::SOLID:
+            lb.lbStyle = BS_SOLID;
+            break;
+        case BrushStyle::HATCHED_CROSS:
+            lb.lbHatch = HS_CROSS;
+            break;
+        case BrushStyle::HATCHED_BDIAGONAL:
+            lb.lbHatch = HS_BDIAGONAL;
+            break;
+        case BrushStyle::HATCHED_DIAGCROSS:
+            lb.lbHatch = HS_DIAGCROSS;
+            break;
+        case BrushStyle::HATCHED_FDIAGONAL:
+            lb.lbHatch = HS_FDIAGONAL;
+            break;
+        case BrushStyle::HATCHED_HORIZONTAL:
+            lb.lbHatch = HS_HORIZONTAL;
+            break;
+        case BrushStyle::HATCHED_VERTICAL:
+            lb.lbHatch = HS_VERTICAL;
+            break;
+        default:
+            return;
+    }
+    hBrush = CreateBrushIndirect(&lb);
     DeleteObject(SelectObject(hDC, hBrush));
 }
 
-void Graphic::setPen(Color color, UINT width, UINT style)
+void Graphic::setPen(Color color, UINT width, PenStyle::e style)
 {
     hPen = CreatePen(style, width, color);
     DeleteObject(SelectObject(hDC, hPen));
@@ -141,7 +157,7 @@ Bitmap* Graphic::copyArea(Bounds bounds)
 	return new Bitmap(hBitmap);
 }
 
-void Graphic::drawText(Bounds bounds, LPSTR str, UINT textAlignment)
+void Graphic::drawText(Bounds bounds, LPSTR str, TextAlignment::e textAlignment)
 {
     Rect rc = bounds.toRect();
 	DrawText(hDC,  str, strlen(str), &rc, DT_SINGLELINE | DT_VCENTER | DT_NOPREFIX | textAlignment);
@@ -179,4 +195,9 @@ MemGraphic::MemGraphic(HDC hDC) : Graphic(hDC) {
 MemGraphic::~MemGraphic() 
 {
     DeleteDC(hDC);
+}
+
+void Graphic::drawRegion(Region* pRgn)
+{
+    PaintRgn(hDC, pRgn->getHandle());
 }

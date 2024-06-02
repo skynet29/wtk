@@ -12,7 +12,6 @@ public:
 
 protected:
     StrBuffer strPath;
-    void getFolder(TreeNode* pNode, StrVector& folders);
 
     BOOL onItemHasChildren(TreeNode *pNode);
     void onItemExpanding(TreeNode *pNode);

@@ -1,10 +1,6 @@
 #include "Label.h"
 
-const UINT Label::K_LEFT = DT_LEFT;
-const UINT Label::K_RIGHT = DT_RIGHT;
-const UINT Label::K_CENTER = DT_CENTER;
-
-Label::Label(LPSTR title, UINT align)
+Label::Label(LPSTR title, TextAlignment::e align)
 {
     attr.className = "STATIC";
     attr.title = title;

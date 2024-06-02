@@ -20,10 +20,6 @@ TreeCtrl::~TreeCtrl()
 	if (pImageList != NULL)
 		delete pImageList;
 
-	for (UINT idx = 0; idx < childs.getCount(); idx++)
-	{
-		delete childs[idx];
-	}
 }
 
 UINT TreeCtrl::addBitmap(Bitmap *pBitmap)
@@ -38,24 +34,9 @@ UINT TreeCtrl::addBitmap(Bitmap *pBitmap)
 	return pImageList->addBitmap(pBitmap);
 }
 
-void TreeCtrl::addNode(TreeNode* pNode)
+void TreeCtrl::createNode(TreeNode* pNode, HTREEITEM hInsertAfter)
 {
-	pNode->create(this, NULL, TVI_LAST);
-	childs.add(pNode);
-}
-
-TreeNode* TreeCtrl::addNode(LPSTR text, int bitmapIdx)
-{
-	TreeNode* pNode = new TreeNode(text, bitmapIdx);
-	addNode(pNode);
-	return pNode;
-}
-
-void TreeCtrl::insertAt(TreeNode *pNode, UINT idx)
-{
-	childs.insertAt(pNode, idx);
-	pNode->create(this, NULL,
-			(idx == 0) ? TVI_FIRST : childs[idx-1]->hTreeItem);
+	pNode->create(this, NULL, hInsertAfter);
 }
 
 TreeNode *TreeCtrl::getNode(HTREEITEM hItem)
@@ -132,15 +113,6 @@ TreeNode *TreeCtrl::getNodeAt(Point pt)
 	return NULL;
 }
 
-UINT TreeCtrl::getChildCount()
-{
-	return childs.getCount();
-}
-
-TreeNode* TreeCtrl::getChildAt(UINT idx)
-{
-	return childs[idx];
-}
 
 //////////////////////
 

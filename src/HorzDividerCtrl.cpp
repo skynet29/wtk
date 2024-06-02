@@ -28,7 +28,7 @@ void HorzSizePanel::onLButtonDown(Point pt) {
     //debugPrint("onLeftButtonDown");
     
     pGraph = new Graphic(GetWindowDC(GetDesktopWindow()));
-    pGraph->setDrawMode(Graphic::K_NOT);
+    pGraph->setDrawMode(DrawMode::NOT);
     drawLine(pt);
 
     ((HorzDividerCtrl*)getParent())->clipCursor();

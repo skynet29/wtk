@@ -168,7 +168,6 @@ void Container::onCreate()
     }
 }
 
-
 Size Container::getPackSize()
 {
     int maxWidth = 0;
