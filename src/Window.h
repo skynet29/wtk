@@ -48,6 +48,7 @@ public:
     void getText(StrBuffer& buff);
     void setText(LPSTR text);
     void setLocation(int left, int top);    
+    void setBounds(int left, int top, int width, int height);
     void setBounds(Bounds bounds);
     void setBounds(Rect rc);
     void setFocus();

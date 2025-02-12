@@ -127,6 +127,11 @@ Bounds Window::getBounds()
     return attr.bounds;
 }
 
+void Window::setBounds(int left, int top, int width, int height)
+{
+    MoveWindow(hWnd, left, top, width, height, TRUE);
+}
+
 void Window::setBounds(Bounds bounds)
 {
     attr.bounds = bounds;
@@ -144,6 +149,7 @@ Size Window::getRealSize()
 	GetWindowRect(hWnd, &rc);    
     return Size(rc.getWidth(), rc.getHeight());
 }
+
 
 void Window::setBounds(Rect rc)
 {

@@ -8,11 +8,14 @@
 
 
 class Control;
+class LayoutManager;
 
 class DllExport Container : public CustCtrl {
 private:
     Vector<Window*> childs;
+    LayoutManager* pLayoutManager;
 public:
+    Container();
     ~Container();
     
     void addChild(Window* child);
@@ -25,11 +28,13 @@ protected:
     virtual void handleEvent(Event& evt);
 
     virtual void onCreate();
-    virtual void onSize(UINT width, UINT height) {}
+    virtual void onSize(UINT width, UINT height);
     virtual void onFocus() {}
     virtual void onIncomingConnection(SOCKET srvSock, SOCKET sock) {}
     virtual void onDataReceived(SOCKET sock) {}
     virtual void onConnectionClosed(SOCKET sock) {}
+
+    friend class LayoutManager;
 };
 
 #endif

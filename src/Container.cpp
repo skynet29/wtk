@@ -4,12 +4,30 @@
 #include "Icon.h"
 #include "Graphic.h"
 #include "Menu.h"
+#include "LayoutManager.h"
+
+Container::Container() 
+{
+    pLayoutManager = NULL;
+}
 
 Container::~Container()
 {
     for (UINT idx = 0; idx < childs.getCount(); idx++)
     {
         delete childs[idx];
+    }
+
+    if (pLayoutManager != NULL) {
+        delete pLayoutManager;
+    }
+}
+
+void Container::onSize(UINT width, UINT height)
+{
+    debugPrint("Container::onSize %p", pLayoutManager);
+    if (pLayoutManager != NULL) {
+        pLayoutManager->computeBounds(width, height);
     }
 }
 

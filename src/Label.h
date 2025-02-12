@@ -12,7 +12,7 @@ public:
 	static const UINT K_RIGHT;
 	static const UINT K_CENTER;
 
-    Label(LPSTR title, TextAlignment::e align = TextAlignment::LEFT);
+    Label(LPSTR title, TextAlignment::e align = TextAlignment::CENTER);
 
     void setBackColor(Color backColor);
     void setTextColor(Color textColor);
